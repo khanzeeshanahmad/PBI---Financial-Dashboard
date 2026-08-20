@@ -1,0 +1,102 @@
+table Fact_Budget
+	lineageTag: c84b14d3-67a5-4d76-b276-7946767ed1c0
+
+	column 'Entry No.'
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 603f8d10-ec91-43d6-bd45-91605afb80f6
+		summarizeBy: none
+		sourceColumn: Entry No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Budget Name'
+		dataType: string
+		lineageTag: eee37910-6b68-4a8f-b3f2-a626aeb20566
+		summarizeBy: none
+		sourceColumn: Budget Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G/L Account No.'
+		dataType: string
+		lineageTag: 59048cd6-25b6-4812-a4f1-fab6ea5e346f
+		summarizeBy: none
+		sourceColumn: G/L Account No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 696d8ac7-aa7b-407b-b5ff-9a79b7c3f55c
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Global Dimension 1 Code'
+		dataType: string
+		lineageTag: 1cfdaf2e-59e5-4f43-8fa5-8cb32fcbe0e2
+		summarizeBy: none
+		sourceColumn: Global Dimension 1 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Global Dimension 2 Code'
+		dataType: string
+		lineageTag: 5531b222-633d-4f97-ab6d-2876e721aa77
+		summarizeBy: none
+		sourceColumn: Global Dimension 2 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 905e76d6-8a02-4b82-b269-b9b85e96b024
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		/// Same sign convention as Fact_GLTransactions[Amount]: budgeted
+		/// income/credit-normal accounts are stored as BC posts them and are
+		/// negated by DAX measures, not here, so Actual and Budget compare on
+		/// a like-for-like basis.
+
+	partition Fact_Budget = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"G/L Budget Entries" = Company{[Name = "G/L Budget Entries"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						#"G/L Budget Entries",
+						{
+							"Entry No.", "Budget Name", "G/L Account No.", "Date",
+							"Global Dimension 1 Code", "Global Dimension 2 Code", "Amount"
+						},
+						MissingField.UseNull
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Selected Columns",
+						{
+							{"Entry No.", Int64.Type}, {"Budget Name", type text}, {"G/L Account No.", type text},
+							{"Date", type datetime}, {"Global Dimension 1 Code", type text},
+							{"Global Dimension 2 Code", type text}, {"Amount", type number}
+						}
+					)
+				in
+					#"Changed Type"
+
+	/// COMPATIBILITY NOTE: exposed as "G/L Budget Entries" in the Navigator.
+	/// A company may keep several named budgets (e.g. "BUDGET-2026",
+	/// "FORECAST-2026") in this one entity, distinguished by [Budget Name] --
+	/// add a slicer on that column in Desktop, or hard-filter this query to a
+	/// single budget with Table.SelectRows if only one should ever be shown.
+

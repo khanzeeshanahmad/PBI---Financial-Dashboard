@@ -1,0 +1,130 @@
+table Dim_ChartOfAccounts
+	lineageTag: e371108a-7aa1-4d20-b307-6ee29ec2966a
+
+	column 'No.'
+		dataType: string
+		isKey
+		lineageTag: 8459479c-9110-4fbc-83a3-359447d8220d
+		summarizeBy: none
+		sourceColumn: No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 9cbc5cb7-1577-4276-938c-37cfa8ade464
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Type'
+		dataType: string
+		lineageTag: 1c106bc1-807a-4e7b-8230-419dcd841908
+		summarizeBy: none
+		sourceColumn: Account Type
+
+		annotation SummarizationSetBy = Automatic
+
+		/// Posting / Total / Begin-Total / End-Total / Heading. Filter to
+		/// "Posting" for transactional rollups; the others are subtotal/heading
+		/// rows used only for BC's own schedule layout.
+
+	column 'Income/Balance'
+		dataType: string
+		lineageTag: 833cb63d-91b9-4b81-ba58-22cb900c6915
+		summarizeBy: none
+		sourceColumn: Income/Balance
+
+		annotation SummarizationSetBy = Automatic
+
+		/// BC enum: "Income Statement" or "Balance Sheet". Drives the P&L vs
+		/// Balance Sheet report page filters.
+
+	column 'Debit/Credit'
+		dataType: string
+		lineageTag: 42c3d997-5bf5-4ceb-a31a-5c9acda5d5c2
+		summarizeBy: none
+		sourceColumn: Debit/Credit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Category'
+		dataType: string
+		lineageTag: 53b8f81f-a1cb-4ea6-92f9-9e492278433d
+		summarizeBy: none
+		sourceColumn: Account Category
+
+		annotation SummarizationSetBy = Automatic
+
+		/// Assets / Liabilities / Equity / Income / Cost of Goods Sold / Expense.
+		/// Used directly by the Revenue / COGS / Operating Expense measures.
+
+	column 'Account Subcategory'
+		dataType: string
+		lineageTag: 4804603b-0897-419f-9e6c-381c3bca4b17
+		summarizeBy: none
+		sourceColumn: Account Subcategory Descript.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Totaling
+		dataType: string
+		lineageTag: f84efea0-552a-4c34-83da-45ea0eeb7fa7
+		summarizeBy: none
+		sourceColumn: Totaling
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indentation
+		dataType: int64
+		formatString: 0
+		lineageTag: 3045e6f6-93b1-4960-bc69-3ca2a5170064
+		summarizeBy: none
+		sourceColumn: Indentation
+
+		annotation SummarizationSetBy = Automatic
+
+		/// Preserves BC's chart-of-accounts hierarchy indentation so the P&L /
+		/// Balance Sheet pages can render subtotal rows in the correct order.
+
+	partition Dim_ChartOfAccounts = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"Chart of Accounts" = Company{[Name = "Chart of Accounts"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						#"Chart of Accounts",
+						{
+							"No.", "Name", "Account Type", "Income/Balance", "Debit/Credit",
+							"Account Category", "Account Subcategory Descript.", "Totaling",
+							"Indentation", "Blocked"
+						},
+						MissingField.UseNull
+					),
+					#"Filtered Rows" = Table.SelectRows(#"Selected Columns", each [Blocked] <> true),
+					#"Removed Columns" = Table.RemoveColumns(#"Filtered Rows", {"Blocked"}),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Removed Columns",
+						{
+							{"No.", type text}, {"Name", type text}, {"Account Type", type text},
+							{"Income/Balance", type text}, {"Debit/Credit", type text},
+							{"Account Category", type text}, {"Account Subcategory Descript.", type text},
+							{"Totaling", type text}, {"Indentation", Int64.Type}
+						}
+					)
+				in
+					#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	/// COMPATIBILITY NOTE: "Account Category" and "Account Subcategory Descript."
+	/// are exposed directly on the Chart of Accounts page in BC2023 wave 2+.
+	/// On older BC SaaS builds these may only be available on the separate
+	/// "G/L Account Category" table and require a merge on Account Category
+	/// (an integer key) -- check the Navigator for your tenant and adjust this
+	/// query if the columns are missing.
+

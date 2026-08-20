@@ -1,0 +1,133 @@
+table Fact_VendorLedgerEntries
+	lineageTag: e418689f-36fe-4df8-a84e-b985cb894841
+
+	column 'Entry No.'
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: b8c69283-22c4-4444-9d7b-fa5e4d8ab617
+		summarizeBy: none
+		sourceColumn: Entry No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vendor No.'
+		dataType: string
+		lineageTag: 96b39b6b-e149-452c-9319-70c1e043c0c1
+		summarizeBy: none
+		sourceColumn: Vendor No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Posting Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 5bfa19eb-f935-4a6f-a923-d1a509105656
+		summarizeBy: none
+		sourceColumn: Posting Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Due Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: e6b2ed5c-aa31-4c40-a0d1-42c0fabfd98f
+		summarizeBy: none
+		sourceColumn: Due Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Document Type'
+		dataType: string
+		lineageTag: c538714b-cda1-4be8-a88d-0ec2bce59169
+		summarizeBy: none
+		sourceColumn: Document Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Document No.'
+		dataType: string
+		lineageTag: 509b2582-78aa-47e4-815a-c3d9b29f1245
+		summarizeBy: none
+		sourceColumn: Document No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: a9683e63-b29d-41bc-802d-db1c7ff41fc7
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: 18e8ca4e-390b-4c34-aa46-00137a5d0cb1
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Open
+		dataType: boolean
+		lineageTag: c9973b6d-3a4e-4954-a444-ae2723986ad5
+		summarizeBy: none
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 25ddee51-42d9-4ed5-bab3-10383fcf8556
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Remaining Amount'
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 0ff3a6f2-9a84-44ee-a73e-6fb93ad73332
+		summarizeBy: sum
+		sourceColumn: Remaining Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		/// Outstanding balance owed to the vendor in local currency, as of
+		/// the last refresh. AP aging buckets sum this column.
+
+	partition Fact_VendorLedgerEntries = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"Vendor Ledger Entries" = Company{[Name = "Vendor Ledger Entries"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						#"Vendor Ledger Entries",
+						{
+							"Entry No.", "Vendor No.", "Posting Date", "Due Date", "Document Type",
+							"Document No.", "Description", "Currency Code", "Open", "Amount", "Remaining Amount"
+						},
+						MissingField.UseNull
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Selected Columns",
+						{
+							{"Entry No.", Int64.Type}, {"Vendor No.", type text}, {"Posting Date", type datetime},
+							{"Due Date", type datetime}, {"Document Type", type text}, {"Document No.", type text},
+							{"Description", type text}, {"Currency Code", type text}, {"Open", type logical},
+							{"Amount", type number}, {"Remaining Amount", type number}
+						}
+					)
+				in
+					#"Changed Type"
+
+	/// COMPATIBILITY NOTE: exposed as "Vendor Ledger Entries" in the
+	/// Navigator (this one is not abbreviated, unlike Cust. Ledger Entries).
+

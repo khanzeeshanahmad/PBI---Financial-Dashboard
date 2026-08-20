@@ -1,0 +1,459 @@
+table Measures
+	lineageTag: 88df298c-abfb-40d6-bbac-9091461943cf
+
+	/// Measure-only table (no real columns) used purely to organize DAX
+	/// measures away from the fact tables they reference, per star-schema
+	/// best practice. Hidden RowID column exists only because every table
+	/// needs at least one column.
+
+	measure Revenue = ```
+			CALCULATE(
+			    -SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Account Category] = "Income"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 6228a351-c6df-43f1-9460-5c85b2ce5765
+		displayFolder: P&L
+
+		/// Income accounts are credit-normal in BC (Amount posts negative), so
+		/// this negates the raw sum to report Revenue as a positive number.
+
+	measure COGS = ```
+			CALCULATE(
+			    SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Account Category] = "Cost of Goods Sold"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 6ef25680-dedb-4bdd-85ac-f3424ce5485f
+		displayFolder: P&L
+
+	measure 'Gross Profit' = [Revenue] - [COGS]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: c0c2a135-f3f9-4bd6-ab39-8c4233834111
+		displayFolder: P&L
+
+	measure 'Gross Margin %' = DIVIDE([Gross Profit], [Revenue])
+		formatString: 0.0%;-0.0%
+		lineageTag: 992af6a1-32ba-4c70-a02f-60a948c2fb75
+		displayFolder: P&L
+
+	measure 'Operating Expenses' = ```
+			CALCULATE(
+			    SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Account Category] = "Expense"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 96253c03-63a3-4e3f-9f8f-815859f0af1a
+		displayFolder: P&L
+
+	measure 'Operating Income' = [Gross Profit] - [Operating Expenses]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 948c23fd-ef5c-4436-b008-f1be4b83e387
+		displayFolder: P&L
+
+	measure 'Net Income' = [Revenue] - [COGS] - [Operating Expenses]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 8d3ab916-f4d5-448a-8cbd-c1bbd45a5c9a
+		displayFolder: P&L
+
+		/// BC's standard Account Category enum has exactly six values (Assets,
+		/// Liabilities, Equity, Income, Cost of Goods Sold, Expense) with no
+		/// separate "other income/expense" bucket, so Revenue - COGS -
+		/// Operating Expenses is the full income statement -- no residual
+		/// category is being dropped here.
+
+	measure 'Total Assets' = ```
+			CALCULATE(
+			    SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Account Category] = "Assets"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 3df3112c-a4ec-415c-9b24-f051434f7c74
+		displayFolder: Balance Sheet
+
+	measure 'Total Liabilities' = ```
+			CALCULATE(
+			    -SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Account Category] = "Liabilities"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 8a748ae8-ed52-4968-912b-663947e580bf
+		displayFolder: Balance Sheet
+
+	measure 'Total Equity' = ```
+			CALCULATE(
+			    -SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Account Category] = "Equity"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 1ee1c89f-d6b6-4bf5-b227-18b222743eac
+		displayFolder: Balance Sheet
+
+	measure 'Balance Sheet Check' = [Total Assets] - [Total Liabilities] - [Total Equity]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 026a8387-f933-498b-ad59-3531bf1dafab
+		displayFolder: Balance Sheet
+
+		/// Validation measure -- should always evaluate to (near) zero. A
+		/// non-zero value at a given filter context usually means Net Income
+		/// for the year has not yet been rolled into Retained Earnings /
+		/// Equity for that period, which is expected before year-end close.
+
+	measure 'Cash and Bank' = ```
+			CALCULATE(
+			    SUM(Fact_GLTransactions[Amount]),
+			    FILTER(
+			        Dim_ChartOfAccounts,
+			        Dim_ChartOfAccounts[Account Category] = "Assets"
+			            && (
+			                CONTAINSSTRING(Dim_ChartOfAccounts[Account Subcategory], "Cash")
+			                || CONTAINSSTRING(Dim_ChartOfAccounts[Account Subcategory], "Bank")
+			            )
+			    )
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 9b8cc583-ff0e-4281-91de-30a607a6704c
+		displayFolder: Cash
+
+	measure 'Working Capital (Simplified)' = [Total Assets] - [Total Liabilities]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 154696c0-564c-49b6-875a-45de1498ff44
+		displayFolder: Cash
+
+		/// A true current-assets-minus-current-liabilities figure needs BC
+		/// accounts flagged Current vs. Non-current, which the standard
+		/// Account Category/Subcategory fields don't carry. This measure nets
+		/// ALL assets against ALL liabilities as a directional proxy; build a
+		/// current/non-current mapping table and refine this measure if the
+		/// business needs a precise working-capital figure.
+
+	// ---------------------------------------------------------------
+	// Time intelligence -- Revenue
+	// ---------------------------------------------------------------
+
+	measure 'Revenue YTD' = TOTALYTD([Revenue], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 96bab1b4-2512-4e2c-99c6-dcfee1b8c2ce
+		displayFolder: Time Intelligence\Revenue
+
+	measure 'Revenue QTD' = TOTALQTD([Revenue], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: eeadec1e-c8d2-49b6-8eab-1c711c1c0050
+		displayFolder: Time Intelligence\Revenue
+
+	measure 'Revenue MTD' = TOTALMTD([Revenue], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 017c7208-e199-4536-899a-2b30be579409
+		displayFolder: Time Intelligence\Revenue
+
+	measure 'Revenue PY' = CALCULATE([Revenue], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 8c0e4ee1-4ff3-4d5a-94f2-596f80a69fda
+		displayFolder: Time Intelligence\Revenue
+
+	measure 'Revenue YoY $' = [Revenue] - [Revenue PY]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 8571d759-33c2-425c-bb85-e30129265f80
+		displayFolder: Time Intelligence\Revenue
+
+	measure 'Revenue YoY %' = DIVIDE([Revenue] - [Revenue PY], [Revenue PY])
+		formatString: 0.0%;-0.0%
+		lineageTag: 79edad55-a3d5-4080-911c-c870015f0a4b
+		displayFolder: Time Intelligence\Revenue
+
+	// ---------------------------------------------------------------
+	// Time intelligence -- Net Income
+	// ---------------------------------------------------------------
+
+	measure 'Net Income YTD' = TOTALYTD([Net Income], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 15d619a8-2485-480f-8686-adf97717829d
+		displayFolder: Time Intelligence\Net Income
+
+	measure 'Net Income QTD' = TOTALQTD([Net Income], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 37ea55da-78ba-46ab-9e04-25ba63558b13
+		displayFolder: Time Intelligence\Net Income
+
+	measure 'Net Income MTD' = TOTALMTD([Net Income], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 1a0f5f9b-8907-4a3d-896f-7effe0da3ae5
+		displayFolder: Time Intelligence\Net Income
+
+	measure 'Net Income PY' = CALCULATE([Net Income], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: f2962894-7da3-4ea7-8676-fb86ca0432e6
+		displayFolder: Time Intelligence\Net Income
+
+	measure 'Net Income YoY $' = [Net Income] - [Net Income PY]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: dc43212c-a8d1-4002-b744-c7d76a8de30e
+		displayFolder: Time Intelligence\Net Income
+
+	measure 'Net Income YoY %' = DIVIDE([Net Income] - [Net Income PY], [Net Income PY])
+		formatString: 0.0%;-0.0%
+		lineageTag: e4d55690-2be7-4c68-9cdc-43fb085cfcbd
+		displayFolder: Time Intelligence\Net Income
+
+	// ---------------------------------------------------------------
+	// Time intelligence -- Gross Profit, Operating Expenses, Operating
+	// Income, COGS (YTD + prior-year comparison; apply the same
+	// TOTALQTD / TOTALMTD pattern shown above for Revenue / Net Income
+	// if quarter/month cuts of these are also needed)
+	// ---------------------------------------------------------------
+
+	measure 'Gross Profit YTD' = TOTALYTD([Gross Profit], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: ab34d302-2b60-4c4b-9ff3-4c3f3e0e0954
+		displayFolder: Time Intelligence\Gross Profit
+
+	measure 'Gross Profit PY' = CALCULATE([Gross Profit], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 3cd5aea5-7176-41d4-999a-d7bb861dc8e6
+		displayFolder: Time Intelligence\Gross Profit
+
+	measure 'Gross Profit YoY %' = DIVIDE([Gross Profit] - [Gross Profit PY], [Gross Profit PY])
+		formatString: 0.0%;-0.0%
+		lineageTag: 06688ba9-a818-47ec-bafc-440322a718a6
+		displayFolder: Time Intelligence\Gross Profit
+
+	measure 'COGS YTD' = TOTALYTD([COGS], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 272ecd2e-8cfb-46f8-a77d-ec89a6d19912
+		displayFolder: Time Intelligence\COGS
+
+	measure 'COGS PY' = CALCULATE([COGS], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 933f7574-6d56-48b7-a8a6-d1a85b13ffe3
+		displayFolder: Time Intelligence\COGS
+
+	measure 'Operating Expenses YTD' = TOTALYTD([Operating Expenses], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: de7a2888-4d0c-4bbb-ae9b-f2adad9afdb6
+		displayFolder: Time Intelligence\Operating Expenses
+
+	measure 'Operating Expenses PY' = CALCULATE([Operating Expenses], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 795d9c40-e693-4a1f-b203-97b2d83483bf
+		displayFolder: Time Intelligence\Operating Expenses
+
+	measure 'Operating Income YTD' = TOTALYTD([Operating Income], Dim_Date[Date])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 56ab34b1-1ec7-46d6-a8fc-995b8f273c2b
+		displayFolder: Time Intelligence\Operating Income
+
+	measure 'Operating Income PY' = CALCULATE([Operating Income], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 0088bab7-0af6-43ea-8adc-89ee24b21f71
+		displayFolder: Time Intelligence\Operating Income
+
+	measure 'Operating Income YoY %' = DIVIDE([Operating Income] - [Operating Income PY], [Operating Income PY])
+		formatString: 0.0%;-0.0%
+		lineageTag: 4230ace8-ff72-4b69-860b-d7af97d8b1fc
+		displayFolder: Time Intelligence\Operating Income
+
+	measure 'Gross Margin % YTD' = DIVIDE([Gross Profit YTD], [Revenue YTD])
+		formatString: 0.0%;-0.0%
+		lineageTag: f1dfea70-dfe8-480d-9180-b0c77ba25a29
+		displayFolder: Time Intelligence\Gross Profit
+
+	// ---------------------------------------------------------------
+	// Budget vs. Actual
+	// ---------------------------------------------------------------
+
+	measure 'Actual Amount (IS)' = ```
+			CALCULATE(
+			    SUM(Fact_GLTransactions[Amount]),
+			    Dim_ChartOfAccounts[Income/Balance] = "Income Statement"
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: ad9e0c88-858f-4b21-bda5-25808876e378
+		displayFolder: Budget vs Actual
+
+		/// Kept in BC's native (unflipped) sign convention -- same convention
+		/// as [Budget Amount] below -- so Actual and Budget compare like for
+		/// like without a separate sign-flip step.
+
+	measure 'Budget Amount' = SUM(Fact_Budget[Amount])
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 869058e1-0329-4e46-84fd-78228788c6f0
+		displayFolder: Budget vs Actual
+
+	measure 'Budget Variance' = [Actual Amount (IS)] - [Budget Amount]
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 0a01f508-d76a-4bca-bcd0-a2c554653938
+		displayFolder: Budget vs Actual
+
+	measure 'Budget Variance %' = DIVIDE([Budget Variance], ABS([Budget Amount]))
+		formatString: 0.0%;-0.0%
+		lineageTag: a0af4751-0f50-4971-84cb-33e202f834b1
+		displayFolder: Budget vs Actual
+
+	// ---------------------------------------------------------------
+	// AR Aging
+	// ---------------------------------------------------------------
+
+	measure 'Total AR Outstanding' = ```
+			CALCULATE(
+			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    Fact_CustLedgerEntries[Open] = TRUE
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: d9287c40-2786-41a3-8b2e-35a73fd5fb81
+		displayFolder: AR Aging
+
+	measure 'AR Current' = ```
+			CALCULATE(
+			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    Fact_CustLedgerEntries[Open] = TRUE,
+			    Fact_CustLedgerEntries[Due Date] >= TODAY()
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 2f8d3471-2444-431c-83b3-4efb927c1ec1
+		displayFolder: AR Aging
+
+	measure 'AR 1-30 Days' = ```
+			CALCULATE(
+			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    Fact_CustLedgerEntries[Open] = TRUE,
+			    Fact_CustLedgerEntries[Due Date] < TODAY(),
+			    Fact_CustLedgerEntries[Due Date] >= TODAY() - 30
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 6a51e802-3cbe-4b6e-a43f-bb0b09d34f58
+		displayFolder: AR Aging
+
+	measure 'AR 31-60 Days' = ```
+			CALCULATE(
+			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    Fact_CustLedgerEntries[Open] = TRUE,
+			    Fact_CustLedgerEntries[Due Date] < TODAY() - 30,
+			    Fact_CustLedgerEntries[Due Date] >= TODAY() - 60
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 43f0ec1c-e27f-44c8-977b-80937cb36a39
+		displayFolder: AR Aging
+
+	measure 'AR 61-90 Days' = ```
+			CALCULATE(
+			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    Fact_CustLedgerEntries[Open] = TRUE,
+			    Fact_CustLedgerEntries[Due Date] < TODAY() - 60,
+			    Fact_CustLedgerEntries[Due Date] >= TODAY() - 90
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: a0ccfe93-6a5f-43e4-8a8c-22ea396f7467
+		displayFolder: AR Aging
+
+	measure 'AR 90+ Days' = ```
+			CALCULATE(
+			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    Fact_CustLedgerEntries[Open] = TRUE,
+			    Fact_CustLedgerEntries[Due Date] < TODAY() - 90
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: f91e3045-4e22-465b-a01e-9cda5fda97f8
+		displayFolder: AR Aging
+
+	// ---------------------------------------------------------------
+	// AP Aging
+	// ---------------------------------------------------------------
+
+	measure 'Total AP Outstanding' = ```
+			CALCULATE(
+			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    Fact_VendorLedgerEntries[Open] = TRUE
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: a3c41342-8229-4462-89fd-3d93e6bae011
+		displayFolder: AP Aging
+
+	measure 'AP Current' = ```
+			CALCULATE(
+			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    Fact_VendorLedgerEntries[Open] = TRUE,
+			    Fact_VendorLedgerEntries[Due Date] >= TODAY()
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 66e6e1d0-e9ba-4f09-a6d3-091faa5108dd
+		displayFolder: AP Aging
+
+	measure 'AP 1-30 Days' = ```
+			CALCULATE(
+			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    Fact_VendorLedgerEntries[Open] = TRUE,
+			    Fact_VendorLedgerEntries[Due Date] < TODAY(),
+			    Fact_VendorLedgerEntries[Due Date] >= TODAY() - 30
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 3f1ced5d-871a-48e5-b734-9200dda3c819
+		displayFolder: AP Aging
+
+	measure 'AP 31-60 Days' = ```
+			CALCULATE(
+			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    Fact_VendorLedgerEntries[Open] = TRUE,
+			    Fact_VendorLedgerEntries[Due Date] < TODAY() - 30,
+			    Fact_VendorLedgerEntries[Due Date] >= TODAY() - 60
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: ebb1d993-7ddd-4d43-8a34-1e3760902670
+		displayFolder: AP Aging
+
+	measure 'AP 61-90 Days' = ```
+			CALCULATE(
+			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    Fact_VendorLedgerEntries[Open] = TRUE,
+			    Fact_VendorLedgerEntries[Due Date] < TODAY() - 60,
+			    Fact_VendorLedgerEntries[Due Date] >= TODAY() - 90
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 2a9bc5a6-c4c4-4ce7-b30d-9d7c54911940
+		displayFolder: AP Aging
+
+	measure 'AP 90+ Days' = ```
+			CALCULATE(
+			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    Fact_VendorLedgerEntries[Open] = TRUE,
+			    Fact_VendorLedgerEntries[Due Date] < TODAY() - 90
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 9a2de91e-b832-405e-9ffe-e89a564c31ae
+		displayFolder: AP Aging
+
+	column RowID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5a617704-2677-4fd0-8768-86380530d318
+		summarizeBy: none
+		sourceColumn: RowID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measures = calculated
+		mode: import
+		source = ```
+				ROW("RowID", 0)
+				```
+

@@ -1,0 +1,152 @@
+table Dim_Date
+	lineageTag: 43f0ec1c-e27f-44c8-977b-80937cb36a38
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: a0ccfe93-6a5f-43e4-8a8c-22ea396f7466
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: f91e3045-4e22-465b-a01e-9cda5fda97f7
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: a3c41342-8229-4462-89fd-3d93e6bae010
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterName
+		dataType: string
+		lineageTag: 66e6e1d0-e9ba-4f09-a6d3-091faa5108dc
+		summarizeBy: none
+		sourceColumn: QuarterName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f1ced5d-871a-48e5-b734-9200dda3c818
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: ebb1d993-7ddd-4d43-8a34-1e3760902669
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthShort
+		dataType: string
+		lineageTag: 2a9bc5a6-c4c4-4ce7-b30d-9d7c54911939
+		summarizeBy: none
+		sourceColumn: MonthShort
+		sortByColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: 9a2de91e-b832-405e-9ffe-e89a564c31ad
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		lineageTag: 5a617704-2677-4fd0-8768-86380530d317
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: af68db67-484e-4161-8fc4-af53848fa89e
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a76ef87-c7a3-48ca-aeb9-d5c8a37cb296
+		summarizeBy: none
+		sourceColumn: DayOfWeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: cf50827c-eafa-407c-bb56-e417a4af191d
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: DayOfWeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYear
+		dataType: int64
+		formatString: 0
+		lineageTag: f63a93ed-f1f7-42f5-9bbf-cb2176736c03
+		summarizeBy: none
+		sourceColumn: FiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+		/// Equal to [Year]. Kept as an explicit column because BC fiscal year =
+		/// calendar year for this company; retained so a future fiscal-year
+		/// change only requires editing this one M step, not every measure.
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+					StartDate = #date(2015, 1, 1),
+					EndDate = Date.EndOfYear(DateTime.LocalNow()),
+					DayCount = Duration.Days(EndDate - StartDate) + 1,
+					Dates = List.Dates(StartDate, DayCount, #duration(1, 0, 0, 0)),
+					#"Converted to Table" = Table.FromList(Dates, Splitter.SplitByNothing(), {"Date"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Converted to Table", {{"Date", type date}}),
+					#"Inserted Year" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]), Int64.Type),
+					#"Inserted Quarter" = Table.AddColumn(#"Inserted Year", "Quarter", each Date.QuarterOfYear([Date]), Int64.Type),
+					#"Inserted Month Number" = Table.AddColumn(#"Inserted Quarter", "MonthNumber", each Date.Month([Date]), Int64.Type),
+					#"Inserted Month Name" = Table.AddColumn(#"Inserted Month Number", "MonthName", each Date.ToText([Date], "MMMM"), type text),
+					#"Inserted Month Short" = Table.AddColumn(#"Inserted Month Name", "MonthShort", each Date.ToText([Date], "MMM"), type text),
+					#"Inserted Quarter Name" = Table.AddColumn(#"Inserted Month Short", "QuarterName", each "Q" & Text.From([Quarter]), type text),
+					#"Inserted Year Month" = Table.AddColumn(#"Inserted Quarter Name", "YearMonth", each Number.ToText([Year]) & "-" & Text.PadStart(Number.ToText([MonthNumber]), 2, "0"), type text),
+					#"Inserted Year Quarter" = Table.AddColumn(#"Inserted Year Month", "YearQuarter", each Number.ToText([Year]) & "-Q" & Text.From([Quarter]), type text),
+					#"Inserted Day" = Table.AddColumn(#"Inserted Year Quarter", "Day", each Date.Day([Date]), Int64.Type),
+					#"Inserted Day of Week" = Table.AddColumn(#"Inserted Day", "DayOfWeekNumber", each Date.DayOfWeek([Date], Day.Monday) + 1, Int64.Type),
+					#"Inserted Day Name" = Table.AddColumn(#"Inserted Day of Week", "DayName", each Date.ToText([Date], "dddd"), type text),
+					#"Inserted Fiscal Year" = Table.AddColumn(#"Inserted Day Name", "FiscalYear", each [Year], Int64.Type)
+				in
+					#"Inserted Fiscal Year"
+
+	annotation __PBI_TableCategory = DateTable
+
+	annotation PBI_Id = 43f0ec1c
+

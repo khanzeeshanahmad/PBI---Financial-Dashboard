@@ -1,0 +1,142 @@
+table Fact_CustLedgerEntries
+	lineageTag: 2990c109-7994-4903-886f-d855ff610158
+
+	column 'Entry No.'
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 7baff763-06e3-46f1-b270-eec2b53c3a2d
+		summarizeBy: none
+		sourceColumn: Entry No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer No.'
+		dataType: string
+		lineageTag: ad2b05a7-39a1-46cf-b6f3-20f23fb47e5b
+		summarizeBy: none
+		sourceColumn: Customer No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Posting Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 7687071c-be8c-46b5-8b46-46d8ef314a15
+		summarizeBy: none
+		sourceColumn: Posting Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Due Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 90119fb9-c746-443c-8918-aa27ec462b71
+		summarizeBy: none
+		sourceColumn: Due Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Document Type'
+		dataType: string
+		lineageTag: 2932c6fe-2e7d-4b04-9b84-67a2f7599f22
+		summarizeBy: none
+		sourceColumn: Document Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Document No.'
+		dataType: string
+		lineageTag: 609236fa-771a-4e97-a71c-3f993ed908c7
+		summarizeBy: none
+		sourceColumn: Document No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 4e7b2b25-aee5-4c1d-a667-f8093c69d2d1
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: 77713e12-c95f-4233-b4b7-ab9a7ee866ae
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Open
+		dataType: boolean
+		lineageTag: 9adea10e-1972-49f2-9815-e93cafbe6c32
+		summarizeBy: none
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+		/// True while the entry still has an outstanding balance. AR aging
+		/// measures filter to Open = TRUE so settled invoices drop out of the
+		/// buckets even though they remain in history for trend analysis.
+
+	column Amount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 0a84bcc8-3ec1-41c5-a20d-84b1b191a836
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Remaining Amount'
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 06e2c34c-c34b-40e5-9e26-d5855c0e611a
+		summarizeBy: sum
+		sourceColumn: Remaining Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		/// Outstanding balance in local currency as of the last refresh --
+		/// this is what the AR aging buckets sum, not [Amount] (the original
+		/// invoice amount).
+
+	partition Fact_CustLedgerEntries = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"Cust. Ledger Entries" = Company{[Name = "Cust. Ledger Entries"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						#"Cust. Ledger Entries",
+						{
+							"Entry No.", "Customer No.", "Posting Date", "Due Date", "Document Type",
+							"Document No.", "Description", "Currency Code", "Open", "Amount", "Remaining Amount"
+						},
+						MissingField.UseNull
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Selected Columns",
+						{
+							{"Entry No.", Int64.Type}, {"Customer No.", type text}, {"Posting Date", type datetime},
+							{"Due Date", type datetime}, {"Document Type", type text}, {"Document No.", type text},
+							{"Description", type text}, {"Currency Code", type text}, {"Open", type logical},
+							{"Amount", type number}, {"Remaining Amount", type number}
+						}
+					)
+				in
+					#"Changed Type"
+
+	/// COMPATIBILITY NOTE: exposed as "Cust. Ledger Entries" in the Navigator
+	/// on current BC SaaS releases (matching the table's internal name,
+	/// abbreviated). [Remaining Amount] here is in local currency (LCY); if
+	/// this company is multi-currency and you need the original transaction
+	/// currency too, add "Remaining Amt. (LCY)" vs "Remaining Amount" and a
+	/// currency-rate join against Fact tables' Currency Code.
+

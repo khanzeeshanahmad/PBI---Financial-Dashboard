@@ -1,0 +1,53 @@
+table Dim_BusinessDimension1
+	lineageTag: a1472056-63fc-4062-baaf-6022b2e86433
+
+	/// Global Dimension 1 values (Department, by default -- see the
+	/// GlobalDimension1Code parameter). Renamed generically because BC
+	/// dimension usage is company-specific; rename this table in Desktop to
+	/// match your dimension (e.g. "Dim_Department") if you want a friendlier
+	/// display name.
+
+	column Code
+		dataType: string
+		isKey
+		lineageTag: 813b1f34-40a0-4b3b-b1c6-53265362dc94
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 137dd647-53f7-4791-8b54-e05669bd2af6
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension Code'
+		dataType: string
+		lineageTag: 33061ad8-349d-4f2e-b4c3-979346c665f8
+		summarizeBy: none
+		sourceColumn: Dimension Code
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_BusinessDimension1 = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"Dimension Value" = Company{[Name = "Dimension Value"]}[Data],
+					#"Filtered Rows" = Table.SelectRows(#"Dimension Value", each [Dimension Code] = GlobalDimension1Code and [Blocked] <> true),
+					#"Selected Columns" = Table.SelectColumns(#"Filtered Rows", {"Code", "Name", "Dimension Code"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Selected Columns", {{"Code", type text}, {"Name", type text}, {"Dimension Code", type text}}),
+					#"Added Blank Row" = Table.Combine({#"Changed Type", #table(type table [Code = text, Name = text, #"Dimension Code" = text], {{"", "(No Department)", GlobalDimension1Code}})})
+				in
+					#"Added Blank Row"
+
+	/// The blank-code row lets G/L Entries with no Global Dimension 1 value
+	/// still join to this table cleanly instead of appearing blank/unmatched.
+

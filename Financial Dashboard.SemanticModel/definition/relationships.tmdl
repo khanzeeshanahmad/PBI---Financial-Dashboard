@@ -1,0 +1,48 @@
+relationship df76950c-2edc-4925-a1d7-5d26251e5fc1
+	fromColumn: Fact_GLTransactions.'Posting Date'
+	toColumn: Dim_Date.Date
+
+relationship 4a1f8a50-dc40-434a-8869-209d5f4ae1d9
+	fromColumn: Fact_GLTransactions.'G/L Account No.'
+	toColumn: Dim_ChartOfAccounts.'No.'
+
+relationship 15d0aaff-5bf9-411e-a75c-be7ea592f878
+	fromColumn: Fact_GLTransactions.'Global Dimension 1 Code'
+	toColumn: Dim_BusinessDimension1.Code
+
+relationship 8d093120-2b69-41c0-8a73-3f687148ad6b
+	fromColumn: Fact_GLTransactions.'Global Dimension 2 Code'
+	toColumn: Dim_BusinessDimension2.Code
+
+relationship e0b11223-0670-478e-8caa-91fe833d8b90
+	fromColumn: Fact_Budget.Date
+	toColumn: Dim_Date.Date
+
+relationship 8c01790d-cf3f-4e71-ac57-bed58bf866de
+	fromColumn: Fact_Budget.'G/L Account No.'
+	toColumn: Dim_ChartOfAccounts.'No.'
+
+relationship a8c5f31e-45cb-44d4-9840-1dc2bce6a4aa
+	fromColumn: Fact_Budget.'Global Dimension 1 Code'
+	toColumn: Dim_BusinessDimension1.Code
+
+relationship 4d355e3a-28ae-4554-8a45-92ddc1680adc
+	fromColumn: Fact_Budget.'Global Dimension 2 Code'
+	toColumn: Dim_BusinessDimension2.Code
+
+relationship 51e8d11c-cf42-47eb-ad87-53ea99929717
+	fromColumn: Fact_CustLedgerEntries.'Customer No.'
+	toColumn: Dim_Customer.'No.'
+
+relationship 3769027e-953e-4afe-8171-6339a3edf5d2
+	fromColumn: Fact_CustLedgerEntries.'Posting Date'
+	toColumn: Dim_Date.Date
+
+relationship a085945f-a12c-4840-8813-4d0118ba9fbd
+	fromColumn: Fact_VendorLedgerEntries.'Vendor No.'
+	toColumn: Dim_Vendor.'No.'
+
+relationship 52127ab3-37d1-40b2-b995-beac50a3c3f6
+	fromColumn: Fact_VendorLedgerEntries.'Posting Date'
+	toColumn: Dim_Date.Date
+

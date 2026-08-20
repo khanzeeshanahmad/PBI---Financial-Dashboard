@@ -1,0 +1,71 @@
+table Dim_Vendor
+	lineageTag: 63dab294-269a-42bf-b926-9f453d152cdc
+
+	column 'No.'
+		dataType: string
+		isKey
+		lineageTag: 1402b169-8720-4e4e-bfdf-75ac296b0e86
+		summarizeBy: none
+		sourceColumn: No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 20f7f662-9185-43ad-afb5-ed34cb0a6a62
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vendor Posting Group'
+		dataType: string
+		lineageTag: d934042b-71f8-4b26-9f99-032fad0edec2
+		summarizeBy: none
+		sourceColumn: Vendor Posting Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: 39890fc2-d4da-4755-938f-0ef63ae2a169
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country/Region Code'
+		dataType: string
+		lineageTag: 16069ca6-b6ea-4bfb-acb5-4288ea62d54f
+		summarizeBy: none
+		sourceColumn: Country/Region Code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Vendor = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					Vendor = Company{[Name = "Vendors"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						Vendor,
+						{"No.", "Name", "Vendor Posting Group", "Currency Code", "Country/Region Code"},
+						MissingField.UseNull
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Selected Columns",
+						{
+							{"No.", type text}, {"Name", type text}, {"Vendor Posting Group", type text},
+							{"Currency Code", type text}, {"Country/Region Code", type text}
+						}
+					)
+				in
+					#"Changed Type"
+
+	/// COMPATIBILITY NOTE: exposed as "Vendors" (plural) on current BC SaaS
+	/// releases; older exports may use "Vendor". Check the Navigator if this
+	/// step errors.
+

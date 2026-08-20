@@ -1,0 +1,175 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "table-gl-detail",
+  "position": {
+    "x": 20,
+    "y": 160,
+    "z": 0,
+    "width": 1240,
+    "height": 510,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_GLTransactions"
+                    }
+                  },
+                  "Property": "Posting Date"
+                }
+              },
+              "queryRef": "Fact_GLTransactions.Posting Date",
+              "nativeQueryRef": "Posting Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_GLTransactions"
+                    }
+                  },
+                  "Property": "Document No."
+                }
+              },
+              "queryRef": "Fact_GLTransactions.Document No.",
+              "nativeQueryRef": "Document No."
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "No."
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.No.",
+              "nativeQueryRef": "No."
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.Name",
+              "nativeQueryRef": "Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_GLTransactions"
+                    }
+                  },
+                  "Property": "Description"
+                }
+              },
+              "queryRef": "Fact_GLTransactions.Description",
+              "nativeQueryRef": "Description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_GLTransactions"
+                    }
+                  },
+                  "Property": "Debit Amount"
+                }
+              },
+              "queryRef": "Fact_GLTransactions.Debit Amount",
+              "nativeQueryRef": "Debit Amount"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_GLTransactions"
+                    }
+                  },
+                  "Property": "Credit Amount"
+                }
+              },
+              "queryRef": "Fact_GLTransactions.Credit Amount",
+              "nativeQueryRef": "Credit Amount"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_GLTransactions"
+                    }
+                  },
+                  "Property": "Amount"
+                }
+              },
+              "queryRef": "Fact_GLTransactions.Amount",
+              "nativeQueryRef": "Amount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'G/L Transaction Detail (drill-through target from any summary visual)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

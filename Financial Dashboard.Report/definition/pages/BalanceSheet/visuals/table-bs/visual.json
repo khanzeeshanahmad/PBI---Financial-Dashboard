@@ -1,0 +1,147 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "table-bs",
+  "position": {
+    "x": 20,
+    "y": 90,
+    "z": 0,
+    "width": 1240,
+    "height": 580,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "Account Category"
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.Account Category",
+              "nativeQueryRef": "Account Category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "Account Subcategory"
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.Account Subcategory",
+              "nativeQueryRef": "Account Subcategory"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.Name",
+              "nativeQueryRef": "Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Total Assets"
+                }
+              },
+              "queryRef": "Measures.Total Assets",
+              "nativeQueryRef": "Total Assets"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Total Liabilities"
+                }
+              },
+              "queryRef": "Measures.Total Liabilities",
+              "nativeQueryRef": "Total Liabilities"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Total Equity"
+                }
+              },
+              "queryRef": "Measures.Total Equity",
+              "nativeQueryRef": "Total Equity"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Balance Sheet by Account Category (Assets / Liabilities / Equity)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

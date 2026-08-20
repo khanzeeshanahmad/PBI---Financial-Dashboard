@@ -1,0 +1,83 @@
+table Dim_Customer
+	lineageTag: 73845ae6-a53f-450f-b432-91800b3c0ad5
+
+	column 'No.'
+		dataType: string
+		isKey
+		lineageTag: 2b23123c-4c3c-4b09-aa01-189ab122657e
+		summarizeBy: none
+		sourceColumn: No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: b713cac2-2553-447b-969a-af4e3f54a22b
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Posting Group'
+		dataType: string
+		lineageTag: 8e6b7a74-e2d6-4f50-97d4-71b7f8209b21
+		summarizeBy: none
+		sourceColumn: Customer Posting Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: a1236e58-3482-4f56-8bd1-7d22fe73b9e2
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+		/// Blank means the customer transacts in the company's local (LCY)
+		/// currency.
+
+	column 'Country/Region Code'
+		dataType: string
+		lineageTag: 917a9f73-05f1-44a4-a85b-bc42f0784ff0
+		summarizeBy: none
+		sourceColumn: Country/Region Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Salesperson Code'
+		dataType: string
+		lineageTag: ccfc85b5-1d8f-4b73-b137-4148c43d0446
+		summarizeBy: none
+		sourceColumn: Salesperson Code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Customer = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					Customer = Company{[Name = "Customers"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						Customer,
+						{"No.", "Name", "Customer Posting Group", "Currency Code", "Country/Region Code", "Salesperson Code"},
+						MissingField.UseNull
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Selected Columns",
+						{
+							{"No.", type text}, {"Name", type text}, {"Customer Posting Group", type text},
+							{"Currency Code", type text}, {"Country/Region Code", type text}, {"Salesperson Code", type text}
+						}
+					)
+				in
+					#"Changed Type"
+
+	/// COMPATIBILITY NOTE: the Power BI connector's Navigator exposes this
+	/// entity as "Customers" (plural, matching the standard API page) on
+	/// current BC SaaS releases; some older exports use "Customer" (singular).
+	/// Check the Navigator if this step errors.
+

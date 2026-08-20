@@ -1,0 +1,105 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "table-pl",
+  "position": {
+    "x": 20,
+    "y": 90,
+    "z": 0,
+    "width": 1020,
+    "height": 580,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "Account Category"
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.Account Category",
+              "nativeQueryRef": "Account Category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_ChartOfAccounts"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Dim_ChartOfAccounts.Name",
+              "nativeQueryRef": "Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "Actual Amount (IS)"
+                }
+              },
+              "queryRef": "Measures.Actual Amount (IS)",
+              "nativeQueryRef": "Actual Amount (IS)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'P&L by Account Category, drilled to Name (filter by Year/Month slicers for MoM; use Revenue/Net Income YoY % cards for YoY)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

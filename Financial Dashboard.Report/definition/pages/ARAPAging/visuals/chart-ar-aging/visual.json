@@ -1,0 +1,136 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "chart-ar-aging",
+  "position": {
+    "x": 20,
+    "y": 90,
+    "z": 0,
+    "width": 610,
+    "height": 580,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Customer"
+                    }
+                  },
+                  "Property": "Name"
+                }
+              },
+              "queryRef": "Dim_Customer.Name",
+              "nativeQueryRef": "Name"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "AR Current"
+                }
+              },
+              "queryRef": "Measures.AR Current",
+              "nativeQueryRef": "AR Current"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "AR 1-30 Days"
+                }
+              },
+              "queryRef": "Measures.AR 1-30 Days",
+              "nativeQueryRef": "AR 1-30 Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "AR 31-60 Days"
+                }
+              },
+              "queryRef": "Measures.AR 31-60 Days",
+              "nativeQueryRef": "AR 31-60 Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "AR 61-90 Days"
+                }
+              },
+              "queryRef": "Measures.AR 61-90 Days",
+              "nativeQueryRef": "AR 61-90 Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measures"
+                    }
+                  },
+                  "Property": "AR 90+ Days"
+                }
+              },
+              "queryRef": "Measures.AR 90+ Days",
+              "nativeQueryRef": "AR 90+ Days"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'AR Aging by Customer'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

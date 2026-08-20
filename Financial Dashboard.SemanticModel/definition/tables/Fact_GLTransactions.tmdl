@@ -1,0 +1,170 @@
+table Fact_GLTransactions
+	lineageTag: 88df298c-abfb-40d6-bbac-9091461943ce
+
+	column 'Entry No.'
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 16bb29e2-4f70-45c5-b8d7-ecffdd7a78f7
+		summarizeBy: none
+		sourceColumn: Entry No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'G/L Account No.'
+		dataType: string
+		lineageTag: 6081d4b0-c55a-4799-a00c-276d928195f9
+		summarizeBy: none
+		sourceColumn: G/L Account No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Posting Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 6f0b1082-ea59-440c-88e6-7c8470a5653c
+		summarizeBy: none
+		sourceColumn: Posting Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Document No.'
+		dataType: string
+		lineageTag: 07c4bf86-2baa-4a0a-8819-cdb31cc83af3
+		summarizeBy: none
+		sourceColumn: Document No.
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Document Type'
+		dataType: string
+		lineageTag: 959d23a6-249f-4623-a66c-cb8bff053086
+		summarizeBy: none
+		sourceColumn: Document Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: a12a344d-6d52-4c95-a39a-57d3f2751105
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Source Code'
+		dataType: string
+		lineageTag: 08f5d435-54d4-422d-a28d-8cdb90d53309
+		summarizeBy: none
+		sourceColumn: Source Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Global Dimension 1 Code'
+		dataType: string
+		lineageTag: 355c5416-7021-4c29-ae85-08dc06de1dd4
+		summarizeBy: none
+		sourceColumn: Global Dimension 1 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Global Dimension 2 Code'
+		dataType: string
+		lineageTag: c0c58559-a744-468a-ba5b-16d359772afc
+		summarizeBy: none
+		sourceColumn: Global Dimension 2 Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Debit Amount'
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 2ade3218-f18c-41e0-80cd-7f180427d035
+		summarizeBy: sum
+		sourceColumn: Debit Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Credit Amount'
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: 5718daf3-4487-45c1-a004-3c8217b4c5fb
+		summarizeBy: sum
+		sourceColumn: Credit Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Amount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00)
+		lineageTag: f1c9073c-ca8e-43e3-a96d-36effd2a64d1
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+		/// Signed net amount in the company's local currency (Debit Amount -
+		/// Credit Amount), exactly as posted by BC. All P&L / Balance Sheet
+		/// measures are built from this column; see the data dictionary for
+		/// the sign convention (credit-normal accounts are negated in DAX, not
+		/// here, so this column always matches BC's own G/L Entry list).
+
+	column 'User ID'
+		dataType: string
+		lineageTag: 8ddcb7e5-0fd1-46e9-91b1-dee1d72646de
+		summarizeBy: none
+		sourceColumn: User ID
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_GLTransactions = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"G/L Entries" = Company{[Name = "G/L Entries"]}[Data],
+					#"Selected Columns" = Table.SelectColumns(
+						#"G/L Entries",
+						{
+							"Entry No.", "G/L Account No.", "Posting Date", "Document No.", "Document Type",
+							"Description", "Source Code", "Global Dimension 1 Code", "Global Dimension 2 Code",
+							"Debit Amount", "Credit Amount", "Amount", "User ID"
+						},
+						MissingField.UseNull
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Selected Columns",
+						{
+							{"Entry No.", Int64.Type}, {"G/L Account No.", type text}, {"Posting Date", type datetime},
+							{"Document No.", type text}, {"Document Type", type text}, {"Description", type text},
+							{"Source Code", type text}, {"Global Dimension 1 Code", type text},
+							{"Global Dimension 2 Code", type text}, {"Debit Amount", type number},
+							{"Credit Amount", type number}, {"Amount", type number}, {"User ID", type text}
+						}
+					),
+					#"Filtered Rows" = Table.SelectRows(
+						#"Changed Type",
+						each [Posting Date] >= RangeStart and [Posting Date] < RangeEnd
+					)
+				in
+					#"Filtered Rows"
+
+	/// COMPATIBILITY NOTE: the connector Navigator exposes this entity as
+	/// "G/L Entries" on current BC SaaS releases; older documentation calls it
+	/// "General Ledger Entries" or the underlying table name "G/L Entry"
+	/// (singular). Confirm the exact label in your Navigator and adjust the
+	/// literal above if it differs.
+	///
+	/// INCREMENTAL REFRESH: this query already filters on RangeStart/RangeEnd.
+	/// After first publish, enable incremental refresh on this table from
+	/// Desktop (right-click > Incremental refresh) -- suggested policy:
+	/// store 5 years, incrementally refresh 1 month, detect data changes off
+	/// (BC does not expose a last-modified watermark on G/L Entry), since
+	/// posted G/L entries are immutable once posted.
+

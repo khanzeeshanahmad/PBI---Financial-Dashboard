@@ -1,0 +1,47 @@
+table Dim_BusinessDimension2
+	lineageTag: b3b849f2-e60b-4388-89fc-c834803434c9
+
+	/// Global Dimension 2 values (Project / Cost Center, by default -- see the
+	/// GlobalDimension2Code parameter).
+
+	column Code
+		dataType: string
+		isKey
+		lineageTag: c0ceb0f3-fdf8-45e0-b2aa-9ffcaa641160
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 65729aeb-8386-4cec-8f80-7d87f4d02f88
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension Code'
+		dataType: string
+		lineageTag: 69d25a9a-2262-40e8-8d06-9007eb9618b5
+		summarizeBy: none
+		sourceColumn: Dimension Code
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_BusinessDimension2 = m
+		mode: import
+		source =
+				let
+					Source = BusinessCentral.Contents(),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					#"Dimension Value" = Company{[Name = "Dimension Value"]}[Data],
+					#"Filtered Rows" = Table.SelectRows(#"Dimension Value", each [Dimension Code] = GlobalDimension2Code and [Blocked] <> true),
+					#"Selected Columns" = Table.SelectColumns(#"Filtered Rows", {"Code", "Name", "Dimension Code"}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Selected Columns", {{"Code", type text}, {"Name", type text}, {"Dimension Code", type text}}),
+					#"Added Blank Row" = Table.Combine({#"Changed Type", #table(type table [Code = text, Name = text, #"Dimension Code" = text], {{"", "(No Project)", GlobalDimension2Code}})})
+				in
+					#"Added Blank Row"
+
