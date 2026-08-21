@@ -23,7 +23,7 @@ numbers on the reports.
 | `BCCompanyName` | Text | `Cronus - QMM` | BC company (legal entity) display name, exactly as it appears under the Environment node in the Navigator. |
 | `BCApiVersion` | Text | `v2.0` | Documentation-only marker of which BC API/connector generation this project was authored against. |
 | `GlobalDimension1Code` | Text | `DEPARTMENT` | Dimension Code mapped to this company's Global Dimension 1 slot (Company Information page). |
-| `GlobalDimension2Code` | Text | `PROJECT` | Dimension Code mapped to Global Dimension 2 (often Project or Cost Center). |
+| `GlobalDimension2Code` | Text | `CUSTOMERGROUP` | Dimension Code mapped to Global Dimension 2 for this company. |
 | `RangeStart` / `RangeEnd` | DateTime | 2015-01-01 / 2026-01-01 | Reserved names for Power BI Desktop's incremental refresh feature; used as the filter bounds in `Fact_GLTransactions` and referenced for `Fact_Budget`. |
 
 Changing `BCEnvironment` or `BCCompanyName` and refreshing repoints **every**
@@ -84,7 +84,7 @@ company actually tracks (e.g. `Dim_Department`, `Dim_Project`).
 
 | Column | Type | Notes |
 |---|---|---|
-| Code | string | Key (from `dimensionValues.code`). Includes a synthetic blank-code row ("(No Department)" / "(No Project)") so unassigned G/L entries still join cleanly. |
+| Code | string | Key (from `dimensionValues.code`). Includes a synthetic blank-code row ("(No Department)" / "(No Customer Group)") so unassigned G/L entries still join cleanly. |
 | Name | string | From `dimensionValues.displayName`. |
 | Dimension Code | string | Hidden; set to the `GlobalDimension1Code`/`GlobalDimension2Code` parameter value (every row in this table already belongs to that one dimension). |
 

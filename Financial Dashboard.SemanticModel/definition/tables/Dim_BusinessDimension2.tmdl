@@ -44,7 +44,7 @@ table Dim_BusinessDimension2
 					#"Renamed Columns" = Table.RenameColumns(#"Selected Columns", {{"code", "Code"}, {"displayName", "Name"}}),
 					#"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Code", type text}, {"Name", type text}}),
 					#"Added Dimension Code" = Table.AddColumn(#"Changed Type", "Dimension Code", each GlobalDimension2Code, type text),
-					#"Added Blank Row" = Table.Combine({#"Added Dimension Code", #table(type table [Code = text, Name = text, #"Dimension Code" = text], {{"", "(No Project)", GlobalDimension2Code}})})
+					#"Added Blank Row" = Table.Combine({#"Added Dimension Code", #table(type table [Code = text, Name = text, #"Dimension Code" = text], {{"", "(No Customer Group)", GlobalDimension2Code}})})
 				in
 					#"Added Blank Row"
 

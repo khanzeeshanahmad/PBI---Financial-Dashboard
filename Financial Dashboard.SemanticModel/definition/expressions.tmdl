@@ -14,7 +14,7 @@ expression GlobalDimension1Code = "DEPARTMENT" meta [IsParameterQuery=true, Type
 	lineageTag: 684d3eae-1d30-45f4-81e5-2702c5ff790a
 	annotation PBI_ResultType = Text
 
-expression GlobalDimension2Code = "PROJECT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+expression GlobalDimension2Code = "CUSTOMERGROUP" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 0590ccb1-3022-4791-9677-3b4782032351
 	annotation PBI_ResultType = Text
 
