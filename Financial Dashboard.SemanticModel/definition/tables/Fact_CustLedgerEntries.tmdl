@@ -123,7 +123,7 @@ table Fact_CustLedgerEntries
 							{"Amount", type number}, {"Remaining Amount", type number}
 						}
 					),
-					#"Filtered Blank Keys" = Table.SelectRows(#"Changed Type", each [Entry No.] <> null)
+					#"Filtered Blank Keys" = Table.SelectRows(#"Changed Type", each Record.Field(_, "Entry No.") <> null)
 				in
 					#"Filtered Blank Keys"
 
