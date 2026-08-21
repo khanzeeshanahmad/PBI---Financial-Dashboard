@@ -1,11 +1,11 @@
 table Dim_BusinessDimension1
 	lineageTag: a1472056-63fc-4062-baaf-6022b2e86433
 
-	/// Global Dimension 1 values (Department, by default -- see the
-	/// GlobalDimension1Code parameter). Renamed generically because BC
-	/// dimension usage is company-specific; rename this table in Desktop to
-	/// match your dimension (e.g. "Dim_Department") if you want a friendlier
-	/// display name.
+	// Global Dimension 1 values (Department, by default -- see the
+	// GlobalDimension1Code parameter). Renamed generically because BC
+	// dimension usage is company-specific; rename this table in Desktop to
+	// match your dimension (e.g. "Dim_Department") if you want a friendlier
+	// display name.
 
 	column Code
 		dataType: string
@@ -48,6 +48,6 @@ table Dim_BusinessDimension1
 				in
 					#"Added Blank Row"
 
-	/// The blank-code row lets G/L Entries with no Global Dimension 1 value
-	/// still join to this table cleanly instead of appearing blank/unmatched.
+	// The blank-code row lets G/L Entries with no Global Dimension 1 value
+	// still join to this table cleanly instead of appearing blank/unmatched.
 

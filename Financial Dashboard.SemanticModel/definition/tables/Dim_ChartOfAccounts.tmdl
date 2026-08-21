@@ -26,9 +26,9 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-		/// Posting / Total / Begin-Total / End-Total / Heading. Filter to
-		/// "Posting" for transactional rollups; the others are subtotal/heading
-		/// rows used only for BC's own schedule layout.
+		// Posting / Total / Begin-Total / End-Total / Heading. Filter to
+		// "Posting" for transactional rollups; the others are subtotal/heading
+		// rows used only for BC's own schedule layout.
 
 	column 'Income/Balance'
 		dataType: string
@@ -38,8 +38,8 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-		/// BC enum: "Income Statement" or "Balance Sheet". Drives the P&L vs
-		/// Balance Sheet report page filters.
+		// BC enum: "Income Statement" or "Balance Sheet". Drives the P&L vs
+		// Balance Sheet report page filters.
 
 	column 'Debit/Credit'
 		dataType: string
@@ -57,8 +57,8 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-		/// Assets / Liabilities / Equity / Income / Cost of Goods Sold / Expense.
-		/// Used directly by the Revenue / COGS / Operating Expense measures.
+		// Assets / Liabilities / Equity / Income / Cost of Goods Sold / Expense.
+		// Used directly by the Revenue / COGS / Operating Expense measures.
 
 	column 'Account Subcategory'
 		dataType: string
@@ -85,8 +85,8 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-		/// Preserves BC's chart-of-accounts hierarchy indentation so the P&L /
-		/// Balance Sheet pages can render subtotal rows in the correct order.
+		// Preserves BC's chart-of-accounts hierarchy indentation so the P&L /
+		// Balance Sheet pages can render subtotal rows in the correct order.
 
 	partition Dim_ChartOfAccounts = m
 		mode: import
@@ -121,10 +121,10 @@ table Dim_ChartOfAccounts
 
 	annotation PBI_ResultType = Table
 
-	/// COMPATIBILITY NOTE: "Account Category" and "Account Subcategory Descript."
-	/// are exposed directly on the Chart of Accounts page in BC2023 wave 2+.
-	/// On older BC SaaS builds these may only be available on the separate
-	/// "G/L Account Category" table and require a merge on Account Category
-	/// (an integer key) -- check the Navigator for your tenant and adjust this
-	/// query if the columns are missing.
+	// COMPATIBILITY NOTE: "Account Category" and "Account Subcategory Descript."
+	// are exposed directly on the Chart of Accounts page in BC2023 wave 2+.
+	// On older BC SaaS builds these may only be available on the separate
+	// "G/L Account Category" table and require a merge on Account Category
+	// (an integer key) -- check the Navigator for your tenant and adjust this
+	// query if the columns are missing.
 

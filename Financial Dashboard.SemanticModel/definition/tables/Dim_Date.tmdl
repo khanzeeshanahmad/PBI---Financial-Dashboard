@@ -117,9 +117,9 @@ table Dim_Date
 
 		annotation SummarizationSetBy = Automatic
 
-		/// Equal to [Year]. Kept as an explicit column because BC fiscal year =
-		/// calendar year for this company; retained so a future fiscal-year
-		/// change only requires editing this one M step, not every measure.
+		// Equal to [Year]. Kept as an explicit column because BC fiscal year =
+		// calendar year for this company; retained so a future fiscal-year
+		// change only requires editing this one M step, not every measure.
 
 	partition Dim_Date = m
 		mode: import

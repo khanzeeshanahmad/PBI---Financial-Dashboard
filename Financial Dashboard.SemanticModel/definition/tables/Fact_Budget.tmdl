@@ -62,10 +62,10 @@ table Fact_Budget
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-		/// Same sign convention as Fact_GLTransactions[Amount]: budgeted
-		/// income/credit-normal accounts are stored as BC posts them and are
-		/// negated by DAX measures, not here, so Actual and Budget compare on
-		/// a like-for-like basis.
+		// Same sign convention as Fact_GLTransactions[Amount]: budgeted
+		// income/credit-normal accounts are stored as BC posts them and are
+		// negated by DAX measures, not here, so Actual and Budget compare on
+		// a like-for-like basis.
 
 	partition Fact_Budget = m
 		mode: import
@@ -94,9 +94,9 @@ table Fact_Budget
 				in
 					#"Changed Type"
 
-	/// COMPATIBILITY NOTE: exposed as "G/L Budget Entries" in the Navigator.
-	/// A company may keep several named budgets (e.g. "BUDGET-2026",
-	/// "FORECAST-2026") in this one entity, distinguished by [Budget Name] --
-	/// add a slicer on that column in Desktop, or hard-filter this query to a
-	/// single budget with Table.SelectRows if only one should ever be shown.
+	// COMPATIBILITY NOTE: exposed as "G/L Budget Entries" in the Navigator.
+	// A company may keep several named budgets (e.g. "BUDGET-2026",
+	// "FORECAST-2026") in this one entity, distinguished by [Budget Name] --
+	// add a slicer on that column in Desktop, or hard-filter this query to a
+	// single budget with Table.SelectRows if only one should ever be shown.
 

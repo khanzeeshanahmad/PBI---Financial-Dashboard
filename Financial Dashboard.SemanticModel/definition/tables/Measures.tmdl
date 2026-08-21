@@ -1,10 +1,10 @@
 table Measures
 	lineageTag: 88df298c-abfb-40d6-bbac-9091461943cf
 
-	/// Measure-only table (no real columns) used purely to organize DAX
-	/// measures away from the fact tables they reference, per star-schema
-	/// best practice. Hidden RowID column exists only because every table
-	/// needs at least one column.
+	// Measure-only table (no real columns) used purely to organize DAX
+	// measures away from the fact tables they reference, per star-schema
+	// best practice. Hidden RowID column exists only because every table
+	// needs at least one column.
 
 	measure Revenue = ```
 			CALCULATE(
@@ -16,8 +16,8 @@ table Measures
 		lineageTag: 6228a351-c6df-43f1-9460-5c85b2ce5765
 		displayFolder: P&L
 
-		/// Income accounts are credit-normal in BC (Amount posts negative), so
-		/// this negates the raw sum to report Revenue as a positive number.
+		// Income accounts are credit-normal in BC (Amount posts negative), so
+		// this negates the raw sum to report Revenue as a positive number.
 
 	measure COGS = ```
 			CALCULATE(
@@ -59,11 +59,11 @@ table Measures
 		lineageTag: 8d3ab916-f4d5-448a-8cbd-c1bbd45a5c9a
 		displayFolder: P&L
 
-		/// BC's standard Account Category enum has exactly six values (Assets,
-		/// Liabilities, Equity, Income, Cost of Goods Sold, Expense) with no
-		/// separate "other income/expense" bucket, so Revenue - COGS -
-		/// Operating Expenses is the full income statement -- no residual
-		/// category is being dropped here.
+		// BC's standard Account Category enum has exactly six values (Assets,
+		// Liabilities, Equity, Income, Cost of Goods Sold, Expense) with no
+		// separate "other income/expense" bucket, so Revenue - COGS -
+		// Operating Expenses is the full income statement -- no residual
+		// category is being dropped here.
 
 	measure 'Total Assets' = ```
 			CALCULATE(
@@ -100,10 +100,10 @@ table Measures
 		lineageTag: 026a8387-f933-498b-ad59-3531bf1dafab
 		displayFolder: Balance Sheet
 
-		/// Validation measure -- should always evaluate to (near) zero. A
-		/// non-zero value at a given filter context usually means Net Income
-		/// for the year has not yet been rolled into Retained Earnings /
-		/// Equity for that period, which is expected before year-end close.
+		// Validation measure -- should always evaluate to (near) zero. A
+		// non-zero value at a given filter context usually means Net Income
+		// for the year has not yet been rolled into Retained Earnings /
+		// Equity for that period, which is expected before year-end close.
 
 	measure 'Cash and Bank' = ```
 			CALCULATE(
@@ -127,12 +127,12 @@ table Measures
 		lineageTag: 154696c0-564c-49b6-875a-45de1498ff44
 		displayFolder: Cash
 
-		/// A true current-assets-minus-current-liabilities figure needs BC
-		/// accounts flagged Current vs. Non-current, which the standard
-		/// Account Category/Subcategory fields don't carry. This measure nets
-		/// ALL assets against ALL liabilities as a directional proxy; build a
-		/// current/non-current mapping table and refine this measure if the
-		/// business needs a precise working-capital figure.
+		// A true current-assets-minus-current-liabilities figure needs BC
+		// accounts flagged Current vs. Non-current, which the standard
+		// Account Category/Subcategory fields don't carry. This measure nets
+		// ALL assets against ALL liabilities as a directional proxy; build a
+		// current/non-current mapping table and refine this measure if the
+		// business needs a precise working-capital figure.
 
 	// ---------------------------------------------------------------
 	// Time intelligence -- Revenue
@@ -278,9 +278,9 @@ table Measures
 		lineageTag: ad9e0c88-858f-4b21-bda5-25808876e378
 		displayFolder: Budget vs Actual
 
-		/// Kept in BC's native (unflipped) sign convention -- same convention
-		/// as [Budget Amount] below -- so Actual and Budget compare like for
-		/// like without a separate sign-flip step.
+		// Kept in BC's native (unflipped) sign convention -- same convention
+		// as [Budget Amount] below -- so Actual and Budget compare like for
+		// like without a separate sign-flip step.
 
 	measure 'Budget Amount' = SUM(Fact_Budget[Amount])
 		formatString: \$#,0.00;(\$#,0.00)
