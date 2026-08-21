@@ -1,35 +1,28 @@
 expression BCEnvironment = "Production" meta [IsParameterQuery=true, Type="Text", List={"Production","Sandbox"}, DefaultValue="Production", IsParameterQueryRequired=true]
 	lineageTag: d9287c40-2786-41a3-8b2e-35a73fd5fb80
-	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
 expression BCCompanyName = "CRONUS USA, Inc." meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 2f8d3471-2444-431c-83b3-4efb927c1ec0
-	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
 expression BCApiVersion = "v2.0" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 6a51e802-3cbe-4b6e-a43f-bb0b09d34f57
-	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
 expression GlobalDimension1Code = "DEPARTMENT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 684d3eae-1d30-45f4-81e5-2702c5ff790a
-	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
 expression GlobalDimension2Code = "PROJECT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 0590ccb1-3022-4791-9677-3b4782032351
-	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
 expression RangeStart = #datetime(2015, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
 	lineageTag: a1243922-1938-4b98-82a4-d174a924b56f
-	queryGroup: Parameters
 	annotation PBI_ResultType = DateTime
 
 expression RangeEnd = #datetime(2026, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
 	lineageTag: 858811bd-75c9-41f7-bc7a-1ab0754e7089
-	queryGroup: Parameters
 	annotation PBI_ResultType = DateTime
 
