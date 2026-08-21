@@ -106,5 +106,4 @@ table Dim_ChartOfAccounts
 				in
 					#"Changed Type"
 
-	annotation PBI_ResultType = Table
 

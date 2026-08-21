@@ -1,9 +1,7 @@
-expression BCEnvironment = "Production" meta [IsParameterQuery=true, List={"Production","Sandbox"}, DefaultValue="Production", IsParameterQueryRequired=true]
+expression BCEnvironment = "Production" meta [IsParameterQuery=true, Type="Text", List={"Production","Sandbox"}, DefaultValue="Production", IsParameterQueryRequired=true]
 	lineageTag: d9287c40-2786-41a3-8b2e-35a73fd5fb80
 	queryGroup: Parameters
 	annotation PBI_ResultType = Text
-
-	annotation PBI_NavigationStepName = Navigation
 
 expression BCCompanyName = "CRONUS USA, Inc." meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 2f8d3471-2444-431c-83b3-4efb927c1ec0

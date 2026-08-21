@@ -395,8 +395,5 @@ table Measures
 		annotation SummarizationSetBy = Automatic
 
 	partition Measures = calculated
-		mode: import
-		source = ```
-				ROW("RowID", 0)
-				```
+		source = ROW("RowID", 0)
 

@@ -6,12 +6,6 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-	annotation PBIDesktopVersion: 2.140.0.0
-
-	annotation PBI_QueryOrder = ["BCEnvironment","BCCompanyName","BCApiVersion","GlobalDimension1Code","GlobalDimension2Code","RangeStart","RangeEnd","Dim_Date","Dim_ChartOfAccounts","Dim_BusinessDimension1","Dim_BusinessDimension2","Dim_Customer","Dim_Vendor","Fact_GLTransactions","Fact_Budget","Fact_CustLedgerEntries","Fact_VendorLedgerEntries"]
-
-	annotation __PBI_TimeIntelligenceEnabled = 1
-
 	ref table Dim_Date
 	ref table Dim_ChartOfAccounts
 	ref table Dim_BusinessDimension1
@@ -31,6 +25,3 @@ model Model
 	ref expression GlobalDimension2Code
 	ref expression RangeStart
 	ref expression RangeEnd
-
-	ref culture en-US
-

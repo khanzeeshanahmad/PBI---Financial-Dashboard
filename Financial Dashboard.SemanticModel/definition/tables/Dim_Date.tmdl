@@ -1,6 +1,5 @@
 table Dim_Date
 	lineageTag: 43f0ec1c-e27f-44c8-977b-80937cb36a38
-	dataCategory: Time
 
 	column Date
 		dataType: dateTime
@@ -143,6 +142,3 @@ table Dim_Date
 					#"Inserted Fiscal Year"
 
 	annotation __PBI_TableCategory = DateTable
-
-	annotation PBI_Id = 43f0ec1c
-
