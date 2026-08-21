@@ -11,24 +11,20 @@
   "publicCustomVisuals": [],
   "resourcePackages": [
     {
-      "resourcePackage": {
-        "disabled": false,
-        "items": [
-          {
-            "name": "CY24SU10",
-            "path": "BaseThemes/CY24SU10.json",
-            "type": 202
-          }
-        ],
-        "name": "SharedResources",
-        "type": 2
-      }
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU10",
+          "path": "BaseThemes/CY24SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
     }
   ],
   "settings": {
     "useNewFilterPaneExperience": true,
     "allowChangeFilterTypes": true,
     "useStylableVisualContainerHeader": true
-  },
-  "filters": []
+  }
 }
