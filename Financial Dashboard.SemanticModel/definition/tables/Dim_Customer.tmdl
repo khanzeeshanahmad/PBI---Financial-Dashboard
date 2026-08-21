@@ -34,9 +34,6 @@ table Dim_Customer
 
 		annotation SummarizationSetBy = Automatic
 
-		// Blank means the customer transacts in the company's local (LCY)
-		// currency.
-
 	column 'Country/Region Code'
 		dataType: string
 		lineageTag: 917a9f73-05f1-44a4-a85b-bc42f0784ff0
@@ -75,9 +72,4 @@ table Dim_Customer
 					)
 				in
 					#"Changed Type"
-
-	// COMPATIBILITY NOTE: the Power BI connector's Navigator exposes this
-	// entity as "Customers" (plural, matching the standard API page) on
-	// current BC SaaS releases; some older exports use "Customer" (singular).
-	// Check the Navigator if this step errors.
 

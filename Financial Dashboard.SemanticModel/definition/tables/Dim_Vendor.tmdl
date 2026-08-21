@@ -65,7 +65,3 @@ table Dim_Vendor
 				in
 					#"Changed Type"
 
-	// COMPATIBILITY NOTE: exposed as "Vendors" (plural) on current BC SaaS
-	// releases; older exports may use "Vendor". Check the Navigator if this
-	// step errors.
-

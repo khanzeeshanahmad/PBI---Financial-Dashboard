@@ -77,10 +77,6 @@ table Fact_CustLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-		// True while the entry still has an outstanding balance. AR aging
-		// measures filter to Open = TRUE so settled invoices drop out of the
-		// buckets even though they remain in history for trend analysis.
-
 	column Amount
 		dataType: double
 		formatString: \$#,0.00;(\$#,0.00)
@@ -100,10 +96,6 @@ table Fact_CustLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
-
-		// Outstanding balance in local currency as of the last refresh --
-		// this is what the AR aging buckets sum, not [Amount] (the original
-		// invoice amount).
 
 	partition Fact_CustLedgerEntries = m
 		mode: import
@@ -132,11 +124,4 @@ table Fact_CustLedgerEntries
 					)
 				in
 					#"Changed Type"
-
-	// COMPATIBILITY NOTE: exposed as "Cust. Ledger Entries" in the Navigator
-	// on current BC SaaS releases (matching the table's internal name,
-	// abbreviated). [Remaining Amount] here is in local currency (LCY); if
-	// this company is multi-currency and you need the original transaction
-	// currency too, add "Remaining Amt. (LCY)" vs "Remaining Amount" and a
-	// currency-rate join against Fact tables' Currency Code.
 

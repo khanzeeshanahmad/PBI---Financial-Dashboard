@@ -97,9 +97,6 @@ table Fact_VendorLedgerEntries
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-		// Outstanding balance owed to the vendor in local currency, as of
-		// the last refresh. AP aging buckets sum this column.
-
 	partition Fact_VendorLedgerEntries = m
 		mode: import
 		source =
@@ -127,7 +124,4 @@ table Fact_VendorLedgerEntries
 					)
 				in
 					#"Changed Type"
-
-	// COMPATIBILITY NOTE: exposed as "Vendor Ledger Entries" in the
-	// Navigator (this one is not abbreviated, unlike Cust. Ledger Entries).
 

@@ -1,9 +1,6 @@
 table Dim_BusinessDimension2
 	lineageTag: b3b849f2-e60b-4388-89fc-c834803434c9
 
-	// Global Dimension 2 values (Project / Cost Center, by default -- see the
-	// GlobalDimension2Code parameter).
-
 	column Code
 		dataType: string
 		isKey

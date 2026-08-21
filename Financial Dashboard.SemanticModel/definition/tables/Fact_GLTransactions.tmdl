@@ -106,12 +106,6 @@ table Fact_GLTransactions
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-		// Signed net amount in the company's local currency (Debit Amount -
-		// Credit Amount), exactly as posted by BC. All P&L / Balance Sheet
-		// measures are built from this column; see the data dictionary for
-		// the sign convention (credit-normal accounts are negated in DAX, not
-		// here, so this column always matches BC's own G/L Entry list).
-
 	column 'User ID'
 		dataType: string
 		lineageTag: 8ddcb7e5-0fd1-46e9-91b1-dee1d72646de
@@ -154,17 +148,4 @@ table Fact_GLTransactions
 					)
 				in
 					#"Filtered Rows"
-
-	// COMPATIBILITY NOTE: the connector Navigator exposes this entity as
-	// "G/L Entries" on current BC SaaS releases; older documentation calls it
-	// "General Ledger Entries" or the underlying table name "G/L Entry"
-	// (singular). Confirm the exact label in your Navigator and adjust the
-	// literal above if it differs.
-	//
-	// INCREMENTAL REFRESH: this query already filters on RangeStart/RangeEnd.
-	// After first publish, enable incremental refresh on this table from
-	// Desktop (right-click > Incremental refresh) -- suggested policy:
-	// store 5 years, incrementally refresh 1 month, detect data changes off
-	// (BC does not expose a last-modified watermark on G/L Entry), since
-	// posted G/L entries are immutable once posted.
 

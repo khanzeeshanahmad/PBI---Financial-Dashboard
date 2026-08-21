@@ -5,48 +5,25 @@ expression BCEnvironment = "Production" meta [IsParameterQuery=true, List={"Prod
 
 	annotation PBI_NavigationStepName = Navigation
 
-// Name of the Business Central environment to connect to (as it appears in the
-// BC admin center), e.g. "Production" or "Sandbox". Change this and refresh the
-// Navigator selections to point the whole model at a different environment.
-
 expression BCCompanyName = "CRONUS USA, Inc." meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 2f8d3471-2444-431c-83b3-4efb927c1ec0
 	queryGroup: Parameters
 	annotation PBI_ResultType = Text
-
-// Display name of the Business Central company (legal entity) to pull data
-// from, exactly as it appears in the connector's Company navigation node.
 
 expression BCApiVersion = "v2.0" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 6a51e802-3cbe-4b6e-a43f-bb0b09d34f57
 	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
-// Documents which Business Central API/connector version this project was
-// authored against. Table and field names exposed by BusinessCentral.Contents()
-// can shift across BC releases -- see README "BC version compatibility".
-
 expression GlobalDimension1Code = "DEPARTMENT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 684d3eae-1d30-45f4-81e5-2702c5ff790a
 	queryGroup: Parameters
 	annotation PBI_ResultType = Text
 
-// Dimension Code (from BC's Dimension table) mapped to this company's Global
-// Dimension 1 -- typically "DEPARTMENT". Confirm under Company Information
-// > Global Dimension 1 Code; change here if this company uses a different
-// dimension in that slot.
-
 expression GlobalDimension2Code = "PROJECT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 0590ccb1-3022-4791-9677-3b4782032351
 	queryGroup: Parameters
 	annotation PBI_ResultType = Text
-
-// Dimension Code mapped to Global Dimension 2 -- typically "PROJECT" or
-// "COSTCENTER" depending on company setup. Global Dimensions 1 and 2 are the
-// only two dimensions flattened directly onto G/L Entry / Cust. Ledger Entry
-// / Vendor Ledger Entry rows by BC; any additional dimensions the company
-// uses (e.g. a third or fourth) live only in Dimension Set Entry and would
-// need their own fact-table merge if required.
 
 expression RangeStart = #datetime(2015, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
 	lineageTag: a1243922-1938-4b98-82a4-d174a924b56f
@@ -57,11 +34,4 @@ expression RangeEnd = #datetime(2026, 1, 1, 0, 0, 0) meta [IsParameterQuery=true
 	lineageTag: 858811bd-75c9-41f7-bc7a-1ab0754e7089
 	queryGroup: Parameters
 	annotation PBI_ResultType = DateTime
-
-// RangeStart / RangeEnd are the reserved parameter names Power BI Desktop's
-// incremental refresh feature requires. Fact_GLTransactions and Fact_Budget
-// already filter on these in their M queries -- after publishing, finish
-// enabling incremental refresh from Desktop via Table > Incremental refresh
-// (right-click the table) so the service materializes the historical /
-// incremental partition policy. See README > "Incremental refresh".
 

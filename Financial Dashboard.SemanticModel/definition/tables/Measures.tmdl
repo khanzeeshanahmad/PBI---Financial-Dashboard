@@ -1,11 +1,6 @@
 table Measures
 	lineageTag: 88df298c-abfb-40d6-bbac-9091461943cf
 
-	// Measure-only table (no real columns) used purely to organize DAX
-	// measures away from the fact tables they reference, per star-schema
-	// best practice. Hidden RowID column exists only because every table
-	// needs at least one column.
-
 	measure Revenue = ```
 			CALCULATE(
 			    -SUM(Fact_GLTransactions[Amount]),
@@ -15,9 +10,6 @@ table Measures
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: 6228a351-c6df-43f1-9460-5c85b2ce5765
 		displayFolder: P&L
-
-		// Income accounts are credit-normal in BC (Amount posts negative), so
-		// this negates the raw sum to report Revenue as a positive number.
 
 	measure COGS = ```
 			CALCULATE(
@@ -59,12 +51,6 @@ table Measures
 		lineageTag: 8d3ab916-f4d5-448a-8cbd-c1bbd45a5c9a
 		displayFolder: P&L
 
-		// BC's standard Account Category enum has exactly six values (Assets,
-		// Liabilities, Equity, Income, Cost of Goods Sold, Expense) with no
-		// separate "other income/expense" bucket, so Revenue - COGS -
-		// Operating Expenses is the full income statement -- no residual
-		// category is being dropped here.
-
 	measure 'Total Assets' = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
@@ -100,11 +86,6 @@ table Measures
 		lineageTag: 026a8387-f933-498b-ad59-3531bf1dafab
 		displayFolder: Balance Sheet
 
-		// Validation measure -- should always evaluate to (near) zero. A
-		// non-zero value at a given filter context usually means Net Income
-		// for the year has not yet been rolled into Retained Earnings /
-		// Equity for that period, which is expected before year-end close.
-
 	measure 'Cash and Bank' = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
@@ -126,17 +107,6 @@ table Measures
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: 154696c0-564c-49b6-875a-45de1498ff44
 		displayFolder: Cash
-
-		// A true current-assets-minus-current-liabilities figure needs BC
-		// accounts flagged Current vs. Non-current, which the standard
-		// Account Category/Subcategory fields don't carry. This measure nets
-		// ALL assets against ALL liabilities as a directional proxy; build a
-		// current/non-current mapping table and refine this measure if the
-		// business needs a precise working-capital figure.
-
-	// ---------------------------------------------------------------
-	// Time intelligence -- Revenue
-	// ---------------------------------------------------------------
 
 	measure 'Revenue YTD' = TOTALYTD([Revenue], Dim_Date[Date])
 		formatString: \$#,0.00;(\$#,0.00)
@@ -168,10 +138,6 @@ table Measures
 		lineageTag: 79edad55-a3d5-4080-911c-c870015f0a4b
 		displayFolder: Time Intelligence\Revenue
 
-	// ---------------------------------------------------------------
-	// Time intelligence -- Net Income
-	// ---------------------------------------------------------------
-
 	measure 'Net Income YTD' = TOTALYTD([Net Income], Dim_Date[Date])
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: 15d619a8-2485-480f-8686-adf97717829d
@@ -201,13 +167,6 @@ table Measures
 		formatString: 0.0%;-0.0%
 		lineageTag: e4d55690-2be7-4c68-9cdc-43fb085cfcbd
 		displayFolder: Time Intelligence\Net Income
-
-	// ---------------------------------------------------------------
-	// Time intelligence -- Gross Profit, Operating Expenses, Operating
-	// Income, COGS (YTD + prior-year comparison; apply the same
-	// TOTALQTD / TOTALMTD pattern shown above for Revenue / Net Income
-	// if quarter/month cuts of these are also needed)
-	// ---------------------------------------------------------------
 
 	measure 'Gross Profit YTD' = TOTALYTD([Gross Profit], Dim_Date[Date])
 		formatString: \$#,0.00;(\$#,0.00)
@@ -264,10 +223,6 @@ table Measures
 		lineageTag: f1dfea70-dfe8-480d-9180-b0c77ba25a29
 		displayFolder: Time Intelligence\Gross Profit
 
-	// ---------------------------------------------------------------
-	// Budget vs. Actual
-	// ---------------------------------------------------------------
-
 	measure 'Actual Amount (IS)' = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
@@ -277,10 +232,6 @@ table Measures
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: ad9e0c88-858f-4b21-bda5-25808876e378
 		displayFolder: Budget vs Actual
-
-		// Kept in BC's native (unflipped) sign convention -- same convention
-		// as [Budget Amount] below -- so Actual and Budget compare like for
-		// like without a separate sign-flip step.
 
 	measure 'Budget Amount' = SUM(Fact_Budget[Amount])
 		formatString: \$#,0.00;(\$#,0.00)
@@ -296,10 +247,6 @@ table Measures
 		formatString: 0.0%;-0.0%
 		lineageTag: a0af4751-0f50-4971-84cb-33e202f834b1
 		displayFolder: Budget vs Actual
-
-	// ---------------------------------------------------------------
-	// AR Aging
-	// ---------------------------------------------------------------
 
 	measure 'Total AR Outstanding' = ```
 			CALCULATE(
@@ -368,10 +315,6 @@ table Measures
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: f91e3045-4e22-465b-a01e-9cda5fda97f8
 		displayFolder: AR Aging
-
-	// ---------------------------------------------------------------
-	// AP Aging
-	// ---------------------------------------------------------------
 
 	measure 'Total AP Outstanding' = ```
 			CALCULATE(
