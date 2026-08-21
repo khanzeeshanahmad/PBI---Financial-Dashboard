@@ -2,23 +2,3 @@ model Model
 	culture: en-US
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-US
-
-	ref table Dim_Date
-	ref table Dim_ChartOfAccounts
-	ref table Dim_BusinessDimension1
-	ref table Dim_BusinessDimension2
-	ref table Dim_Customer
-	ref table Dim_Vendor
-	ref table Fact_GLTransactions
-	ref table Fact_Budget
-	ref table Fact_CustLedgerEntries
-	ref table Fact_VendorLedgerEntries
-	ref table Measures
-
-	ref expression BCEnvironment
-	ref expression BCCompanyName
-	ref expression BCApiVersion
-	ref expression GlobalDimension1Code
-	ref expression GlobalDimension2Code
-	ref expression RangeStart
-	ref expression RangeEnd
