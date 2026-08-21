@@ -29,5 +29,6 @@
     "useNewFilterPaneExperience": true,
     "allowChangeFilterTypes": true,
     "useStylableVisualContainerHeader": true
-  }
+  },
+  "filters": []
 }

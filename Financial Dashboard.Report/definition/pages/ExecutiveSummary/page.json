@@ -9,9 +9,20 @@
     "background": [
       {
         "properties": {
-          "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#FFFFFF'" } } } } }
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#FFFFFF'"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     ]
-  }
+  },
+  "filters": []
 }

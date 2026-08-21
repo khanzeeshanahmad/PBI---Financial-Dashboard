@@ -4,5 +4,6 @@
   "displayName": "Budget vs Actual",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280
+  "width": 1280,
+  "filters": []
 }
