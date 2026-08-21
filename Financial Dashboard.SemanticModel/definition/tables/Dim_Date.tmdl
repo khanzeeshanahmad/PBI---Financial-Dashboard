@@ -121,7 +121,7 @@ table Dim_Date
 		source =
 				let
 					StartDate = #date(2015, 1, 1),
-					EndDate = Date.EndOfYear(DateTime.LocalNow()),
+					EndDate = Date.EndOfYear(DateTime.Date(DateTime.LocalNow())),
 					DayCount = Duration.Days(EndDate - StartDate) + 1,
 					Dates = List.Dates(StartDate, DayCount, #duration(1, 0, 0, 0)),
 					#"Converted to Table" = Table.FromList(Dates, Splitter.SplitByNothing(), {"Date"}),
