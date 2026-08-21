@@ -23,11 +23,11 @@
                       "Entity": "Dim_ChartOfAccounts"
                     }
                   },
-                  "Property": "Account Category"
+                  "Property": "Account_Category"
                 }
               },
-              "queryRef": "Dim_ChartOfAccounts.Account Category",
-              "nativeQueryRef": "Account Category"
+              "queryRef": "Dim_ChartOfAccounts.Account_Category",
+              "nativeQueryRef": "Account_Category"
             },
             {
               "field": {

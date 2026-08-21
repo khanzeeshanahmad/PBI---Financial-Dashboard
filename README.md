@@ -108,7 +108,7 @@ the `DEMO` / `Cronus - QMM` tenant this was built against:
 
 **Confidence levels, plainly:** the `WebServices` entity names and the
 `Advanced` path were confirmed against a real tenant listing. `Dim_Customer`
-and `Dim_Vendor` were trimmed to only `No.`/`Name`/`Currency Code` (from
+and `Dim_Vendor` were trimmed to only `No`/`Name`/`Currency_Code` (from
 `number`/`displayName`/`currencyCode`) because those are the fields with the
 highest confidence on the standard `v2.0` API — if your tenant's `customers`/
 `vendors` entity also exposes posting group, salesperson, or country/region
@@ -175,7 +175,7 @@ after first publish:
 - **More dimensions**: BC only flattens Global Dimensions 1–2 onto ledger
   entries directly; a 3rd/4th dimension needs a merge against `Dimension Set
   Entry` filtered to the relevant `Dimension Set ID`s.
-- **Multi-currency**: `Remaining Amount` on the AR/AP fact tables is LCY;
+- **Multi-currency**: `Remaining_Amount` on the AR/AP fact tables is LCY;
   add `Remaining Amt. (LCY)` vs. transaction-currency columns and a
   `Currency Exchange Rate` dimension if original-currency reporting is
   needed.

@@ -23,11 +23,11 @@
                       "Entity": "Fact_GLTransactions"
                     }
                   },
-                  "Property": "Posting Date"
+                  "Property": "Posting_Date"
                 }
               },
-              "queryRef": "Fact_GLTransactions.Posting Date",
-              "nativeQueryRef": "Posting Date"
+              "queryRef": "Fact_GLTransactions.Posting_Date",
+              "nativeQueryRef": "Posting_Date"
             },
             {
               "field": {
@@ -37,11 +37,11 @@
                       "Entity": "Fact_GLTransactions"
                     }
                   },
-                  "Property": "Document No."
+                  "Property": "Document_No"
                 }
               },
-              "queryRef": "Fact_GLTransactions.Document No.",
-              "nativeQueryRef": "Document No."
+              "queryRef": "Fact_GLTransactions.Document_No",
+              "nativeQueryRef": "Document_No"
             },
             {
               "field": {
@@ -51,11 +51,11 @@
                       "Entity": "Dim_ChartOfAccounts"
                     }
                   },
-                  "Property": "No."
+                  "Property": "No"
                 }
               },
-              "queryRef": "Dim_ChartOfAccounts.No.",
-              "nativeQueryRef": "No."
+              "queryRef": "Dim_ChartOfAccounts.No",
+              "nativeQueryRef": "No"
             },
             {
               "field": {
@@ -93,11 +93,11 @@
                       "Entity": "Fact_GLTransactions"
                     }
                   },
-                  "Property": "Debit Amount"
+                  "Property": "Debit_Amount"
                 }
               },
-              "queryRef": "Fact_GLTransactions.Debit Amount",
-              "nativeQueryRef": "Debit Amount"
+              "queryRef": "Fact_GLTransactions.Debit_Amount",
+              "nativeQueryRef": "Debit_Amount"
             },
             {
               "field": {
@@ -107,11 +107,11 @@
                       "Entity": "Fact_GLTransactions"
                     }
                   },
-                  "Property": "Credit Amount"
+                  "Property": "Credit_Amount"
                 }
               },
-              "queryRef": "Fact_GLTransactions.Credit Amount",
-              "nativeQueryRef": "Credit Amount"
+              "queryRef": "Fact_GLTransactions.Credit_Amount",
+              "nativeQueryRef": "Credit_Amount"
             },
             {
               "field": {

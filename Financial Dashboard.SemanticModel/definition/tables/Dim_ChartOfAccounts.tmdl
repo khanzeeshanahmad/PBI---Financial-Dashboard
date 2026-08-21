@@ -1,7 +1,7 @@
 table Dim_ChartOfAccounts
 	lineageTag: e371108a-7aa1-4d20-b307-6ee29ec2966a
 
-	column 'No.'
+	column No
 		dataType: string
 		isKey
 		lineageTag: 8459479c-9110-4fbc-83a3-359447d8220d
@@ -18,7 +18,7 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Account Type'
+	column Account_Type
 		dataType: string
 		lineageTag: 1c106bc1-807a-4e7b-8230-419dcd841908
 		summarizeBy: none
@@ -26,7 +26,7 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Income/Balance'
+	column Income_Balance
 		dataType: string
 		lineageTag: 833cb63d-91b9-4b81-ba58-22cb900c6915
 		summarizeBy: none
@@ -34,7 +34,7 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Debit/Credit'
+	column Debit_Credit
 		dataType: string
 		lineageTag: 42c3d997-5bf5-4ceb-a31a-5c9acda5d5c2
 		summarizeBy: none
@@ -42,7 +42,7 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Account Category'
+	column Account_Category
 		dataType: string
 		lineageTag: 53b8f81f-a1cb-4ea6-92f9-9e492278433d
 		summarizeBy: none
@@ -50,7 +50,7 @@ table Dim_ChartOfAccounts
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Account Subcategory'
+	column Account_Subcategory
 		dataType: string
 		lineageTag: 4804603b-0897-419f-9e6c-381c3bca4b17
 		summarizeBy: none

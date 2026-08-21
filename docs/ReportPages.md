@@ -16,18 +16,18 @@ Recommended additions:
   "trend line" formatting option (Format pane → Callout value → enable trend
   axis using Dim_Date[Date]).
 
-## 2. P&L Statement — seeded: table (Account Category → Name → Actual Amount
+## 2. P&L Statement — seeded: table (Account_Category → Name → Actual Amount
 (IS)), Year slicer, Month slicer.
 Recommended additions:
 - Add `Operating Expenses`, `Gross Profit`, `Net Income` as extra table
   columns or as a small multiples matrix by MonthShort for a MoM view.
-- Drill-down: set the table's row hierarchy to Account Category → Name (already
+- Drill-down: set the table's row hierarchy to Account_Category → Name (already
   two levels) and enable "Show next level" / drill icons in the visual header.
 - Add a bookmark-driven toggle (two identical tables, one filtered to
   MonthShort = selected month for MoM, one to Year for YoY) if a literal
   toggle button is wanted instead of just filtering via slicers.
 
-## 3. Balance Sheet — seeded: table (Account Category → Subcategory → Name,
+## 3. Balance Sheet — seeded: table (Account_Category → Subcategory → Name,
 Assets/Liabilities/Equity totals).
 Recommended additions:
 - A waterfall or 100% stacked bar of Total Assets vs (Liabilities + Equity)
@@ -36,7 +36,7 @@ Recommended additions:
 ## 4. Budget vs Actual — seeded: clustered column (Actual vs Budget by
 department), variance table by account.
 Recommended additions:
-- Add a Year/Budget Name slicer (`Fact_Budget[Budget Name]`) if more than one
+- Add a Year/Budget Name slicer (`Fact_Budget[Budget_Name]`) if more than one
   named budget/forecast exists.
 - Conditional formatting (data bars or color scale) on `Budget Variance %` in
   the variance table.
@@ -47,16 +47,16 @@ Recommended additions:
   of each; duplicating the pattern for the other side takes minutes).
 - Add a "Total AR Outstanding" / "Total AP Outstanding" card pair at the top.
 - Drill-through: right-click a customer/vendor bar → "Drillthrough" → send to
-  Transaction Detail, after adding Customer No./Vendor No. as a drillthrough
+  Transaction Detail, after adding Customer_No/Vendor_No as a drillthrough
   filter field on that page (Format pane → Drillthrough).
 
 ## 6. Transaction Detail — seeded: full G/L entry table, Year slicer.
 Recommended additions:
 - Mark this page as a **drillthrough target**: Format pane → Drillthrough →
-  add `Dim_ChartOfAccounts[No.]`, `Dim_Customer[No.]`, `Dim_Vendor[No.]` as
+  add `Dim_ChartOfAccounts[No]`, `Dim_Customer[No]`, `Dim_Vendor[No]` as
   drillthrough fields as needed, matching what each summary page should pass
   through.
-- Add a search/filter box (slicer with search) on `Document No.` or
+- Add a search/filter box (slicer with search) on `Document_No` or
   `Description` for ad-hoc lookups.
 
 ## Why these are left for Desktop rather than hand-authored

@@ -1,7 +1,7 @@
 table Dim_Vendor
 	lineageTag: 63dab294-269a-42bf-b926-9f453d152cdc
 
-	column 'No.'
+	column No
 		dataType: string
 		isKey
 		lineageTag: 1402b169-8720-4e4e-bfdf-75ac296b0e86
@@ -18,7 +18,7 @@ table Dim_Vendor
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Currency Code'
+	column Currency_Code
 		dataType: string
 		lineageTag: 39890fc2-d4da-4755-938f-0ef63ae2a169
 		summarizeBy: none

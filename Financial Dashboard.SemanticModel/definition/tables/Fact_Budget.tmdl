@@ -1,7 +1,7 @@
 table Fact_Budget
 	lineageTag: c84b14d3-67a5-4d76-b276-7946767ed1c0
 
-	column 'Entry No.'
+	column Entry_No
 		dataType: int64
 		isKey
 		formatString: 0
@@ -11,7 +11,7 @@ table Fact_Budget
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Budget Name'
+	column Budget_Name
 		dataType: string
 		lineageTag: eee37910-6b68-4a8f-b3f2-a626aeb20566
 		summarizeBy: none
@@ -19,7 +19,7 @@ table Fact_Budget
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'G/L Account No.'
+	column G_L_Account_No
 		dataType: string
 		lineageTag: 59048cd6-25b6-4812-a4f1-fab6ea5e346f
 		summarizeBy: none
@@ -36,7 +36,7 @@ table Fact_Budget
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Global Dimension 1 Code'
+	column Global_Dimension_1_Code
 		dataType: string
 		lineageTag: 1cfdaf2e-59e5-4f43-8fa5-8cb32fcbe0e2
 		summarizeBy: none
@@ -44,7 +44,7 @@ table Fact_Budget
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Global Dimension 2 Code'
+	column Global_Dimension_2_Code
 		dataType: string
 		lineageTag: 5531b222-633d-4f97-ab6d-2876e721aa77
 		summarizeBy: none

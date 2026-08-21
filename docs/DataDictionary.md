@@ -6,6 +6,15 @@ connector (`Dynamics365BusinessCentral.ApiContentsWithOptions`), parameterized
 by environment and company — see `Parameters` below and the README for how to
 point this at a different environment/company.
 
+Column naming: every model-facing column name is sanitized from BC's native
+field name — a trailing `.` is dropped and spaces/`/` become `_` (e.g. BC's
+`G/L Account No.` is exposed in the model as `G_L_Account_No`). This avoids
+Power Query M's bracket field-access syntax breaking on names with a literal
+trailing period. The `BC source field` column below always shows BC's
+original, unsanitized name; `sourceColumn` in the TMDL still points at that
+original name since Power Query itself never renames these fields — only the
+model-level column name changes.
+
 Sign convention used throughout: G/L entries in Business Central post with
 their natural debit/credit sign (credit-normal accounts — Income, Liabilities,
 Equity — carry a negative `Amount`). Columns always keep BC's native sign so
@@ -63,13 +72,13 @@ underscores).
 
 | Column | Type | BC source field | Notes |
 |---|---|---|---|
-| No. | string | `No.` | Key. |
+| No | string | `No.` | Key. |
 | Name | string | `Name` | |
-| Account Type | string | `Account Type` | Posting / Total / Begin-Total / End-Total / Heading. Filter to `Posting` for transactional rollups. |
-| Income/Balance | string | `Income/Balance` | "Income Statement" or "Balance Sheet" — drives P&L vs. BS page filters. |
-| Debit/Credit | string | `Debit/Credit` | |
-| Account Category | string | `Account Category` | Assets / Liabilities / Equity / Income / Cost of Goods Sold / Expense. Drives Revenue/COGS/OpEx measures directly. |
-| Account Subcategory | string | `Account Subcategory Descript.` | |
+| Account_Type | string | `Account Type` | Posting / Total / Begin-Total / End-Total / Heading. Filter to `Posting` for transactional rollups. |
+| Income_Balance | string | `Income/Balance` | "Income Statement" or "Balance Sheet" — drives P&L vs. BS page filters. |
+| Debit_Credit | string | `Debit/Credit` | |
+| Account_Category | string | `Account Category` | Assets / Liabilities / Equity / Income / Cost of Goods Sold / Expense. Drives Revenue/COGS/OpEx measures directly. |
+| Account_Subcategory | string | `Account Subcategory Descript.` | |
 | Totaling | string | `Totaling` | |
 | Indentation | int64 | `Indentation` | Preserves BC's COA hierarchy display order. |
 
@@ -86,7 +95,7 @@ company actually tracks (e.g. `Dim_Department`, `Dim_Project`).
 |---|---|---|
 | Code | string | Key (from `dimensionValues.code`). Includes a synthetic blank-code row ("(No Department)" / "(No Customer Group)") so unassigned G/L entries still join cleanly. |
 | Name | string | From `dimensionValues.displayName`. |
-| Dimension Code | string | Hidden; set to the `GlobalDimension1Code`/`GlobalDimension2Code` parameter value (every row in this table already belongs to that one dimension). |
+| Dimension_Code | string | Hidden; set to the `GlobalDimension1Code`/`GlobalDimension2Code` parameter value (every row in this table already belongs to that one dimension). |
 
 Global Dimensions 1 and 2 are the only two dimensions BC flattens directly
 onto G/L Entry / Cust. Ledger Entry / Vendor Ledger Entry rows. A third or
@@ -109,7 +118,7 @@ tables use.
 (`Advanced → microsoft/analytics/v1.0 → accountCategories`) was confirmed
 against a real Navigator, but its column schema wasn't — check Power Query
 Editor after first refresh and correct the three columns above to match, then
-add a relationship to `Dim_ChartOfAccounts[Account Category]` on whichever
+add a relationship to `Dim_ChartOfAccounts[Account_Category]` on whichever
 column turns out to be the real join key. Not yet wired into any measure or
 relationship pending that verification.
 
@@ -119,9 +128,9 @@ API — not a web service).
 
 | Column | Type | BC source field |
 |---|---|---|
-| No. | string | `number` (key) |
+| No | string | `number` (key) |
 | Name | string | `displayName` |
-| Currency Code | string | `currencyCode` (blank = local currency) |
+| Currency_Code | string | `currencyCode` (blank = local currency) |
 
 Trimmed to the three fields with the highest confidence on this entity. If
 your tenant's `customers` entity also exposes posting group, salesperson, or
@@ -133,9 +142,9 @@ Source: `v2.0` folder, entity `vendors`.
 
 | Column | Type | BC source field |
 |---|---|---|
-| No. | string | `number` (key) |
+| No | string | `number` (key) |
 | Name | string | `displayName` |
-| Currency Code | string | `currencyCode` |
+| Currency_Code | string | `currencyCode` |
 
 ---
 
@@ -149,19 +158,19 @@ space-separated names). Grain: one row per G/L Entry No. Filtered on
 
 | Column | Type | BC source field | Notes |
 |---|---|---|---|
-| Entry No. | int64 | `Entry No.` | Key. |
-| G/L Account No. | string | `G/L Account No.` | → Dim_ChartOfAccounts. |
-| Posting Date | dateTime | `Posting Date` | → Dim_Date. |
-| Document No. | string | `Document No.` | |
-| Document Type | string | `Document Type` | |
+| Entry_No | int64 | `Entry No.` | Key. |
+| G_L_Account_No | string | `G/L Account No.` | → Dim_ChartOfAccounts. |
+| Posting_Date | dateTime | `Posting Date` | → Dim_Date. |
+| Document_No | string | `Document No.` | |
+| Document_Type | string | `Document Type` | |
 | Description | string | `Description` | |
-| Source Code | string | `Source Code` | Which BC journal/process posted the entry. |
-| Global Dimension 1 Code | string | `Global Dimension 1 Code` | → Dim_BusinessDimension1. |
-| Global Dimension 2 Code | string | `Global Dimension 2 Code` | → Dim_BusinessDimension2. |
-| Debit Amount | double | `Debit Amount` | |
-| Credit Amount | double | `Credit Amount` | |
+| Source_Code | string | `Source Code` | Which BC journal/process posted the entry. |
+| Global_Dimension_1_Code | string | `Global Dimension 1 Code` | → Dim_BusinessDimension1. |
+| Global_Dimension_2_Code | string | `Global Dimension 2 Code` | → Dim_BusinessDimension2. |
+| Debit_Amount | double | `Debit Amount` | |
+| Credit_Amount | double | `Credit Amount` | |
 | Amount | double | `Amount` | Signed net (Debit − Credit); the column all P&L/BS measures sum. |
-| User ID | string | `User ID` | Hidden. |
+| User_ID | string | `User ID` | Hidden. |
 
 ### Fact_Budget
 Source: `WebServices` folder, entity `G_LBudgetEntries`. Grain: one row per
@@ -169,11 +178,11 @@ budget entry.
 
 | Column | Type | BC source field |
 |---|---|---|
-| Entry No. | int64 | `Entry No.` (key) |
-| Budget Name | string | `Budget Name` — a company may keep several named budgets/forecasts here |
-| G/L Account No. | string | `G/L Account No.` → Dim_ChartOfAccounts |
+| Entry_No | int64 | `Entry No.` (key) |
+| Budget_Name | string | `Budget Name` — a company may keep several named budgets/forecasts here |
+| G_L_Account_No | string | `G/L Account No.` → Dim_ChartOfAccounts |
 | Date | dateTime | `Date` → Dim_Date |
-| Global Dimension 1/2 Code | string | → Dim_BusinessDimension1/2 |
+| Global_Dimension_1_Code / Global_Dimension_2_Code | string | → Dim_BusinessDimension1 / Dim_BusinessDimension2 |
 | Amount | double | `Amount`, same sign convention as Fact_GLTransactions |
 
 ### Fact_CustLedgerEntries (AR)
@@ -181,20 +190,20 @@ Source: `WebServices` folder, entity `Cust_LedgerEntries`.
 
 | Column | Type | BC source field | Notes |
 |---|---|---|---|
-| Entry No. | int64 | `Entry No.` | Key. |
-| Customer No. | string | `Customer No.` | → Dim_Customer. |
-| Posting Date | dateTime | `Posting Date` | → Dim_Date. |
-| Due Date | dateTime | `Due Date` | Aging buckets key off this vs. today. |
-| Document Type / No. | string | | |
+| Entry_No | int64 | `Entry No.` | Key. |
+| Customer_No | string | `Customer No.` | → Dim_Customer. |
+| Posting_Date | dateTime | `Posting Date` | → Dim_Date. |
+| Due_Date | dateTime | `Due Date` | Aging buckets key off this vs. today. |
+| Document_Type / Document_No | string | | |
 | Description | string | | |
-| Currency Code | string | | |
+| Currency_Code | string | | |
 | Open | boolean | `Open` | TRUE while a balance remains outstanding; aging measures filter to `Open = TRUE`. |
 | Amount | double | Original invoice/transaction amount (LCY). |
-| Remaining Amount | double | Outstanding balance (LCY) as of last refresh — what the aging buckets sum. |
+| Remaining_Amount | double | Outstanding balance (LCY) as of last refresh — what the aging buckets sum. |
 
 ### Fact_VendorLedgerEntries (AP)
 Source: `WebServices` folder, entity `VendorLedgerEntries`. Same shape as
-Fact_CustLedgerEntries, keyed by Vendor No. instead of Customer No.
+Fact_CustLedgerEntries, keyed by Vendor_No instead of Customer_No.
 
 ---
 
@@ -202,17 +211,18 @@ Fact_CustLedgerEntries, keyed by Vendor No. instead of Customer No.
 
 | From (many) | To (one) |
 |---|---|
-| Fact_GLTransactions[Posting Date] | Dim_Date[Date] |
-| Fact_GLTransactions[G/L Account No.] | Dim_ChartOfAccounts[No.] |
-| Fact_GLTransactions[Global Dimension 1 Code] | Dim_BusinessDimension1[Code] |
-| Fact_GLTransactions[Global Dimension 2 Code] | Dim_BusinessDimension2[Code] |
+| Fact_GLTransactions[Posting_Date] | Dim_Date[Date] |
+| Fact_GLTransactions[G_L_Account_No] | Dim_ChartOfAccounts[No] |
+| Fact_GLTransactions[Global_Dimension_1_Code] | Dim_BusinessDimension1[Code] |
+| Fact_GLTransactions[Global_Dimension_2_Code] | Dim_BusinessDimension2[Code] |
 | Fact_Budget[Date] | Dim_Date[Date] |
-| Fact_Budget[G/L Account No.] | Dim_ChartOfAccounts[No.] |
-| Fact_Budget[Global Dimension 1/2 Code] | Dim_BusinessDimension1/2[Code] |
-| Fact_CustLedgerEntries[Customer No.] | Dim_Customer[No.] |
-| Fact_CustLedgerEntries[Posting Date] | Dim_Date[Date] |
-| Fact_VendorLedgerEntries[Vendor No.] | Dim_Vendor[No.] |
-| Fact_VendorLedgerEntries[Posting Date] | Dim_Date[Date] |
+| Fact_Budget[G_L_Account_No] | Dim_ChartOfAccounts[No] |
+| Fact_Budget[Global_Dimension_1_Code] | Dim_BusinessDimension1[Code] |
+| Fact_Budget[Global_Dimension_2_Code] | Dim_BusinessDimension2[Code] |
+| Fact_CustLedgerEntries[Customer_No] | Dim_Customer[No] |
+| Fact_CustLedgerEntries[Posting_Date] | Dim_Date[Date] |
+| Fact_VendorLedgerEntries[Vendor_No] | Dim_Vendor[No] |
+| Fact_VendorLedgerEntries[Posting_Date] | Dim_Date[Date] |
 
 No bidirectional relationships are used; each fact table has exactly one
 active path to Dim_Date, so there is no ambiguity to resolve with a
@@ -231,26 +241,26 @@ Date table — standard `TOTALYTD` / `TOTALQTD` / `TOTALMTD` /
 **P&L**
 | Measure | DAX (summary) |
 |---|---|
-| Revenue | `-SUM(Amount)` where Account Category = "Income" |
-| COGS | `SUM(Amount)` where Account Category = "Cost of Goods Sold" |
+| Revenue | `-SUM(Amount)` where Account_Category = "Income" |
+| COGS | `SUM(Amount)` where Account_Category = "Cost of Goods Sold" |
 | Gross Profit | `Revenue − COGS` |
 | Gross Margin % | `DIVIDE(Gross Profit, Revenue)` |
-| Operating Expenses | `SUM(Amount)` where Account Category = "Expense" |
+| Operating Expenses | `SUM(Amount)` where Account_Category = "Expense" |
 | Operating Income | `Gross Profit − Operating Expenses` |
 | Net Income | `Revenue − COGS − Operating Expenses` |
 
 **Balance Sheet**
 | Measure | DAX (summary) |
 |---|---|
-| Total Assets | `SUM(Amount)` where Account Category = "Assets" |
-| Total Liabilities | `-SUM(Amount)` where Account Category = "Liabilities" |
-| Total Equity | `-SUM(Amount)` where Account Category = "Equity" |
+| Total Assets | `SUM(Amount)` where Account_Category = "Assets" |
+| Total Liabilities | `-SUM(Amount)` where Account_Category = "Liabilities" |
+| Total Equity | `-SUM(Amount)` where Account_Category = "Equity" |
 | Balance Sheet Check | `Total Assets − Total Liabilities − Total Equity` (validation; non-zero before year-end close is expected — see the measure's comment) |
 
 **Cash**
 | Measure | Notes |
 |---|---|
-| Cash and Bank | Sums Amount for Assets whose Account Subcategory contains "Cash" or "Bank" |
+| Cash and Bank | Sums Amount for Assets whose Account_Subcategory contains "Cash" or "Bank" |
 | Working Capital (Simplified) | `Total Assets − Total Liabilities`; a directional proxy only — see the measure's comment for why a true current/non-current split needs an added account mapping |
 
 **Time intelligence** — full YTD/QTD/MTD/PY/YoY set for Revenue and Net
@@ -262,13 +272,13 @@ directly to any other base measure not already wrapped.
 **Budget vs Actual**
 | Measure | DAX (summary) |
 |---|---|
-| Actual Amount (IS) | `SUM(Amount)` where Income/Balance = "Income Statement" (native BC sign, not flipped, to match Budget Amount's convention) |
+| Actual Amount (IS) | `SUM(Amount)` where Income_Balance = "Income Statement" (native BC sign, not flipped, to match Budget Amount's convention) |
 | Budget Amount | `SUM(Fact_Budget[Amount])` |
 | Budget Variance | `Actual Amount (IS) − Budget Amount` |
 | Budget Variance % | `DIVIDE(Budget Variance, ABS(Budget Amount))` |
 
-**AR Aging** (all filter `Fact_CustLedgerEntries[Open] = TRUE`, compare `Due
-Date` to `TODAY()`): Total AR Outstanding, AR Current, AR 1-30 Days, AR 31-60
+**AR Aging** (all filter `Fact_CustLedgerEntries[Open] = TRUE`, compare
+`Due_Date` to `TODAY()`): Total AR Outstanding, AR Current, AR 1-30 Days, AR 31-60
 Days, AR 61-90 Days, AR 90+ Days.
 
 **AP Aging**: same bucket set against `Fact_VendorLedgerEntries`.
@@ -280,8 +290,8 @@ Days, AR 61-90 Days, AR 90+ Days.
 | Page | Purpose | Key visuals |
 |---|---|---|
 | Executive Summary | KPI snapshot | Revenue / Net Income / Gross Margin % / Cash cards, Revenue trend line chart (legend = Year for YoY), Year slicer |
-| P&L Statement | Account-category rollup | Table by Account Category → Name, Year/Month slicers for MoM, YoY read from the Revenue/Net Income YoY % measures |
-| Balance Sheet | Assets/Liabilities/Equity rollup | Table by Account Category → Subcategory → Name |
+| P&L Statement | Account-category rollup | Table by Account_Category → Name, Year/Month slicers for MoM, YoY read from the Revenue/Net Income YoY % measures |
+| Balance Sheet | Assets/Liabilities/Equity rollup | Table by Account_Category → Subcategory → Name |
 | Budget vs Actual | Variance by department/account | Clustered column (Actual vs Budget by department), variance table by account |
 | AR/AP Aging | Aging buckets | Bar chart AR by customer, table AP by vendor |
 | Transaction Detail | Drill-through target | Full G/L entry table, Year slicer |

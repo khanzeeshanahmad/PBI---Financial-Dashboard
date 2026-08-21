@@ -1,7 +1,7 @@
 table Fact_VendorLedgerEntries
 	lineageTag: e418689f-36fe-4df8-a84e-b985cb894841
 
-	column 'Entry No.'
+	column Entry_No
 		dataType: int64
 		isKey
 		formatString: 0
@@ -11,7 +11,7 @@ table Fact_VendorLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Vendor No.'
+	column Vendor_No
 		dataType: string
 		lineageTag: 96b39b6b-e149-452c-9319-70c1e043c0c1
 		summarizeBy: none
@@ -19,7 +19,7 @@ table Fact_VendorLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Posting Date'
+	column Posting_Date
 		dataType: dateTime
 		formatString: Short Date
 		lineageTag: 5bfa19eb-f935-4a6f-a923-d1a509105656
@@ -28,7 +28,7 @@ table Fact_VendorLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Due Date'
+	column Due_Date
 		dataType: dateTime
 		formatString: Short Date
 		lineageTag: e6b2ed5c-aa31-4c40-a0d1-42c0fabfd98f
@@ -37,7 +37,7 @@ table Fact_VendorLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Document Type'
+	column Document_Type
 		dataType: string
 		lineageTag: c538714b-cda1-4be8-a88d-0ec2bce59169
 		summarizeBy: none
@@ -45,7 +45,7 @@ table Fact_VendorLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Document No.'
+	column Document_No
 		dataType: string
 		lineageTag: 509b2582-78aa-47e4-815a-c3d9b29f1245
 		summarizeBy: none
@@ -61,7 +61,7 @@ table Fact_VendorLedgerEntries
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Currency Code'
+	column Currency_Code
 		dataType: string
 		lineageTag: 18e8ca4e-390b-4c34-aa46-00137a5d0cb1
 		summarizeBy: none
@@ -87,7 +87,7 @@ table Fact_VendorLedgerEntries
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column 'Remaining Amount'
+	column Remaining_Amount
 		dataType: double
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: 0ff3a6f2-9a84-44ee-a73e-6fb93ad73332

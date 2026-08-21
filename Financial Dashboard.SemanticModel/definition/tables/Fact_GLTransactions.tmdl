@@ -1,7 +1,7 @@
 table Fact_GLTransactions
 	lineageTag: 88df298c-abfb-40d6-bbac-9091461943ce
 
-	column 'Entry No.'
+	column Entry_No
 		dataType: int64
 		isKey
 		formatString: 0
@@ -11,7 +11,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'G/L Account No.'
+	column G_L_Account_No
 		dataType: string
 		lineageTag: 6081d4b0-c55a-4799-a00c-276d928195f9
 		summarizeBy: none
@@ -19,7 +19,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Posting Date'
+	column Posting_Date
 		dataType: dateTime
 		formatString: Short Date
 		lineageTag: 6f0b1082-ea59-440c-88e6-7c8470a5653c
@@ -28,7 +28,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Document No.'
+	column Document_No
 		dataType: string
 		lineageTag: 07c4bf86-2baa-4a0a-8819-cdb31cc83af3
 		summarizeBy: none
@@ -36,7 +36,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Document Type'
+	column Document_Type
 		dataType: string
 		lineageTag: 959d23a6-249f-4623-a66c-cb8bff053086
 		summarizeBy: none
@@ -52,7 +52,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Source Code'
+	column Source_Code
 		dataType: string
 		lineageTag: 08f5d435-54d4-422d-a28d-8cdb90d53309
 		summarizeBy: none
@@ -60,7 +60,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Global Dimension 1 Code'
+	column Global_Dimension_1_Code
 		dataType: string
 		lineageTag: 355c5416-7021-4c29-ae85-08dc06de1dd4
 		summarizeBy: none
@@ -68,7 +68,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Global Dimension 2 Code'
+	column Global_Dimension_2_Code
 		dataType: string
 		lineageTag: c0c58559-a744-468a-ba5b-16d359772afc
 		summarizeBy: none
@@ -76,7 +76,7 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Debit Amount'
+	column Debit_Amount
 		dataType: double
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: 2ade3218-f18c-41e0-80cd-7f180427d035
@@ -86,7 +86,7 @@ table Fact_GLTransactions
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column 'Credit Amount'
+	column Credit_Amount
 		dataType: double
 		formatString: \$#,0.00;(\$#,0.00)
 		lineageTag: 5718daf3-4487-45c1-a004-3c8217b4c5fb
@@ -106,7 +106,7 @@ table Fact_GLTransactions
 		annotation SummarizationSetBy = Automatic
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column 'User ID'
+	column User_ID
 		dataType: string
 		lineageTag: 8ddcb7e5-0fd1-46e9-91b1-dee1d72646de
 		summarizeBy: none

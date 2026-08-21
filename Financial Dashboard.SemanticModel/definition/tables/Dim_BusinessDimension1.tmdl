@@ -18,7 +18,7 @@ table Dim_BusinessDimension1
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Dimension Code'
+	column Dimension_Code
 		dataType: string
 		lineageTag: 33061ad8-349d-4f2e-b4c3-979346c665f8
 		summarizeBy: none

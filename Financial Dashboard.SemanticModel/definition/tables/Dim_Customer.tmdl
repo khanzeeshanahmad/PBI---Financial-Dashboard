@@ -1,7 +1,7 @@
 table Dim_Customer
 	lineageTag: 73845ae6-a53f-450f-b432-91800b3c0ad5
 
-	column 'No.'
+	column No
 		dataType: string
 		isKey
 		lineageTag: 2b23123c-4c3c-4b09-aa01-189ab122657e
@@ -18,7 +18,7 @@ table Dim_Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Currency Code'
+	column Currency_Code
 		dataType: string
 		lineageTag: a1236e58-3482-4f56-8bd1-7d22fe73b9e2
 		summarizeBy: none

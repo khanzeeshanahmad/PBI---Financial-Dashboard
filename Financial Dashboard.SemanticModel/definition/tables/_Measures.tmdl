@@ -4,7 +4,7 @@ table _Measures
 	measure Revenue = ```
 			CALCULATE(
 			    -SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Account Category] = "Income"
+			    Dim_ChartOfAccounts[Account_Category] = "Income"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -14,7 +14,7 @@ table _Measures
 	measure COGS = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Account Category] = "Cost of Goods Sold"
+			    Dim_ChartOfAccounts[Account_Category] = "Cost of Goods Sold"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -34,7 +34,7 @@ table _Measures
 	measure 'Operating Expenses' = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Account Category] = "Expense"
+			    Dim_ChartOfAccounts[Account_Category] = "Expense"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -54,7 +54,7 @@ table _Measures
 	measure 'Total Assets' = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Account Category] = "Assets"
+			    Dim_ChartOfAccounts[Account_Category] = "Assets"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -64,7 +64,7 @@ table _Measures
 	measure 'Total Liabilities' = ```
 			CALCULATE(
 			    -SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Account Category] = "Liabilities"
+			    Dim_ChartOfAccounts[Account_Category] = "Liabilities"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -74,7 +74,7 @@ table _Measures
 	measure 'Total Equity' = ```
 			CALCULATE(
 			    -SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Account Category] = "Equity"
+			    Dim_ChartOfAccounts[Account_Category] = "Equity"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -91,10 +91,10 @@ table _Measures
 			    SUM(Fact_GLTransactions[Amount]),
 			    FILTER(
 			        Dim_ChartOfAccounts,
-			        Dim_ChartOfAccounts[Account Category] = "Assets"
+			        Dim_ChartOfAccounts[Account_Category] = "Assets"
 			            && (
-			                CONTAINSSTRING(Dim_ChartOfAccounts[Account Subcategory], "Cash")
-			                || CONTAINSSTRING(Dim_ChartOfAccounts[Account Subcategory], "Bank")
+			                CONTAINSSTRING(Dim_ChartOfAccounts[Account_Subcategory], "Cash")
+			                || CONTAINSSTRING(Dim_ChartOfAccounts[Account_Subcategory], "Bank")
 			            )
 			    )
 			)
@@ -226,7 +226,7 @@ table _Measures
 	measure 'Actual Amount (IS)' = ```
 			CALCULATE(
 			    SUM(Fact_GLTransactions[Amount]),
-			    Dim_ChartOfAccounts[Income/Balance] = "Income Statement"
+			    Dim_ChartOfAccounts[Income_Balance] = "Income Statement"
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -250,7 +250,7 @@ table _Measures
 
 	measure 'Total AR Outstanding' = ```
 			CALCULATE(
-			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    SUM(Fact_CustLedgerEntries[Remaining_Amount]),
 			    Fact_CustLedgerEntries[Open] = TRUE
 			)
 			```
@@ -260,9 +260,9 @@ table _Measures
 
 	measure 'AR Current' = ```
 			CALCULATE(
-			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    SUM(Fact_CustLedgerEntries[Remaining_Amount]),
 			    Fact_CustLedgerEntries[Open] = TRUE,
-			    Fact_CustLedgerEntries[Due Date] >= TODAY()
+			    Fact_CustLedgerEntries[Due_Date] >= TODAY()
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -271,10 +271,10 @@ table _Measures
 
 	measure 'AR 1-30 Days' = ```
 			CALCULATE(
-			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    SUM(Fact_CustLedgerEntries[Remaining_Amount]),
 			    Fact_CustLedgerEntries[Open] = TRUE,
-			    Fact_CustLedgerEntries[Due Date] < TODAY(),
-			    Fact_CustLedgerEntries[Due Date] >= TODAY() - 30
+			    Fact_CustLedgerEntries[Due_Date] < TODAY(),
+			    Fact_CustLedgerEntries[Due_Date] >= TODAY() - 30
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -283,10 +283,10 @@ table _Measures
 
 	measure 'AR 31-60 Days' = ```
 			CALCULATE(
-			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    SUM(Fact_CustLedgerEntries[Remaining_Amount]),
 			    Fact_CustLedgerEntries[Open] = TRUE,
-			    Fact_CustLedgerEntries[Due Date] < TODAY() - 30,
-			    Fact_CustLedgerEntries[Due Date] >= TODAY() - 60
+			    Fact_CustLedgerEntries[Due_Date] < TODAY() - 30,
+			    Fact_CustLedgerEntries[Due_Date] >= TODAY() - 60
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -295,10 +295,10 @@ table _Measures
 
 	measure 'AR 61-90 Days' = ```
 			CALCULATE(
-			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    SUM(Fact_CustLedgerEntries[Remaining_Amount]),
 			    Fact_CustLedgerEntries[Open] = TRUE,
-			    Fact_CustLedgerEntries[Due Date] < TODAY() - 60,
-			    Fact_CustLedgerEntries[Due Date] >= TODAY() - 90
+			    Fact_CustLedgerEntries[Due_Date] < TODAY() - 60,
+			    Fact_CustLedgerEntries[Due_Date] >= TODAY() - 90
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -307,9 +307,9 @@ table _Measures
 
 	measure 'AR 90+ Days' = ```
 			CALCULATE(
-			    SUM(Fact_CustLedgerEntries[Remaining Amount]),
+			    SUM(Fact_CustLedgerEntries[Remaining_Amount]),
 			    Fact_CustLedgerEntries[Open] = TRUE,
-			    Fact_CustLedgerEntries[Due Date] < TODAY() - 90
+			    Fact_CustLedgerEntries[Due_Date] < TODAY() - 90
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -318,7 +318,7 @@ table _Measures
 
 	measure 'Total AP Outstanding' = ```
 			CALCULATE(
-			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    SUM(Fact_VendorLedgerEntries[Remaining_Amount]),
 			    Fact_VendorLedgerEntries[Open] = TRUE
 			)
 			```
@@ -328,9 +328,9 @@ table _Measures
 
 	measure 'AP Current' = ```
 			CALCULATE(
-			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    SUM(Fact_VendorLedgerEntries[Remaining_Amount]),
 			    Fact_VendorLedgerEntries[Open] = TRUE,
-			    Fact_VendorLedgerEntries[Due Date] >= TODAY()
+			    Fact_VendorLedgerEntries[Due_Date] >= TODAY()
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -339,10 +339,10 @@ table _Measures
 
 	measure 'AP 1-30 Days' = ```
 			CALCULATE(
-			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    SUM(Fact_VendorLedgerEntries[Remaining_Amount]),
 			    Fact_VendorLedgerEntries[Open] = TRUE,
-			    Fact_VendorLedgerEntries[Due Date] < TODAY(),
-			    Fact_VendorLedgerEntries[Due Date] >= TODAY() - 30
+			    Fact_VendorLedgerEntries[Due_Date] < TODAY(),
+			    Fact_VendorLedgerEntries[Due_Date] >= TODAY() - 30
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -351,10 +351,10 @@ table _Measures
 
 	measure 'AP 31-60 Days' = ```
 			CALCULATE(
-			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    SUM(Fact_VendorLedgerEntries[Remaining_Amount]),
 			    Fact_VendorLedgerEntries[Open] = TRUE,
-			    Fact_VendorLedgerEntries[Due Date] < TODAY() - 30,
-			    Fact_VendorLedgerEntries[Due Date] >= TODAY() - 60
+			    Fact_VendorLedgerEntries[Due_Date] < TODAY() - 30,
+			    Fact_VendorLedgerEntries[Due_Date] >= TODAY() - 60
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -363,10 +363,10 @@ table _Measures
 
 	measure 'AP 61-90 Days' = ```
 			CALCULATE(
-			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    SUM(Fact_VendorLedgerEntries[Remaining_Amount]),
 			    Fact_VendorLedgerEntries[Open] = TRUE,
-			    Fact_VendorLedgerEntries[Due Date] < TODAY() - 60,
-			    Fact_VendorLedgerEntries[Due Date] >= TODAY() - 90
+			    Fact_VendorLedgerEntries[Due_Date] < TODAY() - 60,
+			    Fact_VendorLedgerEntries[Due_Date] >= TODAY() - 90
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
@@ -375,9 +375,9 @@ table _Measures
 
 	measure 'AP 90+ Days' = ```
 			CALCULATE(
-			    SUM(Fact_VendorLedgerEntries[Remaining Amount]),
+			    SUM(Fact_VendorLedgerEntries[Remaining_Amount]),
 			    Fact_VendorLedgerEntries[Open] = TRUE,
-			    Fact_VendorLedgerEntries[Due Date] < TODAY() - 90
+			    Fact_VendorLedgerEntries[Due_Date] < TODAY() - 90
 			)
 			```
 		formatString: \$#,0.00;(\$#,0.00)
