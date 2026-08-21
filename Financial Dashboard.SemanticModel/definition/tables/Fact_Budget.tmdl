@@ -69,7 +69,8 @@ table Fact_Budget
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					#"G/L Budget Entries" = Company{[Name = "G/L Budget Entries"]}[Data],
+					WebServices = Company{[Name = "WebServices"]}[Data],
+					#"G/L Budget Entries" = WebServices{[Name = "G_LBudgetEntries"]}[Data],
 					#"Selected Columns" = Table.SelectColumns(
 						#"G/L Budget Entries",
 						{

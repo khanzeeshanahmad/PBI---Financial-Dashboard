@@ -122,7 +122,8 @@ table Fact_GLTransactions
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					#"G/L Entries" = Company{[Name = "G/L Entries"]}[Data],
+					WebServices = Company{[Name = "WebServices"]}[Data],
+					#"G/L Entries" = WebServices{[Name = "G_LEntries"]}[Data],
 					#"Selected Columns" = Table.SelectColumns(
 						#"G/L Entries",
 						{

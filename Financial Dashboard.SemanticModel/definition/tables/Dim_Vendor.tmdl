@@ -18,27 +18,11 @@ table Dim_Vendor
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Vendor Posting Group'
-		dataType: string
-		lineageTag: d934042b-71f8-4b26-9f99-032fad0edec2
-		summarizeBy: none
-		sourceColumn: Vendor Posting Group
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Currency Code'
 		dataType: string
 		lineageTag: 39890fc2-d4da-4755-938f-0ef63ae2a169
 		summarizeBy: none
 		sourceColumn: Currency Code
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Country/Region Code'
-		dataType: string
-		lineageTag: 16069ca6-b6ea-4bfb-acb5-4288ea62d54f
-		summarizeBy: none
-		sourceColumn: Country/Region Code
 
 		annotation SummarizationSetBy = Automatic
 
@@ -49,18 +33,20 @@ table Dim_Vendor
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					Vendor = Company{[Name = "Vendors"]}[Data],
+					StandardV2 = Company{[Name = "v2.0"]}[Data],
+					Vendor = StandardV2{[Name = "vendors"]}[Data],
 					#"Selected Columns" = Table.SelectColumns(
 						Vendor,
-						{"No.", "Name", "Vendor Posting Group", "Currency Code", "Country/Region Code"},
+						{"number", "displayName", "currencyCode"},
 						MissingField.UseNull
 					),
-					#"Changed Type" = Table.TransformColumnTypes(
+					#"Renamed Columns" = Table.RenameColumns(
 						#"Selected Columns",
-						{
-							{"No.", type text}, {"Name", type text}, {"Vendor Posting Group", type text},
-							{"Currency Code", type text}, {"Country/Region Code", type text}
-						}
+						{{"number", "No."}, {"displayName", "Name"}, {"currencyCode", "Currency Code"}}
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Renamed Columns",
+						{{"No.", type text}, {"Name", type text}, {"Currency Code", type text}}
 					)
 				in
 					#"Changed Type"

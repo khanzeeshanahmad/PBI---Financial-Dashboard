@@ -82,7 +82,8 @@ table Dim_ChartOfAccounts
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					#"Chart of Accounts" = Company{[Name = "Chart of Accounts"]}[Data],
+					WebServices = Company{[Name = "WebServices"]}[Data],
+					#"Chart of Accounts" = WebServices{[Name = "Chart_of_Accounts"]}[Data],
 					#"Selected Columns" = Table.SelectColumns(
 						#"Chart of Accounts",
 						{

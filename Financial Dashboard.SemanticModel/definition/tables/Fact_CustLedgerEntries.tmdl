@@ -104,7 +104,8 @@ table Fact_CustLedgerEntries
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					#"Cust. Ledger Entries" = Company{[Name = "Cust. Ledger Entries"]}[Data],
+					WebServices = Company{[Name = "WebServices"]}[Data],
+					#"Cust. Ledger Entries" = WebServices{[Name = "Cust_LedgerEntries"]}[Data],
 					#"Selected Columns" = Table.SelectColumns(
 						#"Cust. Ledger Entries",
 						{

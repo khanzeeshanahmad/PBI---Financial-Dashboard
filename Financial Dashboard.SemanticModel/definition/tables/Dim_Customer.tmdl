@@ -18,35 +18,11 @@ table Dim_Customer
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Customer Posting Group'
-		dataType: string
-		lineageTag: 8e6b7a74-e2d6-4f50-97d4-71b7f8209b21
-		summarizeBy: none
-		sourceColumn: Customer Posting Group
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Currency Code'
 		dataType: string
 		lineageTag: a1236e58-3482-4f56-8bd1-7d22fe73b9e2
 		summarizeBy: none
 		sourceColumn: Currency Code
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Country/Region Code'
-		dataType: string
-		lineageTag: 917a9f73-05f1-44a4-a85b-bc42f0784ff0
-		summarizeBy: none
-		sourceColumn: Country/Region Code
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Salesperson Code'
-		dataType: string
-		lineageTag: ccfc85b5-1d8f-4b73-b137-4148c43d0446
-		summarizeBy: none
-		sourceColumn: Salesperson Code
 
 		annotation SummarizationSetBy = Automatic
 
@@ -57,18 +33,20 @@ table Dim_Customer
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					Customer = Company{[Name = "Customers"]}[Data],
+					StandardV2 = Company{[Name = "v2.0"]}[Data],
+					Customer = StandardV2{[Name = "customers"]}[Data],
 					#"Selected Columns" = Table.SelectColumns(
 						Customer,
-						{"No.", "Name", "Customer Posting Group", "Currency Code", "Country/Region Code", "Salesperson Code"},
+						{"number", "displayName", "currencyCode"},
 						MissingField.UseNull
 					),
-					#"Changed Type" = Table.TransformColumnTypes(
+					#"Renamed Columns" = Table.RenameColumns(
 						#"Selected Columns",
-						{
-							{"No.", type text}, {"Name", type text}, {"Customer Posting Group", type text},
-							{"Currency Code", type text}, {"Country/Region Code", type text}, {"Salesperson Code", type text}
-						}
+						{{"number", "No."}, {"displayName", "Name"}, {"currencyCode", "Currency Code"}}
+					),
+					#"Changed Type" = Table.TransformColumnTypes(
+						#"Renamed Columns",
+						{{"No.", type text}, {"Name", type text}, {"Currency Code", type text}}
 					)
 				in
 					#"Changed Type"

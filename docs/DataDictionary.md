@@ -56,8 +56,10 @@ of the current calendar year at each refresh.
 | FiscalYear | int64 | Equal to Year (fiscal year = calendar year for this company). |
 
 ### Dim_ChartOfAccounts
-Source: BC **Chart of Accounts** entity (`No.`, `Name`, category/subcategory,
-posting-type fields).
+Source: `WebServices` folder, entity `Chart_of_Accounts` (the legacy Chart of
+Accounts page, published as a web service — its field names keep BC's
+classic space-separated names even though the entity's own name has
+underscores).
 
 | Column | Type | BC source field | Notes |
 |---|---|---|---|
@@ -67,33 +69,29 @@ posting-type fields).
 | Income/Balance | string | `Income/Balance` | "Income Statement" or "Balance Sheet" — drives P&L vs. BS page filters. |
 | Debit/Credit | string | `Debit/Credit` | |
 | Account Category | string | `Account Category` | Assets / Liabilities / Equity / Income / Cost of Goods Sold / Expense. Drives Revenue/COGS/OpEx measures directly. |
-| Account Subcategory | string | `Account Subcategory Descript.` | See compatibility note below. |
+| Account Subcategory | string | `Account Subcategory Descript.` | |
 | Totaling | string | `Totaling` | |
 | Indentation | int64 | `Indentation` | Preserves BC's COA hierarchy display order. |
 
-**Compatibility note:** `Account Category` / `Account Subcategory Descript.`
-are exposed directly on the Chart of Accounts page from BC2023 wave 2
-onward. On older SaaS builds these may only live on the separate **G/L
-Account Category** table and require a merge on the `Account Category`
-integer key — check your tenant's Navigator and adjust the M query if these
-columns are missing.
-
 ### Dim_BusinessDimension1 / Dim_BusinessDimension2
-Source: BC **Dimension Value** table, filtered to `Dimension Code =
-GlobalDimension1Code` / `GlobalDimension2Code` respectively. Generic names
-because dimension usage is company-specific — rename in Desktop to match
-what the company actually tracks (e.g. `Dim_Department`, `Dim_Project`).
+Source: `v2.0` folder, entities `dimensions` and `dimensionValues` joined
+together. `dimensionValues` only carries a `dimensionId` (GUID), not a plain
+dimension code, so the query first finds the `dimensions` row whose `code`
+equals `GlobalDimension1Code`/`GlobalDimension2Code`, takes its `id`, then
+filters `dimensionValues` to that `dimensionId`. Generic table names because
+dimension usage is company-specific — rename in Desktop to match what the
+company actually tracks (e.g. `Dim_Department`, `Dim_Project`).
 
 | Column | Type | Notes |
 |---|---|---|
-| Code | string | Key. Includes a synthetic blank-code row ("(No Department)" / "(No Project)") so unassigned G/L entries still join cleanly. |
-| Name | string | |
-| Dimension Code | string | Hidden; the BC dimension this value belongs to. |
+| Code | string | Key (from `dimensionValues.code`). Includes a synthetic blank-code row ("(No Department)" / "(No Project)") so unassigned G/L entries still join cleanly. |
+| Name | string | From `dimensionValues.displayName`. |
+| Dimension Code | string | Hidden; set to the `GlobalDimension1Code`/`GlobalDimension2Code` parameter value (every row in this table already belongs to that one dimension). |
 
 Global Dimensions 1 and 2 are the only two dimensions BC flattens directly
 onto G/L Entry / Cust. Ledger Entry / Vendor Ledger Entry rows. A third or
-fourth company dimension lives only in **Dimension Set Entry** and would need
-its own bridge/merge if required.
+fourth company dimension needs its own bridge/merge (`dimensionSetLines` on
+`v2.0`, or `DimensionSetEntries` under `WebServices`) if required.
 
 ### Dim_AccountCategory
 Source: the BC **Advanced API browser** (not the curated entity list) —
@@ -116,36 +114,38 @@ column turns out to be the real join key. Not yet wired into any measure or
 relationship pending that verification.
 
 ### Dim_Customer
-Source: BC **Customers** entity.
+Source: `v2.0` folder, entity `customers` (Microsoft's standard, documented
+API — not a web service).
 
 | Column | Type | BC source field |
 |---|---|---|
-| No. | string | `No.` (key) |
-| Name | string | `Name` |
-| Customer Posting Group | string | `Customer Posting Group` |
-| Currency Code | string | `Currency Code` (blank = local currency) |
-| Country/Region Code | string | `Country/Region Code` |
-| Salesperson Code | string | `Salesperson Code` |
+| No. | string | `number` (key) |
+| Name | string | `displayName` |
+| Currency Code | string | `currencyCode` (blank = local currency) |
+
+Trimmed to the three fields with the highest confidence on this entity. If
+your tenant's `customers` entity also exposes posting group, salesperson, or
+address/country fields you want, add them the same way after checking the
+exact field names in Power Query Editor's preview.
 
 ### Dim_Vendor
-Source: BC **Vendors** entity.
+Source: `v2.0` folder, entity `vendors`.
 
 | Column | Type | BC source field |
 |---|---|---|
-| No. | string | `No.` (key) |
-| Name | string | `Name` |
-| Vendor Posting Group | string | `Vendor Posting Group` |
-| Currency Code | string | `Currency Code` |
-| Country/Region Code | string | `Country/Region Code` |
+| No. | string | `number` (key) |
+| Name | string | `displayName` |
+| Currency Code | string | `currencyCode` |
 
 ---
 
 ## Fact tables
 
 ### Fact_GLTransactions
-Source: BC **G/L Entries** (posted General Ledger entries). Grain: one row
-per G/L Entry No. Filtered on `RangeStart`/`RangeEnd` for incremental
-refresh.
+Source: `WebServices` folder, entity `G_LEntries` (posted General Ledger
+entries, published as a legacy web service — field names keep BC's classic
+space-separated names). Grain: one row per G/L Entry No. Filtered on
+`RangeStart`/`RangeEnd` for incremental refresh.
 
 | Column | Type | BC source field | Notes |
 |---|---|---|---|
@@ -163,12 +163,9 @@ refresh.
 | Amount | double | `Amount` | Signed net (Debit − Credit); the column all P&L/BS measures sum. |
 | User ID | string | `User ID` | Hidden. |
 
-**Compatibility note:** exposed as "G/L Entries" in the current connector
-Navigator; older documentation refers to "General Ledger Entries" or the
-underlying table name "G/L Entry" (singular).
-
 ### Fact_Budget
-Source: BC **G/L Budget Entries**. Grain: one row per budget entry.
+Source: `WebServices` folder, entity `G_LBudgetEntries`. Grain: one row per
+budget entry.
 
 | Column | Type | BC source field |
 |---|---|---|
@@ -180,7 +177,7 @@ Source: BC **G/L Budget Entries**. Grain: one row per budget entry.
 | Amount | double | `Amount`, same sign convention as Fact_GLTransactions |
 
 ### Fact_CustLedgerEntries (AR)
-Source: BC **Cust. Ledger Entries**.
+Source: `WebServices` folder, entity `Cust_LedgerEntries`.
 
 | Column | Type | BC source field | Notes |
 |---|---|---|---|
@@ -196,8 +193,8 @@ Source: BC **Cust. Ledger Entries**.
 | Remaining Amount | double | Outstanding balance (LCY) as of last refresh — what the aging buckets sum. |
 
 ### Fact_VendorLedgerEntries (AP)
-Source: BC **Vendor Ledger Entries**. Same shape as Fact_CustLedgerEntries,
-keyed by Vendor No. instead of Customer No.
+Source: `WebServices` folder, entity `VendorLedgerEntries`. Same shape as
+Fact_CustLedgerEntries, keyed by Vendor No. instead of Customer No.
 
 ---
 

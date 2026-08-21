@@ -34,11 +34,17 @@ table Dim_BusinessDimension2
 					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
-					#"Dimension Value" = Company{[Name = "Dimension Value"]}[Data],
-					#"Filtered Rows" = Table.SelectRows(#"Dimension Value", each [Dimension Code] = GlobalDimension2Code and [Blocked] <> true),
-					#"Selected Columns" = Table.SelectColumns(#"Filtered Rows", {"Code", "Name", "Dimension Code"}),
-					#"Changed Type" = Table.TransformColumnTypes(#"Selected Columns", {{"Code", type text}, {"Name", type text}, {"Dimension Code", type text}}),
-					#"Added Blank Row" = Table.Combine({#"Changed Type", #table(type table [Code = text, Name = text, #"Dimension Code" = text], {{"", "(No Project)", GlobalDimension2Code}})})
+					StandardV2 = Company{[Name = "v2.0"]}[Data],
+					Dimensions = StandardV2{[Name = "dimensions"]}[Data],
+					DimensionValues = StandardV2{[Name = "dimensionValues"]}[Data],
+					#"Filtered Dimension" = Table.SelectRows(Dimensions, each [code] = GlobalDimension2Code),
+					TargetDimensionId = #"Filtered Dimension"{0}[id],
+					#"Filtered Values" = Table.SelectRows(DimensionValues, each [dimensionId] = TargetDimensionId),
+					#"Selected Columns" = Table.SelectColumns(#"Filtered Values", {"code", "displayName"}),
+					#"Renamed Columns" = Table.RenameColumns(#"Selected Columns", {{"code", "Code"}, {"displayName", "Name"}}),
+					#"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Code", type text}, {"Name", type text}}),
+					#"Added Dimension Code" = Table.AddColumn(#"Changed Type", "Dimension Code", each GlobalDimension2Code, type text),
+					#"Added Blank Row" = Table.Combine({#"Added Dimension Code", #table(type table [Code = text, Name = text, #"Dimension Code" = text], {{"", "(No Project)", GlobalDimension2Code}})})
 				in
 					#"Added Blank Row"
 

@@ -79,61 +79,60 @@ to build this project — change both before pointing at a different tenant:
 See `docs/DataDictionary.md` for the full parameter list and every table's M
 query / source BC entity.
 
-### Curated entities vs. the "Advanced" API browser
+### There is no flat curated entity list — three folders
 
-Most tables in this model (Customers, Vendors, G/L Entries, Chart of
-Accounts, Dimension Value, ledger/budget entries) are pulled from the
-connector's curated top-level list, the same way you'd pick them by hand in
-Get Data: `Company{[Name = "G/L Entries"]}[Data]`, etc. A few entities aren't
-in that curated list and only exist as raw Business Central API pages —
-`Dim_AccountCategory` is one (BC's Account Category lookup lives under a
-Microsoft-published API extension, not the curated list). Those queries
-drill one level further, through the connector's **Advanced** node, into the
-specific API publisher/group/version path, e.g.:
+Every entity in this connector sits behind exactly one of three folders
+under `Company` — there's no flat list of "Customers", "G/L Entries", etc.
+directly under the company node:
 
-```
-Advanced = Company{[Name = "Advanced"]}[Data],
-#"microsoft/analytics/v1.0" = Advanced{[Name = "microsoft/analytics/v1.0"]}[Data],
-accountCategories_table = #"microsoft/analytics/v1.0"{[Name = "accountCategories", Signature = "table"]}[Data]
-```
-
-If any other table's simple `Company{[Name = "..."]}[Data]` step errors with
-"entity not found" in your tenant, the fix is the same shape: in Power Query,
-drill into **Company → Advanced**, find the entity under whichever
-publisher/group/version folder it lives in, and copy that same
-Source → Environment → Company → Advanced → `<group/version>` →
-`<entity>{[Name="...", Signature="table"]}` chain into that table's query,
-substituting the exact path shown for your tenant.
-
-`Dim_AccountCategory`'s columns (`id`, `code`, `displayName`) are a
-best-effort placeholder — this project was built without live access to
-verify that entity's actual schema. Open its query in Power Query Editor,
-correct the column names/types to match what your tenant actually returns,
-and add a relationship from `Dim_AccountCategory` to
-`Dim_ChartOfAccounts[Account Category]` once you can see which field is the
-real join key.
-
-## BC version compatibility
-
-The Power BI connector's Navigator entity names can shift across Business
-Central releases and localizations. This project was authored against a
-current BC SaaS release (API `v2.0`-era). Flagged compatibility risks, also
-called out inline in each table's `.tmdl` comment:
-
-| Table | Entity name used | Known variant(s) |
+| Folder | What it holds | Naming style |
 |---|---|---|
-| Dim_ChartOfAccounts | `Chart of Accounts` | `Account Category` / `Account Subcategory Descript.` may require a merge against a separate `G/L Account Category` table on older BC builds |
-| Dim_Customer | `Customers` | Older exports: `Customer` (singular) |
-| Dim_Vendor | `Vendors` | Older exports: `Vendor` (singular) |
-| Fact_GLTransactions | `G/L Entries` | `General Ledger Entries`, or table name `G/L Entry` |
-| Fact_Budget | `G/L Budget Entries` | — |
-| Fact_CustLedgerEntries | `Cust. Ledger Entries` | — |
-| Fact_VendorLedgerEntries | `Vendor Ledger Entries` | — |
+| `v2.0` | Microsoft's standard, documented Business Central API (customers, vendors, dimensions, accounts, sales/purchase documents, …) | camelCase, e.g. `customers`, `dimensionValues` |
+| `WebServices` | Legacy SOAP/OData web services published for this company — classic table names with spaces/slashes replaced by underscores, plus a bundled "Power BI content pack" set (`Power_BI_*`) | Underscored NAV names, e.g. `G_LEntries`, `Cust_LedgerEntries`, `Chart_of_Accounts` |
+| `Advanced` | Every other published API extension, grouped by publisher/group/version (e.g. `microsoft/analytics/v1.0`) | camelCase, per-extension |
 
-If a query errors with "entity not found," open **Transform data → [table] →
-Source** step, click the gear icon (or re-launch Get Data → Business
-Central), and confirm the exact label your tenant's Navigator shows, then
-update the literal in that one M step.
+Every table's M query reflects which folder its entity actually lives in for
+the `DEMO` / `Cronus - QMM` tenant this was built against:
+
+| Table | Folder | Entity |
+|---|---|---|
+| Fact_GLTransactions | `WebServices` | `G_LEntries` |
+| Fact_Budget | `WebServices` | `G_LBudgetEntries` |
+| Fact_CustLedgerEntries | `WebServices` | `Cust_LedgerEntries` |
+| Fact_VendorLedgerEntries | `WebServices` | `VendorLedgerEntries` |
+| Dim_ChartOfAccounts | `WebServices` | `Chart_of_Accounts` |
+| Dim_Customer | `v2.0` | `customers` |
+| Dim_Vendor | `v2.0` | `vendors` |
+| Dim_BusinessDimension1/2 | `v2.0` | `dimensions` joined to `dimensionValues` (the latter only carries a `dimensionId`, not a plain code, so the query filters `dimensions` by code first, then filters `dimensionValues` by that dimension's `id`) |
+| Dim_AccountCategory | `Advanced` → `microsoft/analytics/v1.0` | `accountCategories` |
+
+**Confidence levels, plainly:** the `WebServices` entity names and the
+`Advanced` path were confirmed against a real tenant listing. `Dim_Customer`
+and `Dim_Vendor` were trimmed to only `No.`/`Name`/`Currency Code` (from
+`number`/`displayName`/`currencyCode`) because those are the fields with the
+highest confidence on the standard `v2.0` API — if your tenant's `customers`/
+`vendors` entity also exposes posting group, salesperson, or country/region
+fields you want, add them back after checking the exact field names in Power
+Query Editor. `Dim_AccountCategory`'s columns (`id`, `code`, `displayName`)
+remain an unverified placeholder — see the data dictionary.
+
+If any table's query still errors with "entity not found" or "key didn't
+match any rows," the same list you'd get from running this in a Blank Query
+tells you exactly where it actually lives:
+
+```
+let
+    Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
+    Environment = Source{[Name = BCEnvironment]}[Data],
+    Company = Environment{[Name = BCCompanyName]}[Data],
+    StandardV2 = Table.AddColumn(Company{[Name = "v2.0"]}[Data], "Folder", each "v2.0"),
+    WebServices = Table.AddColumn(Company{[Name = "WebServices"]}[Data], "Folder", each "WebServices"),
+    Advanced = Company{[Name = "Advanced"]}[Data]
+in
+    Table.Combine({StandardV2, WebServices})
+```
+
+(Expand `Advanced` separately the same way — `Advanced{[Name = "<publisher/group/version>"]}[Data]` — to see what each of its sub-groups contains, since those aren't listed flat.)
 
 ## Incremental refresh
 
