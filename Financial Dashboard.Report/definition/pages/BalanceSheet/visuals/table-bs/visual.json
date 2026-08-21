@@ -62,13 +62,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Total Assets"
                 }
               },
-              "queryRef": "Measures.Total Assets",
+              "queryRef": "_Measures.Total Assets",
               "nativeQueryRef": "Total Assets"
             },
             {
@@ -76,13 +76,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Total Liabilities"
                 }
               },
-              "queryRef": "Measures.Total Liabilities",
+              "queryRef": "_Measures.Total Liabilities",
               "nativeQueryRef": "Total Liabilities"
             },
             {
@@ -90,13 +90,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Total Equity"
                 }
               },
-              "queryRef": "Measures.Total Equity",
+              "queryRef": "_Measures.Total Equity",
               "nativeQueryRef": "Total Equity"
             }
           ]

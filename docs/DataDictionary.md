@@ -203,7 +203,7 @@ weak/inactive relationship.
 
 ---
 
-## Measures (`Measures` table)
+## Measures (`_Measures` table)
 
 All monetary measures are formatted `$#,0.00;($#,0.00)`; percentages
 `0.0%;-0.0%`. Time-intelligence measures rely on Dim_Date being marked as the

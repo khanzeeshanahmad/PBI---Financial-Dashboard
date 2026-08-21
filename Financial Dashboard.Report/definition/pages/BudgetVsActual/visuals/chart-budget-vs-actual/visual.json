@@ -38,13 +38,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Actual Amount (IS)"
                 }
               },
-              "queryRef": "Measures.Actual Amount (IS)",
+              "queryRef": "_Measures.Actual Amount (IS)",
               "nativeQueryRef": "Actual Amount (IS)"
             },
             {
@@ -52,13 +52,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Budget Amount"
                 }
               },
-              "queryRef": "Measures.Budget Amount",
+              "queryRef": "_Measures.Budget Amount",
               "nativeQueryRef": "Budget Amount"
             }
           ]

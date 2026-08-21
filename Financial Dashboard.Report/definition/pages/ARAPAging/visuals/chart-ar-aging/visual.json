@@ -38,13 +38,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AR Current"
                 }
               },
-              "queryRef": "Measures.AR Current",
+              "queryRef": "_Measures.AR Current",
               "nativeQueryRef": "AR Current"
             },
             {
@@ -52,13 +52,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AR 1-30 Days"
                 }
               },
-              "queryRef": "Measures.AR 1-30 Days",
+              "queryRef": "_Measures.AR 1-30 Days",
               "nativeQueryRef": "AR 1-30 Days"
             },
             {
@@ -66,13 +66,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AR 31-60 Days"
                 }
               },
-              "queryRef": "Measures.AR 31-60 Days",
+              "queryRef": "_Measures.AR 31-60 Days",
               "nativeQueryRef": "AR 31-60 Days"
             },
             {
@@ -80,13 +80,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AR 61-90 Days"
                 }
               },
-              "queryRef": "Measures.AR 61-90 Days",
+              "queryRef": "_Measures.AR 61-90 Days",
               "nativeQueryRef": "AR 61-90 Days"
             },
             {
@@ -94,13 +94,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "AR 90+ Days"
                 }
               },
-              "queryRef": "Measures.AR 90+ Days",
+              "queryRef": "_Measures.AR 90+ Days",
               "nativeQueryRef": "AR 90+ Days"
             }
           ]

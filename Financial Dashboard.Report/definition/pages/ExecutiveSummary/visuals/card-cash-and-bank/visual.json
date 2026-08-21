@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Cash and Bank"
                 }
               },
-              "queryRef": "Measures.Cash and Bank",
+              "queryRef": "_Measures.Cash and Bank",
               "nativeQueryRef": "Cash and Bank"
             }
           ]

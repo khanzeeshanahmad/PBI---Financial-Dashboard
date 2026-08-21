@@ -18,7 +18,7 @@ Financial Dashboard.SemanticModel/          ← TMDL model definition
     expressions.tmdl                        ← BCEnvironment / BCCompanyName / dimension / incremental-refresh parameters
     tables/                                 ← Dim_Date, Dim_ChartOfAccounts, Dim_BusinessDimension1/2,
                                                Dim_Customer, Dim_Vendor, Fact_GLTransactions, Fact_Budget,
-                                               Fact_CustLedgerEntries, Fact_VendorLedgerEntries, Measures
+                                               Fact_CustLedgerEntries, Fact_VendorLedgerEntries, _Measures
                                                (each table's Power Query M source is in its `partition` block)
     relationships.tmdl
 Financial Dashboard.Report/                 ← PBIR report definition (6 pages)

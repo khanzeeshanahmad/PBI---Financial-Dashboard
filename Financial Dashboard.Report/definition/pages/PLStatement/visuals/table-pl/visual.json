@@ -48,13 +48,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Actual Amount (IS)"
                 }
               },
-              "queryRef": "Measures.Actual Amount (IS)",
+              "queryRef": "_Measures.Actual Amount (IS)",
               "nativeQueryRef": "Actual Amount (IS)"
             }
           ]

@@ -1,4 +1,4 @@
-table Measures
+table _Measures
 	lineageTag: 88df298c-abfb-40d6-bbac-9091461943cf
 
 	measure Revenue = ```
@@ -394,6 +394,6 @@ table Measures
 
 		annotation SummarizationSetBy = Automatic
 
-	partition Measures = calculated
+	partition _Measures = calculated
 		source = ROW("RowID", 0)
 

@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Measures"
+                      "Entity": "_Measures"
                     }
                   },
                   "Property": "Gross Margin % YTD"
                 }
               },
-              "queryRef": "Measures.Gross Margin % YTD",
+              "queryRef": "_Measures.Gross Margin % YTD",
               "nativeQueryRef": "Gross Margin % YTD"
             }
           ]
