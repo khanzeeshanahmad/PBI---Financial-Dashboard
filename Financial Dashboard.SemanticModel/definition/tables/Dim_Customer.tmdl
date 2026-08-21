@@ -54,7 +54,7 @@ table Dim_Customer
 		mode: import
 		source =
 				let
-					Source = BusinessCentral.Contents(),
+					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
 					Customer = Company{[Name = "Customers"]}[Data],

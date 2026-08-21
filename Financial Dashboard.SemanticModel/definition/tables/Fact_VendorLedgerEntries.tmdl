@@ -101,7 +101,7 @@ table Fact_VendorLedgerEntries
 		mode: import
 		source =
 				let
-					Source = BusinessCentral.Contents(),
+					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
 					#"Vendor Ledger Entries" = Company{[Name = "Vendor Ledger Entries"]}[Data],

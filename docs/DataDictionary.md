@@ -2,9 +2,9 @@
 
 Semantic model: `Financial Dashboard.SemanticModel`. All import-mode tables are
 sourced through the native **Dynamics 365 Business Central** Power BI
-connector (`BusinessCentral.Contents()`), parameterized by environment and
-company — see `Parameters` below and the README for how to point this at
-Sandbox vs Production.
+connector (`Dynamics365BusinessCentral.ApiContentsWithOptions`), parameterized
+by environment and company — see `Parameters` below and the README for how to
+point this at a different environment/company.
 
 Sign convention used throughout: G/L entries in Business Central post with
 their natural debit/credit sign (credit-normal accounts — Income, Liabilities,
@@ -19,8 +19,8 @@ numbers on the reports.
 
 | Parameter | Type | Default | Purpose |
 |---|---|---|---|
-| `BCEnvironment` | Text | `Production` | BC environment name as shown in the BC admin center / connector Navigator. Change to `Sandbox` (or your tenant's actual sandbox environment name) to repoint every table at sandbox. |
-| `BCCompanyName` | Text | `CRONUS USA, Inc.` | BC company (legal entity) display name, exactly as it appears under the Environment node in the Navigator. |
+| `BCEnvironment` | Text | `DEMO` | BC environment name as shown in the BC admin center / connector Navigator. |
+| `BCCompanyName` | Text | `Cronus - QMM` | BC company (legal entity) display name, exactly as it appears under the Environment node in the Navigator. |
 | `BCApiVersion` | Text | `v2.0` | Documentation-only marker of which BC API/connector generation this project was authored against. |
 | `GlobalDimension1Code` | Text | `DEPARTMENT` | Dimension Code mapped to this company's Global Dimension 1 slot (Company Information page). |
 | `GlobalDimension2Code` | Text | `PROJECT` | Dimension Code mapped to Global Dimension 2 (often Project or Cost Center). |
@@ -94,6 +94,26 @@ Global Dimensions 1 and 2 are the only two dimensions BC flattens directly
 onto G/L Entry / Cust. Ledger Entry / Vendor Ledger Entry rows. A third or
 fourth company dimension lives only in **Dimension Set Entry** and would need
 its own bridge/merge if required.
+
+### Dim_AccountCategory
+Source: the BC **Advanced API browser** (not the curated entity list) —
+`accountCategories` under the `microsoft/analytics/v1.0` publisher/group/
+version path. Unrelated to any of the standard curated entities the other
+tables use.
+
+| Column | Type | Notes |
+|---|---|---|
+| id | string | Placeholder — verify against the tenant's actual schema. |
+| code | string | Placeholder. |
+| displayName | string | Placeholder. |
+
+**Not verified against a live tenant.** This table's navigation path
+(`Advanced → microsoft/analytics/v1.0 → accountCategories`) was confirmed
+against a real Navigator, but its column schema wasn't — check Power Query
+Editor after first refresh and correct the three columns above to match, then
+add a relationship to `Dim_ChartOfAccounts[Account Category]` on whichever
+column turns out to be the real join key. Not yet wired into any measure or
+relationship pending that verification.
 
 ### Dim_Customer
 Source: BC **Customers** entity.

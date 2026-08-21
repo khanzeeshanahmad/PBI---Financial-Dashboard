@@ -55,17 +55,18 @@ docs/
 
 ## Setting environment / company (Sandbox vs Production)
 
-All tables call `BusinessCentral.Contents()` and drill into
-`Environment{[Name = BCEnvironment]}` → `Company{[Name = BCCompanyName]}`
-using two model parameters instead of hardcoded literals, so **one place**
-controls what every table pulls from:
+All tables call `Dynamics365BusinessCentral.ApiContentsWithOptions(null, null,
+null, null)` and drill into `Environment{[Name = BCEnvironment]}` →
+`Company{[Name = BCCompanyName]}` using two model parameters instead of
+hardcoded literals, so **one place** controls what every table pulls from.
+Defaults ship pointed at the `DEMO` environment / `Cronus - QMM` company used
+to build this project — change both before pointing at a different tenant:
 
 1. In Desktop: **Home → Transform data → Manage parameters**.
 2. Set `BCEnvironment` to the exact environment name shown in the BC admin
    center / connector Navigator (e.g. `Production` or `Sandbox`, or your
    tenant's actual sandbox name).
-3. Set `BCCompanyName` to the exact company display name (e.g. `CRONUS USA,
-   Inc.`).
+3. Set `BCCompanyName` to the exact company display name.
 4. If this company's Global Dimensions 1/2 aren't Department/Project, update
    `GlobalDimension1Code` / `GlobalDimension2Code` to match (check **Company
    Information** in BC for what's mapped to each Global Dimension slot).
@@ -77,6 +78,40 @@ controls what every table pulls from:
 
 See `docs/DataDictionary.md` for the full parameter list and every table's M
 query / source BC entity.
+
+### Curated entities vs. the "Advanced" API browser
+
+Most tables in this model (Customers, Vendors, G/L Entries, Chart of
+Accounts, Dimension Value, ledger/budget entries) are pulled from the
+connector's curated top-level list, the same way you'd pick them by hand in
+Get Data: `Company{[Name = "G/L Entries"]}[Data]`, etc. A few entities aren't
+in that curated list and only exist as raw Business Central API pages —
+`Dim_AccountCategory` is one (BC's Account Category lookup lives under a
+Microsoft-published API extension, not the curated list). Those queries
+drill one level further, through the connector's **Advanced** node, into the
+specific API publisher/group/version path, e.g.:
+
+```
+Advanced = Company{[Name = "Advanced"]}[Data],
+#"microsoft/analytics/v1.0" = Advanced{[Name = "microsoft/analytics/v1.0"]}[Data],
+accountCategories_table = #"microsoft/analytics/v1.0"{[Name = "accountCategories", Signature = "table"]}[Data]
+```
+
+If any other table's simple `Company{[Name = "..."]}[Data]` step errors with
+"entity not found" in your tenant, the fix is the same shape: in Power Query,
+drill into **Company → Advanced**, find the entity under whichever
+publisher/group/version folder it lives in, and copy that same
+Source → Environment → Company → Advanced → `<group/version>` →
+`<entity>{[Name="...", Signature="table"]}` chain into that table's query,
+substituting the exact path shown for your tenant.
+
+`Dim_AccountCategory`'s columns (`id`, `code`, `displayName`) are a
+best-effort placeholder — this project was built without live access to
+verify that entity's actual schema. Open its query in Power Query Editor,
+correct the column names/types to match what your tenant actually returns,
+and add a relationship from `Dim_AccountCategory` to
+`Dim_ChartOfAccounts[Account Category]` once you can see which field is the
+real join key.
 
 ## BC version compatibility
 

@@ -1,0 +1,41 @@
+table Dim_AccountCategory
+	lineageTag: 8640d9d2-d342-46b2-8ee2-b30bbfda9714
+
+	column id
+		dataType: string
+		isKey
+		lineageTag: 6721134a-79f9-4e50-b9f2-b2201c9fd3b1
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column code
+		dataType: string
+		lineageTag: 71c9e384-a888-40c4-b4db-c555da1e23ab
+		summarizeBy: none
+		sourceColumn: code
+
+		annotation SummarizationSetBy = Automatic
+
+	column displayName
+		dataType: string
+		lineageTag: 6ba77e10-e136-441f-9199-aa807a9e4057
+		summarizeBy: none
+		sourceColumn: displayName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_AccountCategory = m
+		mode: import
+		source =
+				let
+					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
+					Environment = Source{[Name = BCEnvironment]}[Data],
+					Company = Environment{[Name = BCCompanyName]}[Data],
+					Advanced = Company{[Name = "Advanced"]}[Data],
+					#"microsoft/analytics/v1.0" = Advanced{[Name = "microsoft/analytics/v1.0"]}[Data],
+					accountCategories_table = #"microsoft/analytics/v1.0"{[Name = "accountCategories", Signature = "table"]}[Data]
+				in
+					accountCategories_table
+

@@ -119,7 +119,7 @@ table Fact_GLTransactions
 		mode: import
 		source =
 				let
-					Source = BusinessCentral.Contents(),
+					Source = Dynamics365BusinessCentral.ApiContentsWithOptions(null, null, null, null),
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
 					#"G/L Entries" = Company{[Name = "G/L Entries"]}[Data],
