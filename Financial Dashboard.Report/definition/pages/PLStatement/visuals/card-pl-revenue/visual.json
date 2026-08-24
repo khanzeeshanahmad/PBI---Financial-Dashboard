@@ -3,9 +3,9 @@
   "name": "card-pl-revenue",
   "position": {
     "x": 24,
-    "y": 88,
+    "y": 120,
     "z": 10,
-    "height": 100,
+    "height": 90,
     "width": 233,
     "tabOrder": 10
   },

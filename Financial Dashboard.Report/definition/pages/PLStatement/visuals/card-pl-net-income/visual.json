@@ -3,11 +3,11 @@
   "name": "card-pl-net-income",
   "position": {
     "x": 1020,
-    "y": 88,
-    "z": 14,
-    "height": 100,
+    "y": 120,
+    "z": 10,
+    "height": 90,
     "width": 236,
-    "tabOrder": 14
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",

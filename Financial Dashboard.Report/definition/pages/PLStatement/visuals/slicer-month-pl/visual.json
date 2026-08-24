@@ -5,7 +5,7 @@
     "x": 881,
     "y": 24,
     "z": 3,
-    "height": 48,
+    "height": 80,
     "width": 375,
     "tabOrder": 3
   },
@@ -42,6 +42,19 @@
               "expr": {
                 "Literal": {
                   "Value": "0L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
                 }
               }
             }

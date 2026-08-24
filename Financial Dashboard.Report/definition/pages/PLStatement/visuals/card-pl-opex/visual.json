@@ -3,11 +3,11 @@
   "name": "card-pl-opex",
   "position": {
     "x": 771,
-    "y": 88,
-    "z": 13,
-    "height": 100,
+    "y": 120,
+    "z": 10,
+    "height": 90,
     "width": 233,
-    "tabOrder": 13
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",

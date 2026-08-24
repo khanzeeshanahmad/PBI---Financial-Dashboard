@@ -242,6 +242,30 @@ data questions, not report defects)
   value. The chart itself is correct; it just has little to show until more
   transactions are department-tagged.
 
+## Follow-up pass: Year/Month slicers switched to Dropdown mode
+
+A screenshot showed the Year and Month slicers rendering as cramped,
+scrollable checkbox lists — only one value visible at a time inside the
+48px header band, everything else hidden behind a tiny scrollbar. Per
+Microsoft's own PBIR slicer authoring reference, a slicer's display mode is
+set via `visual.objects.data[0].properties.mode` (`'Dropdown'` vs the
+default `'Basic'` list), and a dropdown slicer needs a minimum height of
+**80px** regardless of how many values it holds (values render in a popup on
+click, not inline) — shrinking it further just clips the control rather than
+fixing anything.
+
+Applied `mode: 'Dropdown'` to every Year/Month slicer (Executive Summary,
+P&L Statement, Transaction Detail) and bumped the reserved header band from
+48px to 80px across all 6 pages to match, pushing every page's content down
+accordingly (`y=88` → `y=120`). This was done as a **position-and-mode-only
+patch** — every slicer's existing filter selection (e.g. the Year slicer's
+"2025" default) and every other visual's field bindings were read, modified
+only on the `position` / `objects.data` keys, and written back untouched,
+specifically to preserve the manual fixes already made in Desktop (the
+`GL_Entries_With_Dim` source correction, the default Year filter) rather
+than risk clobbering them with a full visual rebuild. No overlaps on any
+page (verified programmatically after every page).
+
 ## Known deviations from a from-scratch ideal (deliberately deferred)
 
 These were considered and consciously not done this pass — each for a

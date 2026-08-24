@@ -3,11 +3,11 @@
   "name": "card-net-income-ytd",
   "position": {
     "x": 336,
-    "y": 88,
-    "z": 11,
-    "height": 110,
+    "y": 120,
+    "z": 10,
+    "height": 90,
     "width": 296,
-    "tabOrder": 11
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",

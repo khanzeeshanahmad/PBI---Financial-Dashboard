@@ -3,11 +3,11 @@
   "name": "card-pl-cogs",
   "position": {
     "x": 273,
-    "y": 88,
-    "z": 11,
-    "height": 100,
+    "y": 120,
+    "z": 10,
+    "height": 90,
     "width": 233,
-    "tabOrder": 11
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",

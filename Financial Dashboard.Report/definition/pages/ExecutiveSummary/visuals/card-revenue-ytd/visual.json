@@ -3,9 +3,9 @@
   "name": "card-revenue-ytd",
   "position": {
     "x": 24,
-    "y": 88,
+    "y": 120,
     "z": 10,
-    "height": 110,
+    "height": 90,
     "width": 296,
     "tabOrder": 10
   },

@@ -3,11 +3,11 @@
   "name": "card-ap-current",
   "position": {
     "x": 960,
-    "y": 88,
-    "z": 13,
-    "height": 100,
+    "y": 120,
+    "z": 10,
+    "height": 90,
     "width": 296,
-    "tabOrder": 13
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",
