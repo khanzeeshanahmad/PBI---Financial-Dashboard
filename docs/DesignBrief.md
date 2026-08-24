@@ -187,6 +187,61 @@ Design Brief:
 6. **displayName cleanup carried forward** from the prior pass (underscored
    model column names like `Account_Category` still show as clean labels).
 
+## Follow-up pass: the theme's `visualStyles` was silently no-op'ing
+
+A screenshot review after the above landed showed the theme's navy titles and
+KPI callout numbers rendering correctly, but **card backgrounds/borders,
+table header colors, and chart axis/gridline styling weren't applying at
+all** — visuals looked like unstyled default Power BI. Root cause, found by
+diffing against confirmed-real theme JSON (not PBIR visual JSON, which uses a
+different shape): every `visualStyles.<type>.<preset>` entry must be an
+**object whose keys are property groups, each itself an array with one
+settings object** (`"card": {"*": {"background": [{...}], "border": [{...}]}}`).
+The theme had it backwards — one array wrapping a single object that bundled
+`background`/`border`/`title` as plain nested keys
+(`"*": {"*": [{"background": {...}, "border": {...}}]}`). Power BI parses
+`textClasses` (a different, correctly-shaped top-level key) fine and just
+silently ignores a malformed `visualStyles`, which is why only fonts/colors
+from `textClasses` were visible and nothing else. Rewrote the whole
+`visualStyles` block against the confirmed-real shape:
+- Cards now get a visible light-tint background + navy border (previously
+  invisible — cards read as floating numbers with no card boundary at all).
+- Table headers now actually get the navy background / white text.
+- All chart types get muted gray axis labels, subtle dotted gridlines
+  instead of default solid ones, axis titles hidden (they were redundant
+  with the legend and cluttering the P&L trend chart in particular), and a
+  consistent legend/label font.
+
+## Data-quality findings from the screenshot (not fixed — these are business
+data questions, not report defects)
+
+- The Executive Summary Year slicer shows a `(Blank)` tile. This means at
+  least one fact-table row has a null/unmatched date. Right-click it →
+  "Exclude" in Desktop for a permanent fix (this was not hand-patched via a
+  filter here, consistent with this project's practice of not hand-authoring
+  unverified PBIR filter JSON).
+- Several KPI cards render `(Blank)` outright: Balance Sheet's Total Equity,
+  Budget vs Actual's Budget Amount and Budget Variance %, AR/AP Aging's AR
+  Current. Each means the underlying `CALCULATE(...)` filter matches zero
+  rows for the current context — e.g. `AR Current` filters
+  `Due_Date >= TODAY()`, and if the CRONUS demo ledger's invoice dates are
+  all in the past relative to today's real date, that condition will never
+  be true against demo data (it will work correctly against live current
+  data). Worth deciding whether `Budget Amount` genuinely has no budget rows
+  loaded for the selected year, versus a real gap.
+- P&L Statement's Operating Expenses shows `$0.00` and Gross Profit
+  ($1.47M) is larger than Revenue ($322K) — both point to one unusually
+  large entry (`Inventory Adjmt., Retail`, roughly -$1.67M) dominating COGS
+  for a single month, visible as the sharp June spike/trough in the
+  Revenue/COGS/Net Income trend chart. This is a property of the CRONUS demo
+  data, not a DAX or chart defect — worth checking whether that entry
+  belongs in the demo period being reviewed.
+- Executive Summary's "Revenue by Department" chart is dominated by
+  "(No Department)", with only one other department ("Purchasing") barely
+  visible. Most G/L entries in this tenant don't carry a Global Dimension 1
+  value. The chart itself is correct; it just has little to show until more
+  transactions are department-tagged.
+
 ## Known deviations from a from-scratch ideal (deliberately deferred)
 
 These were considered and consciously not done this pass — each for a
