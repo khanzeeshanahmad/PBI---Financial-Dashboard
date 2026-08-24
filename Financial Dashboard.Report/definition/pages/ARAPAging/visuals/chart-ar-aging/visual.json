@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Dim_Customer.Name",
-              "nativeQueryRef": "Name"
+              "nativeQueryRef": "Name",
+              "active": true
             }
           ]
         },

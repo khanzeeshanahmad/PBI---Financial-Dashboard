@@ -32,7 +32,7 @@ table Fact_VendorLedgerEntries
 		dataType: int64
 		formatString: 0
 		lineageTag: cebff395-5d81-46a6-b125-5b4dd4456809
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Entry_No
 
 		annotation SummarizationSetBy = Automatic
@@ -51,11 +51,6 @@ table Fact_VendorLedgerEntries
 		lineageTag: 430876d1-f594-4614-8595-633d6f81b6e9
 		summarizeBy: none
 		sourceColumn: Posting_Date
-
-		variation Variation
-			isDefault
-			relationship: 5b1ec391-12d6-4d55-8000-e067d7541b3c
-			defaultHierarchy: LocalDateTable_a6e27b79-64df-47ae-b2bb-e8ac93ead9b6.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

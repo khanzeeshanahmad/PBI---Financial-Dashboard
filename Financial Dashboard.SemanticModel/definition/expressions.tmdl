@@ -16,20 +16,24 @@ expression BCApiVersion = "v2.0" meta [IsParameterQuery=true, Type="Text", IsPar
 expression GlobalDimension1Code = "DEPARTMENT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 684d3eae-1d30-45f4-81e5-2702c5ff790a
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
 expression GlobalDimension2Code = "CUSTOMERGROUP" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 0590ccb1-3022-4791-9677-3b4782032351
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
-expression RangeStart = #datetime(2015, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+expression RangeStart = #datetime(2005, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
 	lineageTag: a1243922-1938-4b98-82a4-d174a924b56f
 
 	annotation PBI_ResultType = DateTime
 
-expression RangeEnd = #datetime(2026, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+	annotation PBI_NavigationStepName = Navigation
+
+expression RangeEnd = #datetime(2099, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
 	lineageTag: 858811bd-75c9-41f7-bc7a-1ab0754e7089
 
 	annotation PBI_ResultType = DateTime
+
+	annotation PBI_NavigationStepName = Navigation
 

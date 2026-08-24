@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Dim_BusinessDimension1.Name",
-              "nativeQueryRef": "Name"
+              "nativeQueryRef": "Name",
+              "active": true
             }
           ]
         },
@@ -90,5 +91,37 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f9878838d1e8201de937",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_BusinessDimension1"
+              }
+            },
+            "Property": "Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "fb4ca58e7270ab446779",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Revenue"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

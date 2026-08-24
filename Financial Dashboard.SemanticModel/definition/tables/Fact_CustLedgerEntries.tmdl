@@ -32,7 +32,7 @@ table Fact_CustLedgerEntries
 		dataType: int64
 		formatString: 0
 		lineageTag: 81c4955a-7e47-441d-a883-60992a67732f
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Entry_No
 
 		annotation SummarizationSetBy = Automatic
@@ -51,11 +51,6 @@ table Fact_CustLedgerEntries
 		lineageTag: a6e05368-d3a3-4071-aa9b-9fe09a6c7de1
 		summarizeBy: none
 		sourceColumn: Posting_Date
-
-		variation Variation
-			isDefault
-			relationship: a9cfe85f-0654-41aa-a527-1ffe002b51ea
-			defaultHierarchy: LocalDateTable_b4effdc4-9845-45ab-951b-0622a0cd64af.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

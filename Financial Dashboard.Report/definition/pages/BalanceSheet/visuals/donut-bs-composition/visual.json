@@ -28,6 +28,7 @@
               },
               "queryRef": "Dim_ChartOfAccounts.Account_Category",
               "nativeQueryRef": "Account_Category",
+              "active": true,
               "displayName": "Account Category"
             }
           ]

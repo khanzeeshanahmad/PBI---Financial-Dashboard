@@ -24,16 +24,8 @@ table Fact_GLTransactions
 		dataType: int64
 		formatString: 0
 		lineageTag: 0efb95a3-3bc0-470f-92d1-5530ede35759
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Entry_No
-
-		annotation SummarizationSetBy = Automatic
-
-	column G_L_Account_No
-		dataType: string
-		lineageTag: 210fe32e-33f8-4b9e-9e9b-395d5c97c7f3
-		summarizeBy: none
-		sourceColumn: G_L_Account_No
 
 		annotation SummarizationSetBy = Automatic
 
@@ -43,11 +35,6 @@ table Fact_GLTransactions
 		lineageTag: 25f8b61a-56db-41aa-8a1e-1ea6b10feae7
 		summarizeBy: none
 		sourceColumn: Posting_Date
-
-		variation Variation
-			isDefault
-			relationship: a1fd6b37-30f3-47ce-810c-aa9ebbb8be43
-			defaultHierarchy: LocalDateTable_b8049046-1f7e-44a9-a7cd-77e123fb44e8.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -119,6 +106,14 @@ table Fact_GLTransactions
 
 		annotation SummarizationSetBy = Automatic
 
+	column G_L_Account_No
+		dataType: string
+		lineageTag: cdf22256-7f0b-48e6-a650-d3791c6eaa78
+		summarizeBy: none
+		sourceColumn: G_L_Account_No
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Fact_GLTransactions = m
 		mode: import
 		source =
@@ -127,18 +122,22 @@ table Fact_GLTransactions
 					Environment = Source{[Name = BCEnvironment]}[Data],
 					Company = Environment{[Name = BCCompanyName]}[Data],
 					WebServices = Company{[Name = "WebServices"]}[Data],
-					#"G/L Entries" = WebServices{[Name = "G_LEntries"]}[Data],
-					#"Selected Columns" = Table.SelectColumns(
-						#"G/L Entries",
+					#"G/L Entries" = WebServices{[Name = "GL_Entries_With_Dim"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(#"G/L Entries",{"Document_No", "G_L_Account_No_", "Posting_Date", "Document_Type", "Description", "Balance_Account_Type", "Balance_Account_No", "Debit_Amount", "Credit_Amount", "Global_Dimension_1_Code", "Global_Dimension_2_Code", "Account_Name"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"G_L_Account_No_", "G_L_Account_No"}}),
+				    //#"G/L Entries" = WebServices{[Name = "G_LEntries"]}[Data],
+				    #"Selected Columns" = Table.SelectColumns(
+						#"Renamed Columns",
 						{
 							"Entry_No", "G_L_Account_No", "Posting_Date", "Document_No", "Document_Type",
 							"Description", "Source_Code", "Global_Dimension_1_Code", "Global_Dimension_2_Code",
-							"Debit_Amount", "Credit_Amount", "Amount", "User_ID"
+							"Debit_Amount", "Credit_Amount", "User_ID"
 						},
 						MissingField.UseNull
 					),
+				    #"Added Custom" = Table.AddColumn(#"Selected Columns", "Amount", each [Debit_Amount]-[Credit_Amount]),
 					#"Changed Type" = Table.TransformColumnTypes(
-						#"Selected Columns",
+						#"Added Custom",
 						{
 							{"Entry_No", Int64.Type}, {"G_L_Account_No", type text}, {"Posting_Date", type datetime},
 							{"Document_No", type text}, {"Document_Type", type text}, {"Description", type text},
