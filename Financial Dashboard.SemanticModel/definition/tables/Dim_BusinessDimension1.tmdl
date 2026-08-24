@@ -20,10 +20,10 @@ table Dim_BusinessDimension1
 
 	column Dimension_Code
 		dataType: string
+		isHidden
 		lineageTag: 33061ad8-349d-4f2e-b4c3-979346c665f8
 		summarizeBy: none
 		sourceColumn: Dimension Code
-		isHidden
 
 		annotation SummarizationSetBy = Automatic
 

@@ -46,3 +46,18 @@ relationship 52127ab3-37d1-40b2-b995-beac50a3c3f6
 	fromColumn: Fact_VendorLedgerEntries.Posting_Date
 	toColumn: Dim_Date.Date
 
+relationship 75d9f439-df18-457c-b53b-c5d4063706e1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.Date
+	toColumn: LocalDateTable_2954b0f2-1cba-41ff-8a37-b17295f6210a.Date
+
+relationship d5e5463e-a337-4c61-8861-5d10e2dc035c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Fact_CustLedgerEntries.Due_Date
+	toColumn: LocalDateTable_54d244f5-18ce-4e01-9db8-e3c4dd4c4ed1.Date
+
+relationship 7474ac22-4f42-4569-85d8-daa08c2801fd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Fact_VendorLedgerEntries.Due_Date
+	toColumn: LocalDateTable_646369b3-2c99-416b-8746-4547995ec108.Date
+

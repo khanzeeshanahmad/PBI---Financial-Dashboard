@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "baseTheme": {
       "name": "CY24SU10",
@@ -11,12 +11,6 @@
       "type": "SharedResources"
     }
   },
-  "filterConfig": {
-    "filters": []
-  },
-  "objects": {},
-  "layoutOptimization": "None",
-  "publicCustomVisuals": [],
   "resourcePackages": [
     {
       "name": "SharedResources",
@@ -31,9 +25,8 @@
     }
   ],
   "settings": {
-    "useNewFilterPaneExperience": true,
+    "useStylableVisualContainerHeader": true,
     "allowChangeFilterTypes": true,
-    "useStylableVisualContainerHeader": true
-  },
-  "annotations": []
+    "useEnhancedTooltips": false
+  }
 }

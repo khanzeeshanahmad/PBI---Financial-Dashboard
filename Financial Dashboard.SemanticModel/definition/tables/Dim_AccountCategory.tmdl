@@ -1,28 +1,37 @@
 table Dim_AccountCategory
 	lineageTag: 8640d9d2-d342-46b2-8ee2-b30bbfda9714
 
-	column id
+	column powerBIAccCategory
 		dataType: string
-		isKey
-		lineageTag: 6721134a-79f9-4e50-b9f2-b2201c9fd3b1
+		lineageTag: 19773012-1f25-4f5f-85f9-488a1de2a7af
 		summarizeBy: none
-		sourceColumn: id
+		sourceColumn: powerBIAccCategory
 
 		annotation SummarizationSetBy = Automatic
 
-	column code
-		dataType: string
-		lineageTag: 71c9e384-a888-40c4-b4db-c555da1e23ab
-		summarizeBy: none
-		sourceColumn: code
+	column glAccCategoryEntryNo
+		dataType: int64
+		formatString: 0
+		lineageTag: 7bed1d3a-2bb4-45c4-87e1-cbba58a2cc9b
+		summarizeBy: sum
+		sourceColumn: glAccCategoryEntryNo
 
 		annotation SummarizationSetBy = Automatic
 
-	column displayName
+	column parentAccCategoryEntryNo
+		dataType: int64
+		formatString: 0
+		lineageTag: cf2c8d6a-588e-459b-bf28-01b7966aecf5
+		summarizeBy: sum
+		sourceColumn: parentAccCategoryEntryNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ETag
 		dataType: string
-		lineageTag: 6ba77e10-e136-441f-9199-aa807a9e4057
+		lineageTag: a060fefa-8e69-4c11-a37b-7590841ba765
 		summarizeBy: none
-		sourceColumn: displayName
+		sourceColumn: ETag
 
 		annotation SummarizationSetBy = Automatic
 

@@ -84,6 +84,7 @@ table Fact_GLTransactions
 		sourceColumn: Debit Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column Credit_Amount
@@ -94,6 +95,7 @@ table Fact_GLTransactions
 		sourceColumn: Credit Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column Amount
@@ -104,14 +106,15 @@ table Fact_GLTransactions
 		sourceColumn: Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column User_ID
 		dataType: string
+		isHidden
 		lineageTag: 8ddcb7e5-0fd1-46e9-91b1-dee1d72646de
 		summarizeBy: none
 		sourceColumn: User ID
-		isHidden
 
 		annotation SummarizationSetBy = Automatic
 

@@ -6,7 +6,7 @@ table Fact_VendorLedgerEntries
 		isKey
 		formatString: 0
 		lineageTag: b8c69283-22c4-4444-9d7b-fa5e4d8ab617
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Entry No.
 
 		annotation SummarizationSetBy = Automatic
@@ -34,6 +34,11 @@ table Fact_VendorLedgerEntries
 		lineageTag: e6b2ed5c-aa31-4c40-a0d1-42c0fabfd98f
 		summarizeBy: none
 		sourceColumn: Due Date
+
+		variation Variation
+			isDefault
+			relationship: 7474ac22-4f42-4569-85d8-daa08c2801fd
+			defaultHierarchy: LocalDateTable_646369b3-2c99-416b-8746-4547995ec108.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -85,6 +90,7 @@ table Fact_VendorLedgerEntries
 		sourceColumn: Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column Remaining_Amount
@@ -95,6 +101,7 @@ table Fact_VendorLedgerEntries
 		sourceColumn: Remaining Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	partition Fact_VendorLedgerEntries = m

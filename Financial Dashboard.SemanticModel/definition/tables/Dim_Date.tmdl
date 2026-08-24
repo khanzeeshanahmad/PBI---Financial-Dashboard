@@ -9,13 +9,20 @@ table Dim_Date
 		summarizeBy: none
 		sourceColumn: Date
 
+		variation Variation
+			isDefault
+			relationship: 75d9f439-df18-457c-b53b-c5d4063706e1
+			defaultHierarchy: LocalDateTable_2954b0f2-1cba-41ff-8a37-b17295f6210a.'Date Hierarchy'
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column Year
 		dataType: int64
 		formatString: 0
 		lineageTag: f91e3045-4e22-465b-a01e-9cda5fda97f7
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Year
 
 		annotation SummarizationSetBy = Automatic
@@ -24,7 +31,7 @@ table Dim_Date
 		dataType: int64
 		formatString: 0
 		lineageTag: a3c41342-8229-4462-89fd-3d93e6bae010
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Quarter
 
 		annotation SummarizationSetBy = Automatic
@@ -41,7 +48,7 @@ table Dim_Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 3f1ced5d-871a-48e5-b734-9200dda3c818
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: MonthNumber
 
 		annotation SummarizationSetBy = Automatic
@@ -84,7 +91,7 @@ table Dim_Date
 		dataType: int64
 		formatString: 0
 		lineageTag: af68db67-484e-4161-8fc4-af53848fa89e
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Day
 
 		annotation SummarizationSetBy = Automatic
@@ -93,7 +100,7 @@ table Dim_Date
 		dataType: int64
 		formatString: 0
 		lineageTag: 4a76ef87-c7a3-48ca-aeb9-d5c8a37cb296
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: DayOfWeekNumber
 
 		annotation SummarizationSetBy = Automatic
@@ -111,7 +118,7 @@ table Dim_Date
 		dataType: int64
 		formatString: 0
 		lineageTag: f63a93ed-f1f7-42f5-9bbf-cb2176736c03
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: FiscalYear
 
 		annotation SummarizationSetBy = Automatic
@@ -142,3 +149,4 @@ table Dim_Date
 					#"Inserted Fiscal Year"
 
 	annotation __PBI_TableCategory = DateTable
+

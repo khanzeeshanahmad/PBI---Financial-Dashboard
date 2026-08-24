@@ -60,6 +60,7 @@ table Fact_Budget
 		sourceColumn: Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	partition Fact_Budget = m

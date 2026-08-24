@@ -2,3 +2,30 @@ model Model
 	culture: en-US
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["Dim_AccountCategory","Dim_BusinessDimension1","Dim_BusinessDimension2","Dim_ChartOfAccounts","Dim_Customer","Dim_Date","Dim_Vendor","Fact_Budget","Fact_CustLedgerEntries","Fact_GLTransactions","Fact_VendorLedgerEntries","BCEnvironment","BCCompanyName","BCApiVersion","GlobalDimension1Code","GlobalDimension2Code","RangeStart","RangeEnd"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+ref table Dim_AccountCategory
+ref table Dim_BusinessDimension1
+ref table Dim_BusinessDimension2
+ref table Dim_ChartOfAccounts
+ref table Dim_Customer
+ref table Dim_Date
+ref table Dim_Vendor
+ref table Fact_Budget
+ref table Fact_CustLedgerEntries
+ref table Fact_GLTransactions
+ref table Fact_VendorLedgerEntries
+ref table _Measures
+ref table DateTableTemplate_e03405b4-8546-4a6a-b0b3-18379d1fad39
+ref table LocalDateTable_2954b0f2-1cba-41ff-8a37-b17295f6210a
+ref table LocalDateTable_54d244f5-18ce-4e01-9db8-e3c4dd4c4ed1
+ref table LocalDateTable_646369b3-2c99-416b-8746-4547995ec108
+

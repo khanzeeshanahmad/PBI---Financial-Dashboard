@@ -6,7 +6,7 @@ table Fact_CustLedgerEntries
 		isKey
 		formatString: 0
 		lineageTag: 7baff763-06e3-46f1-b270-eec2b53c3a2d
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Entry No.
 
 		annotation SummarizationSetBy = Automatic
@@ -34,6 +34,11 @@ table Fact_CustLedgerEntries
 		lineageTag: 90119fb9-c746-443c-8918-aa27ec462b71
 		summarizeBy: none
 		sourceColumn: Due Date
+
+		variation Variation
+			isDefault
+			relationship: d5e5463e-a337-4c61-8861-5d10e2dc035c
+			defaultHierarchy: LocalDateTable_54d244f5-18ce-4e01-9db8-e3c4dd4c4ed1.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -85,6 +90,7 @@ table Fact_CustLedgerEntries
 		sourceColumn: Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column Remaining_Amount
@@ -95,6 +101,7 @@ table Fact_CustLedgerEntries
 		sourceColumn: Remaining Amount
 
 		annotation SummarizationSetBy = Automatic
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	partition Fact_CustLedgerEntries = m
