@@ -27,6 +27,7 @@ Financial Dashboard.Report/                 ← PBIR report definition (6 pages)
 docs/
   DataDictionary.md                         ← every table, column, BC source field, and measure's DAX
   ReportPages.md                            ← what's seeded per page vs. recommended to finish in Desktop
+  DesignBrief.md                            ← powerbi-report-design skill's brownfield critique + design contract
 ```
 
 ## Prerequisites

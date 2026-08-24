@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-ar-total",
   "position": {
-    "x": 20,
-    "y": 20,
-    "z": 600,
-    "height": 90,
-    "width": 290,
-    "tabOrder": 600
+    "x": 24,
+    "y": 88,
+    "z": 10,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",

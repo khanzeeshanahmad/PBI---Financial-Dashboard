@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "chart-ar-aging-bucket",
   "position": {
-    "x": 20,
-    "y": 125,
-    "z": 610,
-    "height": 280,
-    "width": 610,
-    "tabOrder": 610
+    "x": 24,
+    "y": 204,
+    "z": 20,
+    "height": 238,
+    "width": 608,
+    "tabOrder": 20
   },
   "visual": {
     "visualType": "clusteredColumnChart",

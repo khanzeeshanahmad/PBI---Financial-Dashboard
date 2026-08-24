@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-td-credit",
   "position": {
-    "x": 640,
-    "y": 20,
-    "z": 702,
-    "height": 90,
-    "width": 290,
-    "tabOrder": 702
+    "x": 648,
+    "y": 88,
+    "z": 12,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 12
   },
   "visual": {
     "visualType": "card",

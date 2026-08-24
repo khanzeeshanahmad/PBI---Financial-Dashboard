@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-ap-current",
   "position": {
-    "x": 950,
-    "y": 20,
-    "z": 603,
-    "height": 90,
-    "width": 300,
-    "tabOrder": 603
+    "x": 960,
+    "y": 88,
+    "z": 13,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 13
   },
   "visual": {
     "visualType": "card",

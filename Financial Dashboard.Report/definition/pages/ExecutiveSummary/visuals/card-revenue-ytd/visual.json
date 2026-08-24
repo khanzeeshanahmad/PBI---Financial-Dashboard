@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-revenue-ytd",
   "position": {
-    "x": 20,
-    "y": 70,
-    "z": 200,
-    "height": 100,
-    "width": 290,
-    "tabOrder": 200
+    "x": 24,
+    "y": 88,
+    "z": 10,
+    "height": 110,
+    "width": 296,
+    "tabOrder": 10
   },
   "visual": {
     "visualType": "card",

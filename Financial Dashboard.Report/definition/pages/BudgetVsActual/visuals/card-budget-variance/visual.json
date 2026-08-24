@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-budget-variance",
   "position": {
-    "x": 640,
-    "y": 20,
-    "z": 502,
-    "height": 90,
-    "width": 290,
-    "tabOrder": 502
+    "x": 648,
+    "y": 88,
+    "z": 12,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 12
   },
   "visual": {
     "visualType": "card",

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "table-budget-variance",
   "position": {
-    "x": 20,
-    "y": 430,
-    "z": 511,
-    "height": 270,
-    "width": 1240,
-    "tabOrder": 511
+    "x": 24,
+    "y": 510,
+    "z": 21,
+    "height": 186,
+    "width": 1232,
+    "tabOrder": 21
   },
   "visual": {
     "visualType": "tableEx",

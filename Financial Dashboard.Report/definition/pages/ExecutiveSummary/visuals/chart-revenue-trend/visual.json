@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "chart-revenue-trend",
   "position": {
-    "x": 20,
-    "y": 280,
-    "z": 220,
-    "height": 390,
-    "width": 760,
-    "tabOrder": 220
+    "x": 24,
+    "y": 214,
+    "z": 20,
+    "height": 482,
+    "width": 608,
+    "tabOrder": 20
   },
   "visual": {
     "visualType": "lineChart",

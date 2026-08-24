@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "chart-budget-vs-actual",
   "position": {
-    "x": 20,
-    "y": 125,
-    "z": 510,
+    "x": 24,
+    "y": 204,
+    "z": 20,
     "height": 290,
-    "width": 1240,
-    "tabOrder": 510
+    "width": 1232,
+    "tabOrder": 20
   },
   "visual": {
     "visualType": "clusteredColumnChart",

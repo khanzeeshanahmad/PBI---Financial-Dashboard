@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "chart-ar-aging",
   "position": {
-    "x": 20,
-    "y": 420,
-    "z": 620,
-    "height": 280,
-    "width": 610,
-    "tabOrder": 620
+    "x": 24,
+    "y": 458,
+    "z": 22,
+    "height": 238,
+    "width": 608,
+    "tabOrder": 22
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,8 +27,7 @@
                 }
               },
               "queryRef": "Dim_Customer.Name",
-              "nativeQueryRef": "Name",
-              "active": true
+              "nativeQueryRef": "Name"
             }
           ]
         },
@@ -42,73 +41,31 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "AR Current"
+                  "Property": "Total AR Outstanding"
                 }
               },
-              "queryRef": "_Measures.AR Current",
-              "nativeQueryRef": "AR Current"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "AR 1-30 Days"
-                }
-              },
-              "queryRef": "_Measures.AR 1-30 Days",
-              "nativeQueryRef": "AR 1-30 Days"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "AR 31-60 Days"
-                }
-              },
-              "queryRef": "_Measures.AR 31-60 Days",
-              "nativeQueryRef": "AR 31-60 Days"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "AR 61-90 Days"
-                }
-              },
-              "queryRef": "_Measures.AR 61-90 Days",
-              "nativeQueryRef": "AR 61-90 Days"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "AR 90+ Days"
-                }
-              },
-              "queryRef": "_Measures.AR 90+ Days",
-              "nativeQueryRef": "AR 90+ Days"
+              "queryRef": "_Measures.Total AR Outstanding",
+              "nativeQueryRef": "Total AR Outstanding"
             }
           ]
         }
       },
       "sortDefinition": {
-        "isDefaultSort": true
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Total AR Outstanding"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
       }
     },
     "visualContainerObjects": {
@@ -125,7 +82,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'AR Aging by Customer'"
+                  "Value": "'Top AR Exposure by Customer'"
                 }
               }
             }

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-actual-amount",
   "position": {
-    "x": 330,
-    "y": 20,
-    "z": 501,
-    "height": 90,
-    "width": 290,
-    "tabOrder": 501
+    "x": 336,
+    "y": 88,
+    "z": 11,
+    "height": 100,
+    "width": 296,
+    "tabOrder": 11
   },
   "visual": {
     "visualType": "card",

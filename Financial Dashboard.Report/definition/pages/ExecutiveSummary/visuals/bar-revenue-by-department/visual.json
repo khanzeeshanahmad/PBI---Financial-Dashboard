@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "donut-revenue-by-department",
+  "name": "bar-revenue-by-department",
   "position": {
-    "x": 800,
-    "y": 280,
-    "z": 221,
-    "height": 390,
-    "width": 460,
-    "tabOrder": 221
+    "x": 648,
+    "y": 214,
+    "z": 21,
+    "height": 482,
+    "width": 608,
+    "tabOrder": 21
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -51,43 +51,22 @@
         }
       },
       "sortDefinition": {
-        "isDefaultSort": true
-      }
-    },
-    "objects": {
-      "legend": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Revenue"
               }
             },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'RightCenter'"
-                }
-              }
-            }
+            "direction": "Descending"
           }
-        }
-      ],
-      "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ]
+        ]
+      }
     },
     "visualContainerObjects": {
       "title": [

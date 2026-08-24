@@ -63,19 +63,6 @@
             },
             "radius": 6
           },
-          "dropShadow": {
-            "show": true,
-            "shadowColor": {
-              "solid": {
-                "color": "#1F2937"
-              }
-            },
-            "transparency": 90,
-            "position": "0",
-            "shadowBlur": 6,
-            "angle": 90,
-            "shadowDistance": 1
-          },
           "title": {
             "fontSize": 12,
             "fontFamily": "Segoe UI Semibold",
