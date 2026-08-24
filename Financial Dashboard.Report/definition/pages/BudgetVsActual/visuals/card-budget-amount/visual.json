@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-budget-amount",
   "position": {
-    "x": 24,
-    "y": 120,
+    "x": 23.919924315864471,
+    "y": 90.895712400284992,
     "z": 10,
-    "height": 90,
-    "width": 296,
+    "height": 118.64282460668777,
+    "width": 295.65026454408485,
     "tabOrder": 10
   },
   "visual": {
@@ -58,5 +58,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b8de32788611581a0c1e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Budget Amount"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

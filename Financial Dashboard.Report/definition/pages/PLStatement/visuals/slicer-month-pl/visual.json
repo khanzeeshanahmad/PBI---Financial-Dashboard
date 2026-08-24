@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "slicer-month-pl",
   "position": {
-    "x": 881,
-    "y": 24,
+    "x": 880.25321482381253,
+    "y": 0,
     "z": 3,
-    "height": 80,
-    "width": 375,
+    "height": 89.938915427650414,
+    "width": 375.0644132727549,
     "tabOrder": 3
   },
   "visual": {
@@ -84,5 +84,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f05cea8817720ef495db",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Date"
+              }
+            },
+            "Property": "MonthShort"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

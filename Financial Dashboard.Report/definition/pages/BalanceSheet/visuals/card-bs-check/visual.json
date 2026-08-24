@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-bs-check",
   "position": {
-    "x": 960,
-    "y": 120,
+    "x": 959.66736355248258,
+    "y": 93.766103318188726,
     "z": 10,
-    "height": 90,
-    "width": 296,
+    "height": 115.77243368878403,
+    "width": 296.60706151671945,
     "tabOrder": 10
   },
   "visual": {
@@ -58,5 +58,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6238a065ea38bcaf9bdb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Balance Sheet Check"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

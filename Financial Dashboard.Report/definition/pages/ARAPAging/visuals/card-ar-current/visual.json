@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-ar-current",
   "position": {
-    "x": 648,
-    "y": 120,
+    "x": 647.75155047360988,
+    "y": 98.550088181361616,
     "z": 10,
-    "height": 90,
-    "width": 296,
+    "height": 110.98844882561114,
+    "width": 296.60706151671945,
     "tabOrder": 10
   },
   "visual": {
@@ -58,5 +58,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3b822fa27bc51a5758ff",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AR Current"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

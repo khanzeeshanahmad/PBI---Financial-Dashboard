@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-ap-current",
   "position": {
-    "x": 960,
-    "y": 120,
+    "x": 959.66736355248258,
+    "y": 98.550088181361616,
     "z": 10,
-    "height": 90,
-    "width": 296,
+    "height": 110.98844882561114,
+    "width": 296.60706151671945,
     "tabOrder": 10
   },
   "visual": {
@@ -58,5 +58,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fd9147e7f539cfb35f2d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "AP Current"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

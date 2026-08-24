@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-budget-variance-pct",
   "position": {
-    "x": 960,
-    "y": 120,
+    "x": 959.66736355248258,
+    "y": 90.895712400284992,
     "z": 10,
-    "height": 90,
-    "width": 296,
+    "height": 118.64282460668777,
+    "width": 296.60706151671945,
     "tabOrder": 10
   },
   "visual": {
@@ -58,5 +58,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a7b0bdb524d6a37398c2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Budget Variance %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

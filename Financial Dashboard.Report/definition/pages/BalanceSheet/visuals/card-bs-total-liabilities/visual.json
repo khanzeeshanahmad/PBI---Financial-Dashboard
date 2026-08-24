@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-bs-total-liabilities",
   "position": {
-    "x": 336,
-    "y": 120,
+    "x": 335.83573739473718,
+    "y": 93.766103318188726,
     "z": 10,
-    "height": 90,
-    "width": 296,
+    "height": 115.77243368878403,
+    "width": 296.60706151671945,
     "tabOrder": 10
   },
   "visual": {
@@ -58,5 +58,23 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9530b9229b298e080e79",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Liabilities"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
