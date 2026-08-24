@@ -1,49 +1,6 @@
 table Fact_GLTransactions
 	lineageTag: 88df298c-abfb-40d6-bbac-9091461943ce
 
-	column Entry_No
-		dataType: int64
-		isKey
-		formatString: 0
-		lineageTag: 16bb29e2-4f70-45c5-b8d7-ecffdd7a78f7
-		summarizeBy: none
-		sourceColumn: Entry No.
-
-		annotation SummarizationSetBy = Automatic
-
-	column G_L_Account_No
-		dataType: string
-		lineageTag: 6081d4b0-c55a-4799-a00c-276d928195f9
-		summarizeBy: none
-		sourceColumn: G/L Account No.
-
-		annotation SummarizationSetBy = Automatic
-
-	column Posting_Date
-		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 6f0b1082-ea59-440c-88e6-7c8470a5653c
-		summarizeBy: none
-		sourceColumn: Posting Date
-
-		annotation SummarizationSetBy = Automatic
-
-	column Document_No
-		dataType: string
-		lineageTag: 07c4bf86-2baa-4a0a-8819-cdb31cc83af3
-		summarizeBy: none
-		sourceColumn: Document No.
-
-		annotation SummarizationSetBy = Automatic
-
-	column Document_Type
-		dataType: string
-		lineageTag: 959d23a6-249f-4623-a66c-cb8bff053086
-		summarizeBy: none
-		sourceColumn: Document Type
-
-		annotation SummarizationSetBy = Automatic
-
 	column Description
 		dataType: string
 		lineageTag: a12a344d-6d52-4c95-a39a-57d3f2751105
@@ -51,52 +8,6 @@ table Fact_GLTransactions
 		sourceColumn: Description
 
 		annotation SummarizationSetBy = Automatic
-
-	column Source_Code
-		dataType: string
-		lineageTag: 08f5d435-54d4-422d-a28d-8cdb90d53309
-		summarizeBy: none
-		sourceColumn: Source Code
-
-		annotation SummarizationSetBy = Automatic
-
-	column Global_Dimension_1_Code
-		dataType: string
-		lineageTag: 355c5416-7021-4c29-ae85-08dc06de1dd4
-		summarizeBy: none
-		sourceColumn: Global Dimension 1 Code
-
-		annotation SummarizationSetBy = Automatic
-
-	column Global_Dimension_2_Code
-		dataType: string
-		lineageTag: c0c58559-a744-468a-ba5b-16d359772afc
-		summarizeBy: none
-		sourceColumn: Global Dimension 2 Code
-
-		annotation SummarizationSetBy = Automatic
-
-	column Debit_Amount
-		dataType: double
-		formatString: \$#,0.00;(\$#,0.00)
-		lineageTag: 2ade3218-f18c-41e0-80cd-7f180427d035
-		summarizeBy: sum
-		sourceColumn: Debit Amount
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
-
-	column Credit_Amount
-		dataType: double
-		formatString: \$#,0.00;(\$#,0.00)
-		lineageTag: 5718daf3-4487-45c1-a004-3c8217b4c5fb
-		summarizeBy: sum
-		sourceColumn: Credit Amount
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column Amount
 		dataType: double
@@ -109,12 +20,102 @@ table Fact_GLTransactions
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	column Entry_No
+		dataType: int64
+		formatString: 0
+		lineageTag: 0efb95a3-3bc0-470f-92d1-5530ede35759
+		summarizeBy: none
+		sourceColumn: Entry_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column G_L_Account_No
+		dataType: string
+		lineageTag: 210fe32e-33f8-4b9e-9e9b-395d5c97c7f3
+		summarizeBy: none
+		sourceColumn: G_L_Account_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Posting_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 25f8b61a-56db-41aa-8a1e-1ea6b10feae7
+		summarizeBy: none
+		sourceColumn: Posting_Date
+
+		variation Variation
+			isDefault
+			relationship: a1fd6b37-30f3-47ce-810c-aa9ebbb8be43
+			defaultHierarchy: LocalDateTable_b8049046-1f7e-44a9-a7cd-77e123fb44e8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Document_No
+		dataType: string
+		lineageTag: 8b34cccb-70f1-4590-93b9-d30c81501d21
+		summarizeBy: none
+		sourceColumn: Document_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Document_Type
+		dataType: string
+		lineageTag: 8d5f81ce-b497-414b-87f2-7a194a455672
+		summarizeBy: none
+		sourceColumn: Document_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Source_Code
+		dataType: string
+		lineageTag: 62b872ed-6b98-4feb-97b2-afe2ee2ca636
+		summarizeBy: none
+		sourceColumn: Source_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Global_Dimension_1_Code
+		dataType: string
+		lineageTag: 69063df1-f6dc-4ca5-8c2f-34af0526174a
+		summarizeBy: none
+		sourceColumn: Global_Dimension_1_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Global_Dimension_2_Code
+		dataType: string
+		lineageTag: 9e08cc0c-384b-49bf-81ab-77553aac5cb9
+		summarizeBy: none
+		sourceColumn: Global_Dimension_2_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Debit_Amount
+		dataType: double
+		lineageTag: fabc6aea-d6e4-4a02-9b80-ee80cf198636
+		summarizeBy: sum
+		sourceColumn: Debit_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Credit_Amount
+		dataType: double
+		lineageTag: eed16e93-db5f-4405-81bb-2aafec5f584d
+		summarizeBy: sum
+		sourceColumn: Credit_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column User_ID
 		dataType: string
-		isHidden
-		lineageTag: 8ddcb7e5-0fd1-46e9-91b1-dee1d72646de
+		lineageTag: acd6a14c-c964-4cbb-ae6e-b75d2d5a7f03
 		summarizeBy: none
-		sourceColumn: User ID
+		sourceColumn: User_ID
 
 		annotation SummarizationSetBy = Automatic
 
@@ -130,26 +131,30 @@ table Fact_GLTransactions
 					#"Selected Columns" = Table.SelectColumns(
 						#"G/L Entries",
 						{
-							"Entry No.", "G/L Account No.", "Posting Date", "Document No.", "Document Type",
-							"Description", "Source Code", "Global Dimension 1 Code", "Global Dimension 2 Code",
-							"Debit Amount", "Credit Amount", "Amount", "User ID"
+							"Entry_No", "G_L_Account_No", "Posting_Date", "Document_No", "Document_Type",
+							"Description", "Source_Code", "Global_Dimension_1_Code", "Global_Dimension_2_Code",
+							"Debit_Amount", "Credit_Amount", "Amount", "User_ID"
 						},
 						MissingField.UseNull
 					),
 					#"Changed Type" = Table.TransformColumnTypes(
 						#"Selected Columns",
 						{
-							{"Entry No.", Int64.Type}, {"G/L Account No.", type text}, {"Posting Date", type datetime},
-							{"Document No.", type text}, {"Document Type", type text}, {"Description", type text},
-							{"Source Code", type text}, {"Global Dimension 1 Code", type text},
-							{"Global Dimension 2 Code", type text}, {"Debit Amount", type number},
-							{"Credit Amount", type number}, {"Amount", type number}, {"User ID", type text}
+							{"Entry_No", Int64.Type}, {"G_L_Account_No", type text}, {"Posting_Date", type datetime},
+							{"Document_No", type text}, {"Document_Type", type text}, {"Description", type text},
+							{"Source_Code", type text}, {"Global_Dimension_1_Code", type text},
+							{"Global_Dimension_2_Code", type text}, {"Debit_Amount", type number},
+							{"Credit_Amount", type number}, {"Amount", type number}, {"User_ID", type text}
 						}
 					),
 					#"Filtered Rows" = Table.SelectRows(
 						#"Changed Type",
-						each [Posting Date] >= RangeStart and [Posting Date] < RangeEnd
+						each [Posting_Date] >= RangeStart and [Posting_Date] < RangeEnd
 					)
 				in
 					#"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
 

@@ -1,76 +1,11 @@
 table Fact_CustLedgerEntries
 	lineageTag: 2990c109-7994-4903-886f-d855ff610158
 
-	column Entry_No
-		dataType: int64
-		isKey
-		formatString: 0
-		lineageTag: 7baff763-06e3-46f1-b270-eec2b53c3a2d
-		summarizeBy: sum
-		sourceColumn: Entry No.
-
-		annotation SummarizationSetBy = Automatic
-
-	column Customer_No
-		dataType: string
-		lineageTag: ad2b05a7-39a1-46cf-b6f3-20f23fb47e5b
-		summarizeBy: none
-		sourceColumn: Customer No.
-
-		annotation SummarizationSetBy = Automatic
-
-	column Posting_Date
-		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 7687071c-be8c-46b5-8b46-46d8ef314a15
-		summarizeBy: none
-		sourceColumn: Posting Date
-
-		annotation SummarizationSetBy = Automatic
-
-	column Due_Date
-		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 90119fb9-c746-443c-8918-aa27ec462b71
-		summarizeBy: none
-		sourceColumn: Due Date
-
-		variation Variation
-			isDefault
-			relationship: d5e5463e-a337-4c61-8861-5d10e2dc035c
-			defaultHierarchy: LocalDateTable_54d244f5-18ce-4e01-9db8-e3c4dd4c4ed1.'Date Hierarchy'
-
-		annotation SummarizationSetBy = Automatic
-
-	column Document_Type
-		dataType: string
-		lineageTag: 2932c6fe-2e7d-4b04-9b84-67a2f7599f22
-		summarizeBy: none
-		sourceColumn: Document Type
-
-		annotation SummarizationSetBy = Automatic
-
-	column Document_No
-		dataType: string
-		lineageTag: 609236fa-771a-4e97-a71c-3f993ed908c7
-		summarizeBy: none
-		sourceColumn: Document No.
-
-		annotation SummarizationSetBy = Automatic
-
 	column Description
 		dataType: string
 		lineageTag: 4e7b2b25-aee5-4c1d-a667-f8093c69d2d1
 		summarizeBy: none
 		sourceColumn: Description
-
-		annotation SummarizationSetBy = Automatic
-
-	column Currency_Code
-		dataType: string
-		lineageTag: 77713e12-c95f-4233-b4b7-ab9a7ee866ae
-		summarizeBy: none
-		sourceColumn: Currency Code
 
 		annotation SummarizationSetBy = Automatic
 
@@ -93,16 +28,84 @@ table Fact_CustLedgerEntries
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	column Remaining_Amount
-		dataType: double
-		formatString: \$#,0.00;(\$#,0.00)
-		lineageTag: 06e2c34c-c34b-40e5-9e26-d5855c0e611a
-		summarizeBy: sum
-		sourceColumn: Remaining Amount
+	column Entry_No
+		dataType: int64
+		formatString: 0
+		lineageTag: 81c4955a-7e47-441d-a883-60992a67732f
+		summarizeBy: none
+		sourceColumn: Entry_No
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+	column Customer_No
+		dataType: string
+		lineageTag: df7b039d-835b-43be-bcf3-5f6f64da547c
+		summarizeBy: none
+		sourceColumn: Customer_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Posting_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a6e05368-d3a3-4071-aa9b-9fe09a6c7de1
+		summarizeBy: none
+		sourceColumn: Posting_Date
+
+		variation Variation
+			isDefault
+			relationship: a9cfe85f-0654-41aa-a527-1ffe002b51ea
+			defaultHierarchy: LocalDateTable_b4effdc4-9845-45ab-951b-0622a0cd64af.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Due_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a050c5ac-46b5-4fcb-a123-7e1ee85a1dec
+		summarizeBy: none
+		sourceColumn: Due_Date
+
+		variation Variation
+			isDefault
+			relationship: b701e14e-cdf2-4146-94aa-d7e05d28f4bc
+			defaultHierarchy: LocalDateTable_ffc56e92-d303-4c7d-af49-d61eab56d995.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Document_Type
+		dataType: string
+		lineageTag: d2ab9770-9110-480b-ad4c-89f3ead26622
+		summarizeBy: none
+		sourceColumn: Document_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Document_No
+		dataType: string
+		lineageTag: 61ca516c-6c8e-4fb3-a2e2-74d75efa6e1f
+		summarizeBy: none
+		sourceColumn: Document_No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Currency_Code
+		dataType: string
+		lineageTag: 807f8178-1b6d-418f-9482-8aa1a1f5b888
+		summarizeBy: none
+		sourceColumn: Currency_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Remaining_Amount
+		dataType: double
+		lineageTag: fe66e56d-f86a-46e9-8795-cda024f6cb63
+		summarizeBy: sum
+		sourceColumn: Remaining_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition Fact_CustLedgerEntries = m
 		mode: import
@@ -116,21 +119,25 @@ table Fact_CustLedgerEntries
 					#"Selected Columns" = Table.SelectColumns(
 						#"Cust. Ledger Entries",
 						{
-							"Entry No.", "Customer No.", "Posting Date", "Due Date", "Document Type",
-							"Document No.", "Description", "Currency Code", "Open", "Amount", "Remaining Amount"
+							"Entry_No", "Customer_No", "Posting_Date", "Due_Date", "Document_Type",
+							"Document_No", "Description", "Currency_Code", "Open", "Amount", "Remaining_Amount"
 						},
 						MissingField.UseNull
 					),
 					#"Changed Type" = Table.TransformColumnTypes(
 						#"Selected Columns",
 						{
-							{"Entry No.", Int64.Type}, {"Customer No.", type text}, {"Posting Date", type datetime},
-							{"Due Date", type datetime}, {"Document Type", type text}, {"Document No.", type text},
-							{"Description", type text}, {"Currency Code", type text}, {"Open", type logical},
-							{"Amount", type number}, {"Remaining Amount", type number}
+							{"Entry_No", Int64.Type}, {"Customer_No", type text}, {"Posting_Date", type datetime},
+							{"Due_Date", type datetime}, {"Document_Type", type text}, {"Document_No", type text},
+							{"Description", type text}, {"Currency_Code", type text}, {"Open", type logical},
+							{"Amount", type number}, {"Remaining_Amount", type number}
 						}
 					),
-					#"Filtered Blank Keys" = Table.SelectRows(#"Changed Type", each Record.Field(_, "Entry No.") <> null)
+					#"Filtered Blank Keys" = Table.SelectRows(#"Changed Type", each Record.Field(_, "Entry_No") <> null)
 				in
 					#"Filtered Blank Keys"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
 

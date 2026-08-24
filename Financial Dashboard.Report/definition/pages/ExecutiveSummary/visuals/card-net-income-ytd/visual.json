@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-net-income-ytd",
   "position": {
     "x": 325,
     "y": 90,
-    "z": 0,
-    "width": 290,
+    "z": 2000,
     "height": 130,
-    "tabOrder": 0
+    "width": 290,
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "card",

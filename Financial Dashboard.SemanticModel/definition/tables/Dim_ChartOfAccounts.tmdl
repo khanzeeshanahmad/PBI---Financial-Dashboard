@@ -1,60 +1,11 @@
 table Dim_ChartOfAccounts
 	lineageTag: e371108a-7aa1-4d20-b307-6ee29ec2966a
 
-	column No
-		dataType: string
-		isKey
-		lineageTag: 8459479c-9110-4fbc-83a3-359447d8220d
-		summarizeBy: none
-		sourceColumn: No.
-
-		annotation SummarizationSetBy = Automatic
-
 	column Name
 		dataType: string
 		lineageTag: 9cbc5cb7-1577-4276-938c-37cfa8ade464
 		summarizeBy: none
 		sourceColumn: Name
-
-		annotation SummarizationSetBy = Automatic
-
-	column Account_Type
-		dataType: string
-		lineageTag: 1c106bc1-807a-4e7b-8230-419dcd841908
-		summarizeBy: none
-		sourceColumn: Account Type
-
-		annotation SummarizationSetBy = Automatic
-
-	column Income_Balance
-		dataType: string
-		lineageTag: 833cb63d-91b9-4b81-ba58-22cb900c6915
-		summarizeBy: none
-		sourceColumn: Income/Balance
-
-		annotation SummarizationSetBy = Automatic
-
-	column Debit_Credit
-		dataType: string
-		lineageTag: 42c3d997-5bf5-4ceb-a31a-5c9acda5d5c2
-		summarizeBy: none
-		sourceColumn: Debit/Credit
-
-		annotation SummarizationSetBy = Automatic
-
-	column Account_Category
-		dataType: string
-		lineageTag: 53b8f81f-a1cb-4ea6-92f9-9e492278433d
-		summarizeBy: none
-		sourceColumn: Account Category
-
-		annotation SummarizationSetBy = Automatic
-
-	column Account_Subcategory
-		dataType: string
-		lineageTag: 4804603b-0897-419f-9e6c-381c3bca4b17
-		summarizeBy: none
-		sourceColumn: Account Subcategory Descript.
 
 		annotation SummarizationSetBy = Automatic
 
@@ -70,8 +21,76 @@ table Dim_ChartOfAccounts
 		dataType: int64
 		formatString: 0
 		lineageTag: 3045e6f6-93b1-4960-bc69-3ca2a5170064
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Indentation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Debit_Credit
+		dataType: string
+		lineageTag: 42c3d997-5bf5-4ceb-a31a-5c9acda5d5c2
+		summarizeBy: none
+		sourceColumn: Debit/Credit
+
+		annotation SummarizationSetBy = Automatic
+
+	column No
+		dataType: string
+		lineageTag: 77b1b659-cd12-4b63-92b8-949ae7212f08
+		summarizeBy: none
+		sourceColumn: No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account_Type
+		dataType: string
+		lineageTag: 362b5863-4d03-4ae5-a55b-ab0b95b692a3
+		summarizeBy: none
+		sourceColumn: Account_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Income_Balance
+		dataType: string
+		lineageTag: d118c951-1eb2-4ea1-b8ed-520b679c75e5
+		summarizeBy: none
+		sourceColumn: Income_Balance
+
+		annotation SummarizationSetBy = Automatic
+
+	column Debit_Amount
+		dataType: double
+		lineageTag: f144b2ab-712d-45f0-889e-376c1937518a
+		summarizeBy: sum
+		sourceColumn: Debit_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Credit_Amount
+		dataType: double
+		lineageTag: 39275281-75e4-4e84-b5c8-859f8dcde335
+		summarizeBy: sum
+		sourceColumn: Credit_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Account_Category
+		dataType: string
+		lineageTag: d75c2afe-9d18-402a-831c-518c7ea5f316
+		summarizeBy: none
+		sourceColumn: Account_Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account_Subcategory_Descript
+		dataType: string
+		lineageTag: f4a841ce-798d-4567-b2fd-43d28f0696f9
+		summarizeBy: none
+		sourceColumn: Account_Subcategory_Descript
 
 		annotation SummarizationSetBy = Automatic
 
@@ -87,8 +106,8 @@ table Dim_ChartOfAccounts
 					#"Selected Columns" = Table.SelectColumns(
 						#"Chart of Accounts",
 						{
-							"No.", "Name", "Account Type", "Income/Balance", "Debit/Credit",
-							"Account Category", "Account Subcategory Descript.", "Totaling",
+							"No", "Name", "Account_Type", "Income_Balance", "Debit_Amount","Credit_Amount",
+							"Account_Category", "Account_Subcategory_Descript", "Totaling",
 							"Indentation", "Blocked"
 						},
 						MissingField.UseNull
@@ -98,12 +117,17 @@ table Dim_ChartOfAccounts
 					#"Changed Type" = Table.TransformColumnTypes(
 						#"Removed Columns",
 						{
-							{"No.", type text}, {"Name", type text}, {"Account Type", type text},
-							{"Income/Balance", type text}, {"Debit/Credit", type text},
-							{"Account Category", type text}, {"Account Subcategory Descript.", type text},
+							{"No", type text}, {"Name", type text}, {"Account_Type", type text},
+							{"Income_Balance", type text}, {"Debit_Amount", type number},{"Credit_Amount", type number},
+							{"Account_Category", type text}, {"Account_Subcategory_Descript", type text},
 							{"Totaling", type text}, {"Indentation", Int64.Type}
 						}
-					)
+					),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Debit/Credit", each [Debit_Amount]-[Credit_Amount])
 				in
-					#"Changed Type"
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
 

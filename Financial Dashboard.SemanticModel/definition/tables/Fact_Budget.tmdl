@@ -6,7 +6,7 @@ table Fact_Budget
 		isKey
 		formatString: 0
 		lineageTag: 603f8d10-ec91-43d6-bd45-91605afb80f6
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Entry No.
 
 		annotation SummarizationSetBy = Automatic

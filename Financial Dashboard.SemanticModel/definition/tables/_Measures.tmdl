@@ -87,8 +87,8 @@ table _Measures
 			        Dim_ChartOfAccounts,
 			        Dim_ChartOfAccounts[Account_Category] = "Assets"
 			            && (
-			                CONTAINSSTRING(Dim_ChartOfAccounts[Account_Subcategory], "Cash")
-			                || CONTAINSSTRING(Dim_ChartOfAccounts[Account_Subcategory], "Bank")
+			                CONTAINSSTRING(Dim_ChartOfAccounts[Account_Subcategory_Descript], "Cash")
+			                || CONTAINSSTRING(Dim_ChartOfAccounts[Account_Subcategory_Descript], "Bank")
 			            )
 			    )
 			)
