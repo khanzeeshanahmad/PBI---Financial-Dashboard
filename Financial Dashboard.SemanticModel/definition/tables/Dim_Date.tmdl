@@ -127,7 +127,7 @@ table Dim_Date
 		mode: import
 		source =
 				let
-					StartDate = #date(2015, 1, 1),
+					StartDate = Date.StartOfYear(DateTime.Date(List.Min(Fact_GLTransactions[Posting_Date]))),
 					EndDate = Date.EndOfYear(DateTime.Date(DateTime.LocalNow())),
 					DayCount = Duration.Days(EndDate - StartDate) + 1,
 					Dates = List.Dates(StartDate, DayCount, #duration(1, 0, 0, 0)),

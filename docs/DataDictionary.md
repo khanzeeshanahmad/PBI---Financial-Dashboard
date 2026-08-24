@@ -45,8 +45,16 @@ table in the model — no query needs individual editing.
 ### Dim_Date
 Calendar-generated table (`List.Dates`, not pulled from BC), marked as the
 model's **official Date table** (`Model.MarkAsDateTable` / `dataCategory:
-Time`), January–December, no fiscal offset. Spans 2015-01-01 through the end
-of the current calendar year at each refresh.
+Time`), January–December, no fiscal offset. Spans January 1 of the earliest
+year present in `Fact_GLTransactions[Posting_Date]` (computed via
+`Date.StartOfYear(DateTime.Date(List.Min(Fact_GLTransactions[Posting_Date])))`,
+so the calendar always starts exactly at the tenant's actual data, not a
+hardcoded year) through the end of the current calendar year, at each
+refresh. This makes `Dim_Date`'s M query depend on `Fact_GLTransactions`
+evaluating first — expected and harmless (no circular reference, since
+`Fact_GLTransactions` never references `Dim_Date`), but worth knowing if you
+ever see Power Query's dependency graph and wonder why Dim_Date isn't a leaf
+query anymore.
 
 | Column | Type | Notes |
 |---|---|---|
