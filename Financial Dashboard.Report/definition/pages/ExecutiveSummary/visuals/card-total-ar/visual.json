@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "card-total-ar",
+  "position": {
+    "x": 630,
+    "y": 180,
+    "z": 212,
+    "height": 90,
+    "width": 290,
+    "tabOrder": 212
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total AR Outstanding"
+                }
+              },
+              "queryRef": "_Measures.Total AR Outstanding",
+              "nativeQueryRef": "Total AR Outstanding"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total AR Outstanding'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

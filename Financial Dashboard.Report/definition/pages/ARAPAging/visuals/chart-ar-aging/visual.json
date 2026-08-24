@@ -3,11 +3,11 @@
   "name": "chart-ar-aging",
   "position": {
     "x": 20,
-    "y": 90,
-    "z": 0,
-    "height": 580,
+    "y": 420,
+    "z": 620,
+    "height": 280,
     "width": 610,
-    "tabOrder": 0
+    "tabOrder": 620
   },
   "visual": {
     "visualType": "clusteredBarChart",

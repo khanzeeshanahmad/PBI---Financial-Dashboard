@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-net-income-ytd",
   "position": {
-    "x": 325.8329704985938,
-    "y": 24.10007178244037,
-    "z": 2000,
-    "height": 130,
+    "x": 325,
+    "y": 70,
+    "z": 201,
+    "height": 100,
     "width": 290,
-    "tabOrder": 2000
+    "tabOrder": 201
   },
   "visual": {
     "visualType": "card",
@@ -58,23 +58,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "d5e49be0127256467c8e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Net Income YTD"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

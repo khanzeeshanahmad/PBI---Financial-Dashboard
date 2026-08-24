@@ -3,11 +3,11 @@
   "name": "table-pl",
   "position": {
     "x": 20,
-    "y": 90,
-    "z": 2000,
-    "height": 580,
-    "width": 1020,
-    "tabOrder": 2000
+    "y": 125,
+    "z": 310,
+    "height": 575,
+    "width": 600,
+    "tabOrder": 310
   },
   "visual": {
     "visualType": "tableEx",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Dim_ChartOfAccounts.Account_Category",
-              "nativeQueryRef": "Account_Category"
+              "nativeQueryRef": "Account_Category",
+              "displayName": "Account Category"
             },
             {
               "field": {
@@ -116,7 +117,8 @@
             "Property": "Account_Category"
           }
         },
-        "type": "Categorical"
+        "type": "Categorical",
+        "displayName": "Account Category"
       },
       {
         "name": "f6636d8fd3d789ace252",

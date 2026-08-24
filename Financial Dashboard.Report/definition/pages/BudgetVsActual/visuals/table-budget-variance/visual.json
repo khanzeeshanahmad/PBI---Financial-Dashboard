@@ -3,11 +3,11 @@
   "name": "table-budget-variance",
   "position": {
     "x": 20,
-    "y": 410,
-    "z": 1000,
-    "height": 260,
+    "y": 430,
+    "z": 511,
+    "height": 270,
     "width": 1240,
-    "tabOrder": 1000
+    "tabOrder": 511
   },
   "visual": {
     "visualType": "tableEx",

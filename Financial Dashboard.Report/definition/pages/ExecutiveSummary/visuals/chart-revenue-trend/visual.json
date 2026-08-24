@@ -3,11 +3,11 @@
   "name": "chart-revenue-trend",
   "position": {
     "x": 20,
-    "y": 240,
-    "z": 4000,
-    "height": 420,
-    "width": 900,
-    "tabOrder": 4000
+    "y": 280,
+    "z": 220,
+    "height": 390,
+    "width": 760,
+    "tabOrder": 220
   },
   "visual": {
     "visualType": "lineChart",

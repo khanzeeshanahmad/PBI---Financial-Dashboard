@@ -283,18 +283,46 @@ Days, AR 61-90 Days, AR 90+ Days.
 
 **AP Aging**: same bucket set against `Fact_VendorLedgerEntries`.
 
+**Executive KPIs**
+| Measure | DAX (summary) | Notes |
+|---|---|---|
+| Transaction Count | `COUNTROWS(Fact_GLTransactions)` | Row count of posted G/L entries in the current filter context. |
+| Total Debit | `SUM(Fact_GLTransactions[Debit_Amount])` | |
+| Total Credit | `SUM(Fact_GLTransactions[Credit_Amount])` | |
+| Net Amount | `SUM(Fact_GLTransactions[Amount])` | Same as Debit − Credit; used as a plain net-movement KPI on Transaction Detail. |
+
+**Balance Sheet composition**
+| Measure | DAX (summary) | Notes |
+|---|---|---|
+| BS Category Amount | `ABS(SUM(Amount))` where Income_Balance = "Balance Sheet" | Dynamic by whatever `Dim_ChartOfAccounts[Account_Category]` value is in context (Assets/Liabilities/Equity) — feeds the Balance Sheet composition donut. Absolute value only for a size-of-slice visual; use the signed Total Assets/Liabilities/Equity measures for anything that needs the real sign. |
+
+**Aging buckets by chart** (`Dim_AgingBucket` — a small disconnected table, not related to any fact table)
+| Column | Type | Notes |
+|---|---|---|
+| Bucket | string | "Current", "1-30 Days", "31-60 Days", "61-90 Days", "90+ Days" — a static `DATATABLE()`, not sourced from BC. |
+| SortOrder | int64 | Hidden; sort-by column so the buckets chart in aging order, not alphabetically. |
+
+| Measure | DAX (summary) |
+|---|---|
+| AR Aging Amount | `SWITCH(SELECTEDVALUE(Dim_AgingBucket[Bucket]), "Current", [AR Current], "1-30 Days", [AR 1-30 Days], … )` |
+| AP Aging Amount | Same pattern against the AP bucket measures. |
+
+These two dynamic measures only return a value when exactly one `Bucket` is in context (i.e. on an axis/legend built from `Dim_AgingBucket[Bucket]`) — they're not meant to be dropped on a card by themselves.
+
 ---
 
 ## Report pages
 
+Every page uses a shared custom theme (`Financial Dashboard.Report/StaticResources/RegisteredResources/FinanceExecutiveTheme.json`, registered in `report.json`'s `themeCollection.customTheme`) for a consistent corporate palette (navy/blue/gold), card-style visuals with subtle borders and shadows, and bold Segoe UI Semibold titles/KPI values. See `docs/ReportPages.md` for the full per-page visual list.
+
 | Page | Purpose | Key visuals |
 |---|---|---|
-| Executive Summary | KPI snapshot | Revenue / Net Income / Gross Margin % / Cash cards, Revenue trend line chart (legend = Year for YoY), Year slicer |
-| P&L Statement | Account-category rollup | Table by Account_Category → Name, Year/Month slicers for MoM, YoY read from the Revenue/Net Income YoY % measures |
-| Balance Sheet | Assets/Liabilities/Equity rollup | Table by Account_Category → Subcategory → Name |
-| Budget vs Actual | Variance by department/account | Clustered column (Actual vs Budget by department), variance table by account |
-| AR/AP Aging | Aging buckets | Bar chart AR by customer, table AP by vendor |
-| Transaction Detail | Drill-through target | Full G/L entry table, Year slicer |
+| Executive Summary | KPI snapshot for leadership | 8 KPI cards (Revenue/Net Income/Gross Margin %/Cash, plus Revenue YoY %/Net Income YoY %/Total AR/Total AP), Revenue trend line chart (legend = Year for YoY), Revenue-by-Department donut, Year slicer |
+| P&L Statement | Account-category rollup + trend | 5 KPI cards (Revenue/COGS/Gross Profit/OpEx/Net Income), table by Account_Category → Name, Revenue/COGS/Net Income trend line by month, Year/Month slicers |
+| Balance Sheet | Assets/Liabilities/Equity rollup | 4 KPI cards (Total Assets/Liabilities/Equity, Balance Sheet Check), table by Account_Category → Subcategory → Name, Balance Sheet composition donut |
+| Budget vs Actual | Variance by department/account | 4 KPI cards (Budget/Actual/Variance/Variance %), clustered column (Actual vs Budget by department), variance table by account |
+| AR/AP Aging | Aging buckets | 4 KPI cards (Total AR/AP Outstanding, AR/AP Current), AR and AP aging-by-bucket column charts, bar chart AR by customer, table AP by vendor |
+| Transaction Detail | Drill-through target | 4 KPI cards (Transaction Count, Total Debit/Credit, Net Amount), Year and Month slicers, full G/L entry table |
 
 The seeded visuals cover each page's primary chart/table; additional cards,
 slicers, and the cross-page drill-through wiring (right-click a summary

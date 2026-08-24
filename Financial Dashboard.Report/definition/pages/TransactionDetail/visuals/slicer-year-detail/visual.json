@@ -3,11 +3,11 @@
   "name": "slicer-year-detail",
   "position": {
     "x": 20,
-    "y": 90,
-    "z": 0,
+    "y": 125,
+    "z": 710,
     "height": 60,
-    "width": 1240,
-    "tabOrder": 0
+    "width": 610,
+    "tabOrder": 710
   },
   "visual": {
     "visualType": "slicer",

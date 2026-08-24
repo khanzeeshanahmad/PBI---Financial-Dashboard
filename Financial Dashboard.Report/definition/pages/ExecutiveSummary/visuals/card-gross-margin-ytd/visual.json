@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-gross-margin-ytd",
   "position": {
-    "x": 602.50179456100921,
-    "y": 16.388048812059452,
-    "z": 1000,
-    "height": 130,
+    "x": 630,
+    "y": 70,
+    "z": 202,
+    "height": 100,
     "width": 290,
-    "tabOrder": 1000
+    "tabOrder": 202
   },
   "visual": {
     "visualType": "card",
@@ -58,23 +58,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "d0e3e2d724e18f2a6f5a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Gross Margin % YTD"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "card-bs-check",
+  "position": {
+    "x": 950,
+    "y": 20,
+    "z": 403,
+    "height": 90,
+    "width": 300,
+    "tabOrder": 403
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Balance Sheet Check"
+                }
+              },
+              "queryRef": "_Measures.Balance Sheet Check",
+              "nativeQueryRef": "Balance Sheet Check"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Balance Sheet Check'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

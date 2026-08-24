@@ -364,6 +364,63 @@ table _Measures
 		displayFolder: AP Aging
 		lineageTag: 9a2de91e-b832-405e-9ffe-e89a564c31ae
 
+	measure 'Transaction Count' = COUNTROWS(Fact_GLTransactions)
+		formatString: #,0
+		displayFolder: Executive KPIs
+		lineageTag: 4512f47b-0135-4440-8605-cdf92f750a65
+
+	measure 'Total Debit' = SUM(Fact_GLTransactions[Debit_Amount])
+		formatString: \$#,0.00;(\$#,0.00)
+		displayFolder: Executive KPIs
+		lineageTag: 9792e0f6-f855-4747-985c-182e399b0ed1
+
+	measure 'Total Credit' = SUM(Fact_GLTransactions[Credit_Amount])
+		formatString: \$#,0.00;(\$#,0.00)
+		displayFolder: Executive KPIs
+		lineageTag: 9b43fc63-e5f1-4d19-a337-23456074a3fc
+
+	measure 'Net Amount' = SUM(Fact_GLTransactions[Amount])
+		formatString: \$#,0.00;(\$#,0.00)
+		displayFolder: Executive KPIs
+		lineageTag: 25c3954f-eb1f-4b64-af8f-786cac1e27fb
+
+	measure 'BS Category Amount' =
+			CALCULATE(
+			    ABS(SUM(Fact_GLTransactions[Amount])),
+			    Dim_ChartOfAccounts[Income_Balance] = "Balance Sheet"
+			)
+		formatString: \$#,0.00;(\$#,0.00)
+		displayFolder: Balance Sheet
+		lineageTag: 8e432f81-9353-4e7d-8b70-fa0b1e3e3f7d
+
+	measure 'AR Aging Amount' =
+			SWITCH(
+			    SELECTEDVALUE(Dim_AgingBucket[Bucket]),
+			    "Current", [AR Current],
+			    "1-30 Days", [AR 1-30 Days],
+			    "31-60 Days", [AR 31-60 Days],
+			    "61-90 Days", [AR 61-90 Days],
+			    "90+ Days", [AR 90+ Days],
+			    BLANK()
+			)
+		formatString: \$#,0.00;(\$#,0.00)
+		displayFolder: AR Aging
+		lineageTag: 7885c441-f3b5-4d81-9a2c-83c11e2abd29
+
+	measure 'AP Aging Amount' =
+			SWITCH(
+			    SELECTEDVALUE(Dim_AgingBucket[Bucket]),
+			    "Current", [AP Current],
+			    "1-30 Days", [AP 1-30 Days],
+			    "31-60 Days", [AP 31-60 Days],
+			    "61-90 Days", [AP 61-90 Days],
+			    "90+ Days", [AP 90+ Days],
+			    BLANK()
+			)
+		formatString: \$#,0.00;(\$#,0.00)
+		displayFolder: AP Aging
+		lineageTag: 9e9732a8-700e-4197-b23f-35116451467c
+
 	column RowID
 		lineageTag: 4cd9edbb-0054-4e2e-b835-8226290ea316
 		isNameInferred

@@ -3,11 +3,11 @@
   "name": "table-bs",
   "position": {
     "x": 20,
-    "y": 90,
-    "z": 0,
-    "height": 580,
-    "width": 1240,
-    "tabOrder": 0
+    "y": 125,
+    "z": 410,
+    "height": 575,
+    "width": 740,
+    "tabOrder": 410
   },
   "visual": {
     "visualType": "tableEx",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Dim_ChartOfAccounts.Account_Category",
-              "nativeQueryRef": "Account_Category"
+              "nativeQueryRef": "Account_Category",
+              "displayName": "Account Category"
             },
             {
               "field": {
@@ -41,7 +42,8 @@
                 }
               },
               "queryRef": "Dim_ChartOfAccounts.Account_Subcategory_Descript",
-              "nativeQueryRef": "Account_Subcategory_Descript"
+              "nativeQueryRef": "Account_Subcategory_Descript",
+              "displayName": "Account Subcategory"
             },
             {
               "field": {
@@ -158,7 +160,8 @@
             "Property": "Account_Category"
           }
         },
-        "type": "Categorical"
+        "type": "Categorical",
+        "displayName": "Account Category"
       },
       {
         "name": "72c6e42a1b3d41a84625",
@@ -228,7 +231,8 @@
             "Property": "Account_Subcategory_Descript"
           }
         },
-        "type": "Categorical"
+        "type": "Categorical",
+        "displayName": "Account Subcategory"
       }
     ]
   }

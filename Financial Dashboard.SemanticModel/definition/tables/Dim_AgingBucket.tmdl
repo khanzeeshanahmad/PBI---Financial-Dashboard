@@ -1,0 +1,35 @@
+table Dim_AgingBucket
+	lineageTag: 036b850d-6342-425f-bb89-b781ab9ae02f
+
+	column Bucket
+		dataType: string
+		lineageTag: 95ae3aaf-c2f7-4af1-a5cd-572c373d564c
+		summarizeBy: none
+		sourceColumn: Bucket
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 7429bb29-7bf4-43a0-bd3c-cd3ca20f9a4a
+		summarizeBy: none
+		sourceColumn: SortOrder
+		isHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_AgingBucket = calculated
+		source =
+				DATATABLE(
+				    "Bucket", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Current", 1},
+				        {"1-30 Days", 2},
+				        {"31-60 Days", 3},
+				        {"61-90 Days", 4},
+				        {"90+ Days", 5}
+				    }
+				)

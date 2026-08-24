@@ -3,11 +3,11 @@
   "name": "table-ap-aging",
   "position": {
     "x": 650,
-    "y": 90,
-    "z": 1000,
-    "height": 580,
+    "y": 420,
+    "z": 621,
+    "height": 280,
     "width": 610,
-    "tabOrder": 1000
+    "tabOrder": 621
   },
   "visual": {
     "visualType": "tableEx",

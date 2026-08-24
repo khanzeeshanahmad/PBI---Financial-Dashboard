@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-revenue-ytd",
   "position": {
-    "x": 20.244060297249909,
-    "y": 16.388048812059452,
-    "z": 3000,
-    "height": 130,
+    "x": 20,
+    "y": 70,
+    "z": 200,
+    "height": 100,
     "width": 290,
-    "tabOrder": 3000
+    "tabOrder": 200
   },
   "visual": {
     "visualType": "card",
@@ -58,23 +58,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "32ea4f080330d037d309",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Revenue YTD"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "slicer-month-pl",
   "position": {
-    "x": 1060,
-    "y": 340,
-    "z": 0,
-    "height": 240,
-    "width": 200,
-    "tabOrder": 0
+    "x": 950,
+    "y": 480,
+    "z": 313,
+    "height": 100,
+    "width": 310,
+    "tabOrder": 313
   },
   "visual": {
     "visualType": "slicer",

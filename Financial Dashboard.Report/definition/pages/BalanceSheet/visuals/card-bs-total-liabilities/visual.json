@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "card-bs-total-liabilities",
+  "position": {
+    "x": 330,
+    "y": 20,
+    "z": 401,
+    "height": 90,
+    "width": 290,
+    "tabOrder": 401
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Liabilities"
+                }
+              },
+              "queryRef": "_Measures.Total Liabilities",
+              "nativeQueryRef": "Total Liabilities"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total Liabilities'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

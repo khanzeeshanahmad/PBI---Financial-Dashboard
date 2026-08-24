@@ -22,6 +22,8 @@ Financial Dashboard.SemanticModel/          ← TMDL model definition
                                                (each table's Power Query M source is in its `partition` block)
     relationships.tmdl
 Financial Dashboard.Report/                 ← PBIR report definition (6 pages)
+  StaticResources/RegisteredResources/
+    FinanceExecutiveTheme.json              ← custom report theme (colors/fonts/card styling), applied report-wide
 docs/
   DataDictionary.md                         ← every table, column, BC source field, and measure's DAX
   ReportPages.md                            ← what's seeded per page vs. recommended to finish in Desktop

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "card-cash-and-bank",
   "position": {
-    "x": 920.62274208922213,
-    "y": 24.10007178244037,
-    "z": 0,
-    "height": 130,
-    "width": 325,
-    "tabOrder": 0
+    "x": 935,
+    "y": 70,
+    "z": 203,
+    "height": 100,
+    "width": 305,
+    "tabOrder": 203
   },
   "visual": {
     "visualType": "card",
@@ -58,23 +58,5 @@
         }
       ]
     }
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4098db210f9028864c2c",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measures"
-              }
-            },
-            "Property": "Cash and Bank"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

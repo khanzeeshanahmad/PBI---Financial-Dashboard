@@ -3,11 +3,11 @@
   "name": "table-gl-detail",
   "position": {
     "x": 20,
-    "y": 160,
-    "z": 1000,
-    "height": 510,
+    "y": 200,
+    "z": 720,
+    "height": 500,
     "width": 1240,
-    "tabOrder": 1000
+    "tabOrder": 720
   },
   "visual": {
     "visualType": "tableEx",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Fact_GLTransactions.Posting_Date",
-              "nativeQueryRef": "Posting_Date"
+              "nativeQueryRef": "Posting_Date",
+              "displayName": "Posting Date"
             },
             {
               "field": {
@@ -41,7 +42,8 @@
                 }
               },
               "queryRef": "Fact_GLTransactions.Document_No",
-              "nativeQueryRef": "Document_No"
+              "nativeQueryRef": "Document_No",
+              "displayName": "Document No."
             },
             {
               "field": {
@@ -97,7 +99,8 @@
                 }
               },
               "queryRef": "Fact_GLTransactions.Debit_Amount",
-              "nativeQueryRef": "Debit_Amount"
+              "nativeQueryRef": "Debit_Amount",
+              "displayName": "Debit Amount"
             },
             {
               "field": {
@@ -111,7 +114,8 @@
                 }
               },
               "queryRef": "Fact_GLTransactions.Credit_Amount",
-              "nativeQueryRef": "Credit_Amount"
+              "nativeQueryRef": "Credit_Amount",
+              "displayName": "Credit Amount"
             },
             {
               "field": {

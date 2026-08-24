@@ -3,11 +3,11 @@
   "name": "chart-budget-vs-actual",
   "position": {
     "x": 20,
-    "y": 90,
-    "z": 0,
-    "height": 300,
+    "y": 125,
+    "z": 510,
+    "height": 290,
     "width": 1240,
-    "tabOrder": 0
+    "tabOrder": 510
   },
   "visual": {
     "visualType": "clusteredColumnChart",
