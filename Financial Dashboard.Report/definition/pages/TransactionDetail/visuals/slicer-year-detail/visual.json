@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "slicer-year-detail",
   "position": {
     "x": 20,
@@ -40,7 +40,7 @@
             "orientation": {
               "expr": {
                 "Literal": {
-                  "Value": "0"
+                  "Value": "0L"
                 }
               }
             }
