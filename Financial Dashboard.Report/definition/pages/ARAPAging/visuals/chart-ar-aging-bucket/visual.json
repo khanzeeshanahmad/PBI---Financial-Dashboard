@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Dim_AgingBucket.Bucket",
-              "nativeQueryRef": "Bucket"
+              "nativeQueryRef": "Bucket",
+              "active": true
             }
           ]
         },

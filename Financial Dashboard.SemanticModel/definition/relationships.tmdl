@@ -15,42 +15,15 @@ relationship 75d9f439-df18-457c-b53b-c5d4063706e1
 	fromColumn: Dim_Date.Date
 	toColumn: LocalDateTable_2954b0f2-1cba-41ff-8a37-b17295f6210a.Date
 
-relationship a9cfe85f-0654-41aa-a527-1ffe002b51ea
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Fact_CustLedgerEntries.Posting_Date
-	toColumn: LocalDateTable_b4effdc4-9845-45ab-951b-0622a0cd64af.Date
-
 relationship b701e14e-cdf2-4146-94aa-d7e05d28f4bc
 	joinOnDateBehavior: datePartOnly
 	fromColumn: Fact_CustLedgerEntries.Due_Date
 	toColumn: LocalDateTable_ffc56e92-d303-4c7d-af49-d61eab56d995.Date
 
-relationship a1fd6b37-30f3-47ce-810c-aa9ebbb8be43
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Fact_GLTransactions.Posting_Date
-	toColumn: LocalDateTable_b8049046-1f7e-44a9-a7cd-77e123fb44e8.Date
-
-relationship 5b1ec391-12d6-4d55-8000-e067d7541b3c
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Fact_VendorLedgerEntries.Posting_Date
-	toColumn: LocalDateTable_a6e27b79-64df-47ae-b2bb-e8ac93ead9b6.Date
-
 relationship 4b52779f-a63e-460e-8efd-a06ee3683051
 	joinOnDateBehavior: datePartOnly
 	fromColumn: Fact_VendorLedgerEntries.Due_Date
 	toColumn: LocalDateTable_a0c7b532-ae1c-4844-90ba-e6c5dbec2a77.Date
-
-relationship AutoDetected_59b4d8ab-5aa9-4c33-85db-1065c4361b59
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: Fact_CustLedgerEntries.Entry_No
-	toColumn: Fact_GLTransactions.Entry_No
-
-relationship AutoDetected_bc2f0645-4f0a-4055-a62e-ff6f5ff3a610
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: Fact_VendorLedgerEntries.Entry_No
-	toColumn: Fact_GLTransactions.Entry_No
 
 relationship AutoDetected_de780087-a95b-4d6c-8a0a-2ed164b4c789
 	fromColumn: Fact_GLTransactions.Global_Dimension_1_Code
@@ -60,7 +33,27 @@ relationship AutoDetected_d20057d1-3bb4-4f00-be01-f1463528d2a5
 	fromColumn: Fact_GLTransactions.Global_Dimension_2_Code
 	toColumn: Dim_BusinessDimension2.Code
 
-relationship e716cb8e-8f20-c8cd-8530-174c30381e4e
+relationship 2cf1f014-8957-f4f7-311a-5405e33cf64a
+	fromColumn: Fact_GLTransactions.Posting_Date
+	toColumn: Dim_Date.Date
+
+relationship a0ae0a4b-a5c4-5e6d-0b62-f9ed42903443
+	fromColumn: Fact_CustLedgerEntries.Customer_No
+	toColumn: Dim_Customer.No
+
+relationship 8cd8af74-44cd-7294-0c09-38903942b651
+	fromColumn: Fact_VendorLedgerEntries.Vendor_No
+	toColumn: Dim_Vendor.No
+
+relationship f6b9b059-4777-85d5-3f2e-b892a1e921f4
+	fromColumn: Fact_CustLedgerEntries.Posting_Date
+	toColumn: Dim_Date.Date
+
+relationship 6d8a93ca-2b2d-7248-8dc2-50d45a044c62
+	fromColumn: Fact_VendorLedgerEntries.Posting_Date
+	toColumn: Dim_Date.Date
+
+relationship 816efb51-09b8-891b-6a89-275ebdda50a7
 	fromColumn: Fact_GLTransactions.G_L_Account_No
 	toColumn: Dim_ChartOfAccounts.No
 

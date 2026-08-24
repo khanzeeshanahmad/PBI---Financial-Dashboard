@@ -26,9 +26,9 @@ ref table Fact_VendorLedgerEntries
 ref table _Measures
 ref table DateTableTemplate_e03405b4-8546-4a6a-b0b3-18379d1fad39
 ref table LocalDateTable_2954b0f2-1cba-41ff-8a37-b17295f6210a
-ref table LocalDateTable_b4effdc4-9845-45ab-951b-0622a0cd64af
 ref table LocalDateTable_ffc56e92-d303-4c7d-af49-d61eab56d995
-ref table LocalDateTable_b8049046-1f7e-44a9-a7cd-77e123fb44e8
-ref table LocalDateTable_a6e27b79-64df-47ae-b2bb-e8ac93ead9b6
 ref table LocalDateTable_a0c7b532-ae1c-4844-90ba-e6c5dbec2a77
+ref table Dim_AgingBucket
+
+ref cultureInfo en-US
 

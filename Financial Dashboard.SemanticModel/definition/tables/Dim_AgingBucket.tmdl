@@ -2,23 +2,14 @@ table Dim_AgingBucket
 	lineageTag: 036b850d-6342-425f-bb89-b781ab9ae02f
 
 	column Bucket
-		dataType: string
-		lineageTag: 95ae3aaf-c2f7-4af1-a5cd-572c373d564c
-		summarizeBy: none
-		sourceColumn: Bucket
-		sortByColumn: SortOrder
-
-		annotation SummarizationSetBy = Automatic
+		lineageTag: f12fb408-ed46-4ba1-818c-bf11826cb308
+		isNameInferred
+		sourceColumn: [Bucket]
 
 	column SortOrder
-		dataType: int64
-		formatString: 0
-		lineageTag: 7429bb29-7bf4-43a0-bd3c-cd3ca20f9a4a
-		summarizeBy: none
-		sourceColumn: SortOrder
-		isHidden
-
-		annotation SummarizationSetBy = Automatic
+		lineageTag: d7668132-3130-4712-9022-fe314e22a2ed
+		isNameInferred
+		sourceColumn: [SortOrder]
 
 	partition Dim_AgingBucket = calculated
 		source =
@@ -33,3 +24,4 @@ table Dim_AgingBucket
 				        {"90+ Days", 5}
 				    }
 				)
+
