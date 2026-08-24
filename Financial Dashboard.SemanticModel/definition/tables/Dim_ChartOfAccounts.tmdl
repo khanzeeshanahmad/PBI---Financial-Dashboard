@@ -21,7 +21,7 @@ table Dim_ChartOfAccounts
 		dataType: int64
 		formatString: 0
 		lineageTag: 3045e6f6-93b1-4960-bc69-3ca2a5170064
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Indentation
 
 		annotation SummarizationSetBy = Automatic
@@ -61,7 +61,7 @@ table Dim_ChartOfAccounts
 	column Debit_Amount
 		dataType: double
 		lineageTag: f144b2ab-712d-45f0-889e-376c1937518a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Debit_Amount
 
 		annotation SummarizationSetBy = Automatic
@@ -71,7 +71,7 @@ table Dim_ChartOfAccounts
 	column Credit_Amount
 		dataType: double
 		lineageTag: 39275281-75e4-4e84-b5c8-859f8dcde335
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Credit_Amount
 
 		annotation SummarizationSetBy = Automatic

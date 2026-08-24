@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "table-bs",
   "position": {
     "x": 20,
     "y": 90,
     "z": 0,
-    "width": 1240,
     "height": 580,
+    "width": 1240,
     "tabOrder": 0
   },
   "visual": {
@@ -37,11 +37,11 @@
                       "Entity": "Dim_ChartOfAccounts"
                     }
                   },
-                  "Property": "Account_Subcategory"
+                  "Property": "Account_Subcategory_Descript"
                 }
               },
-              "queryRef": "Dim_ChartOfAccounts.Account_Subcategory",
-              "nativeQueryRef": "Account_Subcategory"
+              "queryRef": "Dim_ChartOfAccounts.Account_Subcategory_Descript",
+              "nativeQueryRef": "Account_Subcategory_Descript"
             },
             {
               "field": {
@@ -143,5 +143,93 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "44af2dd4d4a6f9fb101d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_ChartOfAccounts"
+              }
+            },
+            "Property": "Account_Category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "72c6e42a1b3d41a84625",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_ChartOfAccounts"
+              }
+            },
+            "Property": "Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4206ea08cc8224e628e0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Assets"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "85f6bbdc43f170078ed4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Liabilities"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7835cf25e4692c110b72",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Equity"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4dfd48007dec78a02af6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_ChartOfAccounts"
+              }
+            },
+            "Property": "Account_Subcategory_Descript"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

@@ -101,5 +101,51 @@
         }
       ]
     }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4af19c042f440579e78a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_ChartOfAccounts"
+              }
+            },
+            "Property": "Account_Category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f6636d8fd3d789ace252",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_ChartOfAccounts"
+              }
+            },
+            "Property": "Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "629dbb38a2c083522725",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Actual Amount (IS)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

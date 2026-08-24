@@ -60,3 +60,7 @@ relationship AutoDetected_d20057d1-3bb4-4f00-be01-f1463528d2a5
 	fromColumn: Fact_GLTransactions.Global_Dimension_2_Code
 	toColumn: Dim_BusinessDimension2.Code
 
+relationship e716cb8e-8f20-c8cd-8530-174c30381e4e
+	fromColumn: Fact_GLTransactions.G_L_Account_No
+	toColumn: Dim_ChartOfAccounts.No
+
